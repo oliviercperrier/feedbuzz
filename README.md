@@ -10,3 +10,6 @@ LOG515 TPs
 
 ## FEEDBUZ API/ROUTES
 - http://localhost:8000/api/user/auth/login
+
+## Bubdubuuu.ca
+- https://www.budbudbud.ca/api/v1/strains?page=1&per_page=50&column=name&direction=asc&with_trashed=0&quantity=&type=&count=all&strain_hide=[]&show_hidden=0&ignore_stores=[]&province=qc&_=1548200672682
