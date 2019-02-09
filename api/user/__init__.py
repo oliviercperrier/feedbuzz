@@ -1,5 +1,6 @@
 from sanic import Blueprint
-from .auth import auth
+from .auth import auth, authenticate
 
 # next add more blueprint ex: auth, comment, ...
-api = Blueprint.group(auth, url_prefix='/user')
+user = Blueprint.group(auth, url_prefix='/user')
+authenticate = authenticate
