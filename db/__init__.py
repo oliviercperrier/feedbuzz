@@ -1,4 +1,9 @@
-from .db_model import User, Base
+from .model import User, Base
+from .dao import UserDAO
 
+#Model
 User = User
 Base = Base
+
+#DAO
+UserDAO = UserDAO
