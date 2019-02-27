@@ -2,9 +2,10 @@
 LOG515 TPs
 
 ## Setup
-- Start postgres container: `docker-composer up`
+- Start postgres container: `docker-composer up` The database should be is accessible at localhost:5430
 - `pip install -r requirements.txt`
 - Create the database shema `python db/model.py`
+- Populate the database `python db/insert_data.py`
 
 *See what's in the container:*
 - List all container `docker ps -a`
