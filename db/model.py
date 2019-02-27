@@ -17,31 +17,26 @@ class User(Base):
     password = Column(String(250), nullable=False)
 
     def to_dict(self):
-        return {
-            "user_id": self.id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email,
-        }
+        return {"user_id": self.id, "first_name": self.first_name, "last_name": self.last_name, "email": self.email}
 
 
 class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
     type = relationship("ProductType", backref="product")
 
-    thc_min = Column(Integer)
-    thc_max = Column(Integer)
-    cbd_min = Column(Integer)
-    cbd_max = Column(Integer)
+    thc_min = Column(Float)
+    thc_max = Column(Float)
+    cbd_min = Column(Float)
+    cbd_max = Column(Float)
 
 
 class ProductType(Base):
     __tablename__ = "product_type"
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False, unique=True)
 
 
 class ProductPrice(Base):
