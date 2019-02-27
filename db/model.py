@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime 
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -29,12 +29,8 @@ class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    # vendor = Column(String(250), nullable=False)
-    # country
-    # province
-    # type = Column(Integer, ForeignKey("product_type.id"))
-    type = relationship("ProductType")
-    # price = Column(Integer, ForeignKey("product_price.id"))
+    type_id = Column(Integer, ForeignKey("product_type.id"))
+    type = relationship("ProductType", backref="product")
 
     thc_min = Column(Integer)
     thc_max = Column(Integer)
@@ -50,7 +46,8 @@ class ProductType(Base):
 
 class ProductPrice(Base):
     __tablename__ = "product_price"
-    product = relationship("Product")
+    product = relationship("Product", backref="product_price")
+    product_id = Column(Integer, ForeignKey("product.id"))
     id = Column(Integer, primary_key=True)
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)

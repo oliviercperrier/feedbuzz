@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 class BaseDAO(ABC):
 
     def __init__(self):
-        self._engine = create_engine('postgresql://postgres:feedbuzz@localhost/feedbuzz')
+        self._engine = create_engine('postgresql://postgres:feedbuzz@localhost:5430/feedbuzz')
 
     def save(self, entity):
         pass
