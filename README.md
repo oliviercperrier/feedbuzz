@@ -1,6 +1,16 @@
 # feedbuzz
 LOG515 TPs
 
+## Setup
+- Start postgres container: `docker-composer up`
+- `pip install -r requirements.txt`
+- Create the database shema `python db/model.py`
+
+*See what's in the container:*
+- List all container `docker ps -a`
+- `docker exec -it <container_id> /bin/sh`
+- `psql feedbuzz feedbuzz`
+- Now run sql command or psql command ex `\dt` to see the tables
 
 # CALL
 

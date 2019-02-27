@@ -2,9 +2,6 @@ from .model import User, Base
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from abc import ABC, abstractmethod
-from db import User
-from sqlalchemy.orm import sessionmaker
 
 class BaseDAO(ABC):
 
