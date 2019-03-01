@@ -4,9 +4,9 @@
 	"private": true,
 	"dependencies": {},
 	"scripts": {
-		"start": "concurrently \"docker-compose up\" \"npm run client\" \"npm run server\"",
+		"start": "concurrently \"docker-compose up\" \"npm run server\" \"npm run client\"",
 		"server": "python main.py",
-		"client": "cd client && npm start"
+		"client": "cd client && npm run start"
 	},
 	"devDependencies": {
 		"concurrently": "3.1.0"

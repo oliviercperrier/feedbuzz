@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { AuthProvider } from '../../Contexts/authContext';
-import { API, updateAPIHeader } from '../../Utils/api';
+import { API, updateAPIHeader, getUser } from '../../Utils/api';
 import TokenManager from '../../Utils/tokenManager';
 
 /**
@@ -13,7 +13,7 @@ import TokenManager from '../../Utils/tokenManager';
 class Auth extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { authenticated: null };
+		this.state = { authenticated: false };
 		this.checkAuthentication = this.checkAuthentication.bind(this);
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
@@ -21,8 +21,12 @@ class Auth extends Component {
 
 	async checkAuthentication() {
 		const authenticated = await this.isAuthenticated();
+		
 		if (authenticated !== this.state.authenticated) {
-			this.setState({ authenticated });
+			this.setState({ 
+				authenticated,
+				user: await getUser()
+			 });
 		}
 	}
 
@@ -49,7 +53,11 @@ class Auth extends Component {
 		if (token_id) {
 			updateAPIHeader(token_id);
 			TokenManager.updateTokenID(token_id);
-			this.setState({ authenticated: true });
+
+			this.setState({ 
+				authenticated: true,
+				user: await getUser()
+			});
 		}
 	}
 
