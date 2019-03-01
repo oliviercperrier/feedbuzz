@@ -26,6 +26,9 @@ if app.config.ENV == "production":
     La route suivante est sensé rediriger l'app vers index.html quand un endpoint n'existe
     pas coté backend pour que ce soit le frontend qui le gère, mais ca fonctionne pas..
     C'est pourtant comme ca qu'il faut faire.
+
+
+    Ref: https://facebook.github.io/create-react-app/docs/deployment#serving-apps-with-client-side-routing
 """
 @app.route("/")
 async def index(request):
