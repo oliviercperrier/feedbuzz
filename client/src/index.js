@@ -7,7 +7,7 @@ import PrivateRoute from 'react-private-route';
 import Fade from 'react-reveal/Fade';
 
 import MasterPage from './Components/Common/Master/MasterPage';
-import HomePage from './Components/Common/HomePage'; 
+import HomePage from './Components/Common/HomePage';
 import NotFoundPage from './Components/Common/NotFoundPage';
 import Auth from './Components/Auth/Auth';
 import AuthPage from './Components/Auth/AuthPage';
@@ -39,9 +39,9 @@ class App extends Component {
 }
 
 ReactDOM.render(
-	<Fade clear>
-		<Auth>
-			<Router>
+	<Router>
+		<Fade clear>
+			<Auth>
 				<LastLocationProvider>
 					<Favicon url="img/favicon.png" />
 					<Switch>
@@ -49,8 +49,8 @@ ReactDOM.render(
 						<Route path="/" component={App} />
 					</Switch>
 				</LastLocationProvider>
-			</Router>
-		</Auth>
-	</Fade>,
+			</Auth>
+		</Fade>
+	</Router>,
 	document.getElementById('root')
 );

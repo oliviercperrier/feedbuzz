@@ -1,5 +1,5 @@
 from sanic import Sanic
-from sanic.response import json
+from sanic.response import json, file
 from api import api, authenticate, retrieve_user
 from sanic.exceptions import NotFound
 from sanic.log import logger
@@ -14,8 +14,11 @@ Initialize(app, authenticate=authenticate, retrieve_user=retrieve_user)
 
 if app.config.ENV == "production":
     app.static('/', './client/build')
-    app.static('/', './client/build/index.html')
     app.static('/static', './client/static')
+
+@app.route("/")
+async def index(request):
+    return await file('./client/build/index.html')
 
 app.blueprint(api)
 app.run(host="0.0.0.0", port=app.config.PORT)
