@@ -4,9 +4,9 @@
 	"private": true,
 	"dependencies": {},
 	"scripts": {
-		"start": "concurrently \"docker-compose up\" \"npm run server\" \"npm run client\"",
+		"start": "concurrently \"docker-compose up\" \"npm run client\" \"npm run server\"",
 		"server": "python main.py",
-		"client": "node start-client.js",
+		"client": "cd client && npm start",
 		"dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
 		"lint": "eslint ."
 	},
