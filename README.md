@@ -2,7 +2,7 @@
 LOG515 TPs
 
 ## Setup
-- Create a venv: `python -m venv venv`
+- Create a venv: `python3 -m venv venv`
 - Activate the venv: `source venv/bin/activate`
 - Install requirements: `pip install -r requirements.txt`
 - Install package for root directory, run `npm install`.
