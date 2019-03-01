@@ -16,7 +16,7 @@ LOG515 TPs
 ## Production
 - In the root directory, run: `npm run build`
 - The app is now running on `http://localhost:8000`
-# OR
+### OR
 - `cd client`, `npm run build`
 - In the root directory, run: `npm run prod-server`
 - The app is now running on `http://localhost:8000`
