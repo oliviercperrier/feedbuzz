@@ -6,9 +6,18 @@ from sanic.log import logger
 from sanic_jwt import Initialize
 
 app = Sanic(__name__)
+
+#ADD config db host for prod vs dev
+app.config.from_envvar('MYAPP_CONFIGS')
+
 Initialize(app, authenticate=authenticate, retrieve_user=retrieve_user)
 
+if app.config.ENV == "production":
+    app.static('/', './client/build')
+    app.static('/', './client/build/index.html')
+    app.static('/static', './client/static')
+
 app.blueprint(api)
-app.run(host="0.0.0.0", port=8000)
+app.run(host="0.0.0.0", port=app.config.PORT)
 
 
