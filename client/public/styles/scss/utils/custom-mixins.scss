@@ -1,0 +1,37 @@
+@mixin transform($property) {
+	-webkit-transform: $property;
+	-ms-transform: $property;
+	transform: $property;
+}
+
+@mixin transition($property) {
+	-webkit-transition: $property;
+	-ms-transition: $property;
+	transition: $property;
+}
+
+@mixin transition-with-transform($property) {
+	-webkit-transition: -webkit-transform .3s, $property;
+	-ms-transition: -ms-transform .3s, $property;
+	transition: transform .3s, $property;
+}
+
+@mixin box-shadow($params) {
+	box-shadow: $params;
+	-moz-box-shadow: $params;
+	-webkit-box-shadow: $params;
+}
+
+@mixin appearance($property) {
+	appearance: $property;
+	-moz-appearance: $property;
+	-webkit-appearance: $property;
+}
+
+@mixin align-items-center() {
+	-webkit-align-items: center;
+	-moz-align-items: center;
+	-ms-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}

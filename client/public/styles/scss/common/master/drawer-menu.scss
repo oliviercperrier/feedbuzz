@@ -1,0 +1,42 @@
+.fdb-drawer-menu {
+	.drawer-menu-outer {
+		opacity: 0.95;
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+
+	.drawer-menu-inner {
+		background: $primary;
+
+		.drawer-menu-content {
+			height: 100vh;
+			font-size: 2rem;
+			flex-flow: column;
+            color: white;
+            font-weight: bold;
+			text-align: center;
+			justify-content: unset;
+
+			.menu-items {
+				margin-top: 10rem;
+			}
+
+			.divider {
+				width: 40px;
+				height: 3px;
+				background-color: white;
+				margin: auto;
+				margin-top: 2rem;
+				margin-bottom: 2rem;
+			}
+
+			.full-pg-close {
+				color: white;
+
+				&:hover {
+					background: $light-black;
+				}
+			}
+		}
+	}
+}

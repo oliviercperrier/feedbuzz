@@ -1,0 +1,16 @@
+{
+	"name": "feedbuzz-app",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {},
+	"scripts": {
+		"start": "concurrently \"docker-compose up\" \"npm run server\" \"npm run client\"",
+		"server": "python main.py",
+		"client": "node start-client.js",
+		"dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+		"lint": "eslint ."
+	},
+	"devDependencies": {
+		"concurrently": "3.1.0"
+	}
+}

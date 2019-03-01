@@ -2,8 +2,14 @@
 LOG515 TPs
 
 ## Setup
-- Start postgres container: `docker-composer up` The database should be is accessible at localhost:5430
-- `pip install -r requirements.txt`
+- Create a venv: `python -m venv venv`
+- Activate the venv: `source venv/bin/activate`
+- Install requirements: `pip install -r requirements.txt`
+- Install package for root directory, run `npm install`.
+- Install package for client directory, `cd client` and run `npm install`
+
+- Start the app: in the root directory run `npm start`. It should start the DB, the frontend and the backend.
+
 - Create the database shema `python db/model.py`
 - Populate the database `python db/insert_data.py`
 
