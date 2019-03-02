@@ -1,0 +1,17 @@
+{
+	"name": "feedbuzz-app",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {},
+	"scripts": {
+		"start": "concurrently \"docker-compose up\" \"npm run dev-server\" \"npm run dev-client\"",
+		"dev-server": "MYAPP_CONFIGS=config/dev-configs.py python3 main.py",
+		"dev-client": "cd client && npm run start",
+		"build": "concurrently \"docker-compose up\" \"npm run prod-client\" \"npm run prod-server\"",
+		"prod-server": "MYAPP_CONFIGS=config/prod-configs.py python3 main.py",
+		"prod-client": "cd client && npm run build"
+	},
+	"devDependencies": {
+		"concurrently": "3.1.0"
+	}
+}
