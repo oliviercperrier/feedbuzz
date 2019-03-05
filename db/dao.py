@@ -49,3 +49,16 @@ class ProductDAO(BaseDAO):
         product = session.query(Product).filter_by(name=name).first()
         session.close()
         return product
+
+    def get_all(self):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        product_list = session.query(Product).all()
+        session.close()
+        return product_list
+
+    def find_by_name(self, query):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        search_results = session.query(Product).filter_by(Product.name.contains(query)).all()
+        return search_results

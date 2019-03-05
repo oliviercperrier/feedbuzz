@@ -32,11 +32,18 @@ class Product(Base):
     cbd_min = Column(Float)
     cbd_max = Column(Float)
 
+    def to_dict(self):
+        return {"id": self.id, "name": self.name, "type_id": self.type_id}
+
 
 class ProductType(Base):
     __tablename__ = "product_type"
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False, unique=True)
+
+    def to_dict(self):
+        return {"id": self.id, "name": self.name}
+
 
 
 class ProductPrice(Base):
