@@ -39,7 +39,7 @@ class DrawerMenu extends Component {
 							isOpen={menuOpen}
 							transitionTime={0.5}
 							width={500}
-							closeCallback={closeCallback}
+							closeCallback={this.props.closeCallback}
 						>
 							<Fade clear when={menuOpen}>
 								<div className="drawer-menu-content v-and-h-centered">
@@ -52,7 +52,7 @@ class DrawerMenu extends Component {
 												</Link>
 											</li>
 											<li>
-												<Link to="/thing2" onClick={closeCallback}>
+												<Link to="/products" onClick={closeCallback}>
 													SQDC products
 												</Link>
 											</li>
@@ -61,7 +61,7 @@ class DrawerMenu extends Component {
 										{authenticated ? (
 											<ul>
 												<li>
-													<Link to="/thing2" onClick={closeCallback}>
+													<Link to="/my-account" onClick={closeCallback}>
 														My account
 													</Link>
 												</li>

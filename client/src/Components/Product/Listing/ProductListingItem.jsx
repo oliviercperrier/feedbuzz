@@ -6,18 +6,14 @@ import React, { Component } from 'react';
  * 
  * Route: /products
  */
-class ProductListing extends Component {
+class ProductListingItem extends Component {
 	constructor(props) {
 		super(props);
 	}
 
-	renderListingItem = () => {
-		return;
-	};
-
 	render() {
-		return;
+		return <div></div>;
 	}
 }
 
-export default ProductListing;
+export default ProductListingItem;

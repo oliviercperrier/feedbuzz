@@ -45,6 +45,16 @@
 			.fdb-navbar-item {
 				padding: 2rem;
 
+				button {
+					background: no-repeat;
+					border: none;
+					padding: 0;
+
+					&:focus {
+						outline: none;
+					}
+				}
+
 				.fdb-navbar-icon {
 					font-size: 3.5rem;
 					padding: 0.5rem;

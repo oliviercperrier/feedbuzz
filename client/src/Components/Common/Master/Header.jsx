@@ -64,9 +64,9 @@ class Header extends Component {
 					<nav className="container fdb-navbar" role="navigation" aria-label="main navigation">
 						<div className="fdb-navbar-items-start">
 							<div className="v-and-h-centered fdb-navbar-item">
-								<Link className="v-and-h-centered" to="" onClick={this.toggleMenu}>
+								<button className="v-and-h-centered" href="#" onClick={this.toggleMenu}>
 									<MdMenu className="fdb-navbar-icon" />
-								</Link>
+								</button>
 							</div>
 						</div>
 						<div className="fdb-navbar-brand">

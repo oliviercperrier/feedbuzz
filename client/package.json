@@ -8,6 +8,7 @@
     "bulma": "^0.7.2",
     "cheeseburger-menu": "0.0.13",
     "js-cookie": "^2.2.0",
+    "query-string": "^6.3.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-favicon": "0.0.14",
