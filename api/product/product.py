@@ -11,7 +11,7 @@ product_dao = ProductDAO()
 @product.route('/<id>')
 async def get_by_id(request, id):
     product = product_dao.get(id)
-    return await response.json(product)
+    return response.text(json.dumps(product.to_dict()))
 
 @product.route('/all')
 async def get_all_products(request):
@@ -19,9 +19,9 @@ async def get_all_products(request):
     return response.text(json.dumps([json.dumps(product.to_dict()) for product in product_list]))
 
 @product.route('/find/<query>')
-async def find_product(request, name):
-    search_results = product_dao.find_by_name(name)
-    return await response.json(search_results)
+async def find_product(request, query):
+    search_results = product_dao.find_by_name(query)
+    return response.text([json.dumps(product.to_dict()) for product in search_results])
 
 
 
