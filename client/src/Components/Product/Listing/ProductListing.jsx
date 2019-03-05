@@ -16,12 +16,16 @@ class ProductListing extends Component {
 		const search = queryString.parse(this.props.location.search);
 
 		this.state = {
-			search: search.q,
+			search: search.q === undefined ? '' : search.q,
 			changed: false
 		};
 
 		this.handleSearch = this.handleSearch.bind(this);
 		this.searchChange = this.searchChange.bind(this);
+	}
+
+	componentDidMount() {
+		/* TODO FETCH DATA */
 	}
 
 	handleSearch(e) {

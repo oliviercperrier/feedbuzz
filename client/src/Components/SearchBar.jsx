@@ -10,13 +10,23 @@ class SearchBar extends Component {
 		super(props);
 
 		this.state = {
-			escClose: false
+			escClose: false,
+			search: '',
+			hitSearch: false
 		};
+
+		this.handleSearch = this.handleSearch.bind(this);
+	}
+
+	handleSearch(e) {
+		this.setState({ search: e.currentTarget.value });
 	}
 
 	onKeyDown = (e) => {
 		if (e.keyCode === 27) {
 			this.props.closeCallback(e);
+		} else if (e.keyCode === 13) {
+			window.location.href = "/products?q=" + this.state.search;
 		}
 	};
 
@@ -37,7 +47,12 @@ class SearchBar extends Component {
 							<div className="container">
 								<div className="fdb-search-bar">
 									<div className="v-and-h-centered">
-										<input type="text" placeholder="Search" className="search-input" />
+										<input
+											type="text"
+											placeholder="Search"
+											onChange={this.handleSearch}
+											className="search-input"
+										/>
 									</div>
 									<MdClose className="close big-btn" onClick={closeCallback} />
 									<span className="search-tip">Hit enter to search or esc to close</span>

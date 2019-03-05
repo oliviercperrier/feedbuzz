@@ -15,6 +15,7 @@ import NotFoundPage from './Components/Common/NotFoundPage';
 import Auth from './Components/Auth/Auth';
 import AuthPage from './Components/Auth/AuthPage';
 import { AuthConsumer } from './Contexts/authContext';
+import MyAccount from './Components/Account/MyAccount';
 
 /* PRODUCTS */
 import ProductListing from './Components/Product/Listing/ProductListing';
@@ -30,9 +31,9 @@ class App extends Component {
 								<Route exact path="/" component={HomePage} />
 								<Route path="/products" component={ProductListing} />
 								<PrivateRoute
-									path="/private-exemple"
+									path="/my-account"
 									redirect="/authenticate"
-									component={NotFoundPage}
+									component={MyAccount}
 									isAuthenticated={authenticated}
 								/>
 								<Route component={NotFoundPage} />

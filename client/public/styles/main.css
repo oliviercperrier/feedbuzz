@@ -6746,6 +6746,10 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.my-account-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem; }
+
 .auth-content .header {
   margin-bottom: 2rem; }
 
@@ -6985,6 +6989,10 @@ label.panel-block {
   @media screen and (max-width: 720px) {
     .fdb-header .fdb-navbar {
       height: 60px; } }
+  @media screen and (max-width: 1023px) {
+    .fdb-header .fdb-navbar.container {
+      margin: 0 auto !important;
+      width: 100%; } }
 
 .header-spacer {
   height: 125px; }
@@ -7220,11 +7228,9 @@ label.panel-block {
       padding: 0.5rem 1.5rem;
       font-size: 20px;
       outline: none;
-      width: 100%;
-      max-width: 600px; }
+      width: 100%; }
       @media screen and (max-width: 720px) {
         .product-listing-container .pl-input-container .pl-input {
-          max-width: 250px;
           font-size: 16px; } }
 
 .fake-content {
@@ -7250,6 +7256,14 @@ body a:focus {
 body a:hover,
 body a:active {
   text-decoration: none; }
+
+body .columns:last-child {
+  margin-bottom: 0rem; }
+
+body .columns {
+  margin-left: 0rem;
+  margin-right: 0rem;
+  margin-top: 0rem; }
 
 body .button {
   width: 100%;
@@ -7292,7 +7306,7 @@ body .v-and-h-centered {
 
 @media (max-width: 999px) {
   body .container {
-    width: 100%; } }
+    width: 95%; } }
 
 body .feedbuzz-icon {
   width: 200px; }

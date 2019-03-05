@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 /**
- * Product listing Component
- * Show the listing of sqdc products
+ * Product listing Item Component
+ * Show the listing item 
  * 
- * Route: /products
+ * Route: /products?q=xxx
  */
 class ProductListingItem extends Component {
 	constructor(props) {

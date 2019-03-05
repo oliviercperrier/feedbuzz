@@ -74,7 +74,7 @@ class DrawerMenu extends Component {
 										) : (
 											<ul>
 												<li>
-													<Link to="/authenticate" onClick={closeCallback}>
+													<Link to={{ pathname: '/authenticate', state: { showSignupForm: true} }} onClick={closeCallback}>
 														Sign up
 													</Link>
 												</li>

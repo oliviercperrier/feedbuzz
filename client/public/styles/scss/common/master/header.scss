@@ -112,6 +112,13 @@
 		@include mobile {
 			height: 60px;
 		}
+
+		@include touch {
+			&.container {
+				margin: 0 auto !important;
+				width: 100%;
+			}
+		}
 	}
 }
 

@@ -16,10 +16,15 @@ import SignupForm from './SignupForm';
 class AuthPage extends Component {
 	constructor(props) {
 		super(props);
+		var showLoginForm = true;
+
+		if (this.props.location.state && this.props.location.state.showSignupForm) {
+			showLoginForm = false;
+		}
 
 		this.state = {
-			onLogin: true,
-			closed: false,
+			showLoginForm: showLoginForm,
+			closed: false
 		};
 
 		this.onSwitch = this.onSwitch.bind(this);
@@ -29,8 +34,8 @@ class AuthPage extends Component {
 	onSwitch(e) {
 		e.preventDefault();
 		e.nativeEvent.stopImmediatePropagation();
-		const { onLogin } = this.state;
-		this.setState({ onLogin: !onLogin });
+		const { showLoginForm } = this.state;
+		this.setState({ showLoginForm: !showLoginForm });
 	}
 
 	onClose(e) {
@@ -38,14 +43,14 @@ class AuthPage extends Component {
 	}
 
 	render() {
-		const { onLogin, closed } = this.state;
-		const lastLocation = this.props.lastLocation ? this.props.lastLocation : {pathname: '/'};
+		const { showLoginForm, closed } = this.state;
+		const lastLocation = this.props.lastLocation ? this.props.lastLocation : { pathname: '/' };
 
 		return (
 			<AuthConsumer>
 				{({ authenticated, login, signup }) => {
 					return authenticated || closed ? (
-						<Redirect to={(authenticated ? lastLocation.pathname : '/')} />
+						<Redirect to={authenticated ? lastLocation.pathname : '/'} />
 					) : (
 						<div className="auth-content section">
 							<div className="header has-text-centered">
@@ -58,7 +63,7 @@ class AuthPage extends Component {
 								</Link>
 								<MdClose className="full-pg-close big-btn bg-color-trans" onClick={this.onClose} />
 							</div>
-							{onLogin ? (
+							{showLoginForm ? (
 								<LoginForm onSwitch={this.onSwitch} handleLogin={login} />
 							) : (
 								<SignupForm onSwitch={this.onSwitch} handleSignup={signup} />

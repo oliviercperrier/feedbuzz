@@ -47,7 +47,6 @@ class Header extends Component {
 
 	toggleSearch = (e) => {
 		e.preventDefault();
-		console.log("close");
 		this.setState({ searchOpen: !this.state.searchOpen });
 	};
 
@@ -59,7 +58,7 @@ class Header extends Component {
 		const { isSticky, isDown, menuOpen, searchOpen } = this.state;
 
 		return (
-			<div>
+			<div id="feedbuzz-header">
 				<header className={'fdb-header' + (isSticky ? ' sticky' : '') + (isDown ? ' down' : '')}>
 					<nav className="container fdb-navbar" role="navigation" aria-label="main navigation">
 						<div className="fdb-navbar-items-start">

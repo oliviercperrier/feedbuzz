@@ -13,25 +13,27 @@ export const updateAPIHeader = function(token) {
 	if (token) {
 		API.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 	} else {
-		delete axios.defaults.headers.common["Authorization"];
+		delete axios.defaults.headers.common['Authorization'];
 	}
 };
 
 async function verifyTokenID() {
-	const response = await API.get('/auth/verify');
+	return API.get('/auth/verify').catch(async function(error) {
+		if (error.response.data.exception === 'InvalidToken') {
+			const response = await API.post('/auth/refresh', {
+				refresh_token: TokenManager.getTokenID()
+			});
 
-	if (!response.data.valid) {
-		const response = await API.get('/auth/refresh', {
-			refresh_token: TokenManager.getTokenID()
-		});
+			console.log(response);
 
-		updateAPIHeader(response.data.access_token);
-		TokenManager.updateTokenID(response.data.access_token);
-	}
+			//TokenManager.updateTokenID(response.data.access_token);
+			//updateAPIHeader(TokenManager.getTokenID());
+		}
+	});
 }
 
 export const getUser = async function() {
 	await verifyTokenID();
 	const response = await API.get('/auth/me');
 	return response.data.me;
-}
+};

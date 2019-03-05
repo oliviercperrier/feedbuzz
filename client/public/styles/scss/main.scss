@@ -50,6 +50,16 @@ body {
 		text-decoration: none;
 	}
 
+	.columns:last-child {
+		margin-bottom: 0rem;
+	}
+
+	.columns {
+		margin-left: 0rem;
+		margin-right: 0rem;
+		margin-top: 0rem;
+	}
+
 	.button {
 		width: 100%;
 		border: none;
@@ -91,7 +101,7 @@ body {
 		}
 
 		@media (max-width: 999px) {
-			width: 100%;
+			width: 95%;
 		}
 	}
 
