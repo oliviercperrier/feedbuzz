@@ -21,7 +21,7 @@ async function verifyTokenID() {
 	return API.get('/auth/verify').catch(async function(error) {
 		if (error.response.data.exception === 'InvalidToken') {
 			const response = await API.post('/auth/refresh', {
-				refresh_token: TokenManager.getTokenID()
+				"refresh_token": "<REFRESH TOKEN>"
 			});
 
 			console.log(response);
