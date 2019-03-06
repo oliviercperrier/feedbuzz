@@ -16,9 +16,12 @@ Initialize(app, authenticate=authenticate,
 
 if os.environ:
     if os.environ.get('ENV') == "production":
-        app.static('/', './client/build/index.html')
         app.static('/', './client/build')
         app.static('/static', './client/static')
+
+@app.route('/') 
+async def index(request, exception):
+    return await file('./client/build/index.html')
 
 """
     When an endpoint is not found, redirect to index.html and react takes the lead
