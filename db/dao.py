@@ -77,4 +77,3 @@ class RefreshTokenDAO(BaseDAO):
         refresh_token = session.query(RefreshToken).filter_by(user_id=user_id).first()
         session.close()
         return  refresh_token
-
