@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import queryString from 'query-string';
 
+import { API } from '../../../Utils/api';
+
 /**
  * Product listing Component
  * Show the listing of sqdc products
@@ -17,23 +19,28 @@ class ProductListing extends Component {
 
 		this.state = {
 			search: search.q === undefined ? '' : search.q,
-			changed: false
+			changed: false,
+			data: []
 		};
 
 		this.handleSearch = this.handleSearch.bind(this);
 		this.searchChange = this.searchChange.bind(this);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		if (!this.state.search) {
+			const response = await API.get('/api/products/all');
+			this.setState({data: response.data});
+		}
 		/* TODO FETCH DATA */
 	}
 
-	handleSearch(e) {
+	async handleSearch(e) {
 		if (this.state.changed) {
-			/* TODO FETCH DATA */
-			console.log('Fetching data');
+			const response = await API.get('/api/products/find/' + this.state.search);
 			this.setState({
-				changed: false
+				changed: false,
+				data: response.data
 			});
 		}
 	}
@@ -46,8 +53,10 @@ class ProductListing extends Component {
 	}
 
 	render() {
-		const { search } = this.state;
+		const { search, data } = this.state;
 		const to = '/products?q=' + search;
+
+		console.log(data) //SHOULD BE JSON
 
 		return (
 			<div className="product-listing-container container">
