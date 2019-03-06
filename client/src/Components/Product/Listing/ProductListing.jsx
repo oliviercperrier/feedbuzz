@@ -29,20 +29,29 @@ class ProductListing extends Component {
 
 	async componentDidMount() {
 		if (!this.state.search) {
-			const response = await API.get('/api/products/all');
-			this.setState({data: response.data});
+			this.fetchAll()
+		} else {
+			this.fetch(this.state.search);
 		}
-		/* TODO FETCH DATA */
 	}
 
-	async handleSearch(e) {
+	handleSearch(e) {
 		if (this.state.changed) {
-			const response = await API.get('/api/products/find/' + this.state.search);
-			this.setState({
-				changed: false,
-				data: response.data
-			});
+			this.fetch(this.state.search);
 		}
+	}
+
+	async fetchAll() {
+		const response = await API.get('/api/products/all');
+		this.setState({ data: response.data });
+	}
+
+	async fetch(search) {
+		const response = await API.get('/api/products/find/' + search);
+		this.setState({
+			changed: false,
+			data: response.data
+		});
 	}
 
 	searchChange(e) {
@@ -56,7 +65,7 @@ class ProductListing extends Component {
 		const { search, data } = this.state;
 		const to = '/products?q=' + search;
 
-		console.log(data) //SHOULD BE JSON
+		console.log(data); //SHOULD BE JSON
 
 		return (
 			<div className="product-listing-container container">
