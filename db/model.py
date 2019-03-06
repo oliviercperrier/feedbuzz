@@ -11,13 +11,12 @@ class User(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(250), nullable=False)
-    last_name = Column(String(250), nullable=False)
+    username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
 
     def to_dict(self):
-        return {"user_id": self.id, "first_name": self.first_name, "last_name": self.last_name, "email": self.email}
+        return {"user_id": self.id, "username": self.username, "email": self.email}
 
 
 class Product(Base):
@@ -53,6 +52,12 @@ class ProductPrice(Base):
     id = Column(Integer, primary_key=True)
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
+
+class RefreshToken(Base): 
+    __tablename__ = "refresh_token"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, nullable=False)
+    token = Column(String(500), nullable=False)
 
 
 engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
