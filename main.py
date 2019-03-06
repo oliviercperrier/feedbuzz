@@ -24,7 +24,7 @@ if app.config.ENV == "production":
 """
     When an endpoint is not found, redirect to index.html and react takes the lead
 """
-@app.exception(NotFound)
+@app.exception(NotFound) 
 async def index(request, exception):
     return await file('./client/build/index.html')
 
