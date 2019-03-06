@@ -6756,8 +6756,14 @@ label.panel-block {
         padding: 0rem; } }
     .my-account-container .column.section-container {
       margin-top: 2rem; }
+      .my-account-container .column.section-container .field-label .label {
+        font-weight: normal; }
       .my-account-container .column.section-container .section-title {
         font-size: 1.75rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem; }
+      .my-account-container .column.section-container .sub-section-title {
+        font-size: 1.25rem;
         font-weight: bold;
         margin-bottom: 1.5rem; }
     .my-account-container .column .sb-avatar {
@@ -6777,12 +6783,13 @@ label.panel-block {
       .my-account-container .column .account-menu .account-menu-item {
         margin-bottom: -1px;
         padding: 0.75rem 0.5rem;
-        font-weight: bold;
         border-bottom: 1px solid #f7f7f7;
         border-top: 1px solid #f7f7f7; }
         .my-account-container .column .account-menu .account-menu-item.active {
           background: #20bd67;
-          color: white; }
+          color: white;
+          font-weight: bold;
+          border-radius: 3px; }
           .my-account-container .column .account-menu .account-menu-item.active:hover {
             cursor: pointer;
             background: #20bd67; }
@@ -6806,9 +6813,29 @@ label.panel-block {
 .my-profile .button[type=save] {
   float: right;
   width: unset;
-  padding: 0 2rem; }
+  padding: 0 2rem;
+  margin-top: 1rem; }
   @media screen and (max-width: 720px) {
     .my-profile .button[type=save] {
+      width: 100%; } }
+
+.my-settings .input {
+  height: 40px; }
+
+.my-settings .setting-pw-change .sh-icon-wrapper {
+  height: 40px !important; }
+
+.my-settings .setting-pw-change .field .field-label {
+  text-align: left;
+  flex-grow: 2; }
+
+.my-settings .setting-pw-change .button[type=save] {
+  float: right;
+  width: unset;
+  padding: 0 2rem;
+  margin-top: 1rem; }
+  @media screen and (max-width: 720px) {
+    .my-settings .setting-pw-change .button[type=save] {
       width: 100%; } }
 
 .auth-content .header {

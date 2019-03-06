@@ -12,8 +12,20 @@
 		&.section-container {
 			margin-top: 2rem;
 
+			.field-label {
+				.label {
+					font-weight: normal;
+				}
+			}
+
 			.section-title {
 				font-size: 1.75rem;
+				font-weight: bold;
+				margin-bottom: 1.5rem;
+			}
+
+			.sub-section-title {
+				font-size: 1.25rem;
 				font-weight: bold;
 				margin-bottom: 1.5rem;
 			}
@@ -42,13 +54,14 @@
 			.account-menu-item {
 				margin-bottom: -1px;
 				padding: 0.75rem 0.5rem;
-				font-weight: bold;
                 border-bottom: 1px solid #f7f7f7;
                 border-top: 1px solid #f7f7f7;
 
 				&.active {
 					background: #20bd67;
 					color: white;
+					font-weight: bold;
+					border-radius: 3px;
 
 					&:hover {
 						cursor: pointer;

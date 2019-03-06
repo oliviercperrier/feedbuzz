@@ -27,10 +27,10 @@ class SignupForm extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault();
-		const { email, password, confirmpassword } = this.state;
+		const { name, username, email, password, confirmpassword } = this.state;
 		//make validation on signup data
 		//Password == confirmPassword and email valid
-		if (email && password && confirmpassword && password === confirmpassword) {
+		if (name && username && email && password && confirmpassword && password === confirmpassword) {
 			this.props.handleSignup(name, username, email, password);
 		}
 	}

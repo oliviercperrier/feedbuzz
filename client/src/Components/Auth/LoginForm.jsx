@@ -15,16 +15,11 @@ class LoginForm extends Component {
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handlePWChange = this.handlePWChange.bind(this);
-		this.handleUsrChange = this.handleUsrChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleUsrChange(e) {
-		this.setState({ email: e.target.value });
-	}
-
-	handlePWChange(pw) {
-		this.setState({ password: pw });
+	handleChange(e) {
+		this.setState({ [e.currentTarget.name]: e.currentTarget.value });
 	}
 
 	handleSubmit(e) {
@@ -48,10 +43,10 @@ class LoginForm extends Component {
 				<form className="auth-form" onSubmit={this.handleSubmit}>
 					<div className="field">
 						<div className="control">
-							<input className="input" type="text" placeholder="Email" onChange={this.handleUsrChange} />
+							<input className="input" type="text" name="email" placeholder="Email" onChange={this.handleChange} />
 						</div>
 					</div>
-					<ShowHidePW pwStrength={false} onChange={this.handlePWChange} />
+					<ShowHidePW pwStrength={false} name="password" onChange={this.handleChange} />
 					<div className="field">
 						<div className="control">
 							<button className="button bg-color-trans" type="submit">

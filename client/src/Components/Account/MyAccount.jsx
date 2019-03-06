@@ -31,7 +31,7 @@ class MyAccount extends Component {
 	}
 
 	getCurrentSectionComponent() {
-		switch (parseInt(this.state.component)) {
+		switch (this.state.component) {
 			case 1:
 				return <MyProfile />;
 			case 2:
@@ -46,7 +46,7 @@ class MyAccount extends Component {
 	}
 
 	handleSectionChange(e) {
-		this.setState({ component: e.currentTarget.getAttribute('data-component-id') });
+		this.setState({ component: parseInt(e.currentTarget.getAttribute('data-component-id')) });
 	}
 
 	render() {
@@ -68,7 +68,7 @@ class MyAccount extends Component {
 			<div className="my-account-container container">
 				<div className="columns">
 					<div className="column is-one-third">
-						<Avatar round={true} src="img/avatar-placeholder.png" />
+						<Avatar round={true} src="img/favicon.svg" />
 						<ul className="account-menu">{menuItems}</ul>
 					</div>
 					<div className="column section-container">{this.getCurrentSectionComponent()}</div>

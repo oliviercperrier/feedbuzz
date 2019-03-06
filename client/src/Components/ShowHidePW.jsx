@@ -39,7 +39,7 @@ class ShowHidePW extends Component {
 	};
 
 	render() {
-		const { placeholder, name } = this.props;
+		const { placeholder, name, value } = this.props;
 
 		return (
 			<div className="sh-pw-input-container field">
@@ -48,6 +48,7 @@ class ShowHidePW extends Component {
 						name={name}
 						type={this.state.type}
 						placeholder={placeholder ? placeholder : 'password'}
+						value={value}
 						className="input"
 						onChange={this.evaluatePWStrenght}
 					/>

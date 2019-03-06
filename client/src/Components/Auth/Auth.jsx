@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { AuthProvider } from '../../Contexts/authContext';
 import { API, updateAPIHeader, getUser } from '../../Utils/api';
 import TokenManager from '../../Utils/tokenManager';
+import Storage from '../../Utils/browserStorage';
 
 /**
  * Main Provider for authContext
@@ -13,20 +14,34 @@ import TokenManager from '../../Utils/tokenManager';
 class Auth extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { authenticated: false };
+
+		const current_usr = Storage.getStorage().getItem('usr_info');
+
+		if (current_usr) {
+			this.state = { 
+				authenticated: this.isAuthenticated(),
+				user: JSON.parse(current_usr)
+			};
+		} else {
+			this.state = { authenticated: false };
+		}
+
 		this.checkAuthentication = this.checkAuthentication.bind(this);
 		this.login = this.login.bind(this);
+		this.signup = this.signup.bind(this);
 		this.logout = this.logout.bind(this);
 	}
 
 	async checkAuthentication() {
-		const authenticated = await this.isAuthenticated();
-		
+		const authenticated = this.isAuthenticated();
+
 		if (authenticated !== this.state.authenticated) {
-			this.setState({ 
+			const usr_info = await getUser();
+			Storage.getStorage().setItem('usr_info', JSON.stringify(usr_info));
+			this.setState({
 				authenticated,
-				user: await getUser()
-			 });
+				user: usr_info
+			});
 		}
 	}
 
@@ -38,36 +53,50 @@ class Auth extends Component {
 		this.checkAuthentication();
 	}
 
-	async isAuthenticated() {
-		return !!TokenManager.getTokenID();
+	isAuthenticated() {
+		return !!TokenManager.getAccessToken();
 	}
 
 	async login(email, password) {
 		const auth_res = await API.post('/auth', {
-			username: email,
+			email: email,
 			password: password
 		});
 
-		const token_id = auth_res.data.access_token
+		const access_token = auth_res.data.access_token;
+		const refresh_token = auth_res.data.refresh_token;
 
-		if (token_id) {
-			updateAPIHeader(token_id);
-			TokenManager.updateTokenID(token_id);
+		if (access_token && refresh_token) {
+			updateAPIHeader(access_token);
+			TokenManager.updateAccessToken(access_token);
+			TokenManager.updateRefreshToken(refresh_token);
 
-			this.setState({ 
+			const usr_info = await getUser();
+			Storage.getStorage().setItem('usr_info', JSON.stringify(usr_info));
+
+			this.setState({
 				authenticated: true,
-				user: await getUser()
+				user: usr_info
 			});
 		}
 	}
 
 	async signup(name, username, email, password) {
-		
+		const auth_res = await API.post('/api/user/signup', {
+			email: email,
+			username: username,
+			password: password
+		});
+
+		if (auth_res.data.success) {
+			this.login(email, password);
+		}
 	}
 
 	logout() {
 		updateAPIHeader('');
-		TokenManager.clearTokenID();
+		TokenManager.clearTokens();
+		Storage.getStorage().setItem('usr_info', null);
 		this.setState({ authenticated: false });
 	}
 

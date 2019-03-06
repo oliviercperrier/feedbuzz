@@ -5,8 +5,8 @@ export const API = axios.create();
 API.defaults.baseURL = window.baseURL;
 API.defaults.headers.post['Content-Type'] = 'application/json';
 
-if (TokenManager.getTokenID()) {
-	API.defaults.headers.common['Authorization'] = 'Bearer ' + TokenManager.getTokenID();
+if (TokenManager.getAccessToken()) {
+	API.defaults.headers.common['Authorization'] = 'Bearer ' + TokenManager.getAccessToken();
 }
 
 export const updateAPIHeader = function(token) {
@@ -21,13 +21,11 @@ async function verifyTokenID() {
 	return API.get('/auth/verify').catch(async function(error) {
 		if (error.response.data.exception === 'InvalidToken') {
 			const response = await API.post('/auth/refresh', {
-				"refresh_token": "<REFRESH TOKEN>"
+				refresh_token: TokenManager.getRefreshToken()
 			});
 
-			console.log(response);
-
-			//TokenManager.updateTokenID(response.data.access_token);
-			//updateAPIHeader(TokenManager.getTokenID());
+			TokenManager.updateAccessToken(response.data.access_token);
+			updateAPIHeader(TokenManager.getAccessToken());
 		}
 	});
 }

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ReactNotification from 'react-notifications-component';
 import NotificationSystem from 'react-notification-system';
 
 import { AuthConsumer } from '../../../Contexts/authContext';
+import { Style } from '../../../Utils/notification';
 
 class MyProfile extends Component {
 	constructor(props) {
@@ -32,7 +32,7 @@ class MyProfile extends Component {
 		const notification = this.notificationSystem.current;
 		notification.addNotification({
 			title: 'Success',
-			message: 'Your information were saved successfully!',
+			message: 'Your profile was successfully updated!',
 			level: 'success',
 			dismissible: false
 		});
@@ -50,10 +50,13 @@ class MyProfile extends Component {
 		this.setState({ loading: true });
 
 		//FAKE LOADING FOR TEST
-		setTimeout(function() {
-			this.setState({ loading: false });
-			this.addNotification();
-		}.bind(this), 2000);
+		setTimeout(
+			function() {
+				this.setState({ loading: false });
+				this.addNotification();
+			}.bind(this),
+			2000
+		);
 		/* SAVE DATA TO BACK END */
 		// API.updateUser
 	}
@@ -64,28 +67,9 @@ class MyProfile extends Component {
 				{({ user }) => {
 					const { name, username, email, gender, loading } = this.state;
 
-					var style = {
-						NotificationItem: {
-							DefaultStyle: {
-								margin: '10px 5px 2px 1px'
-							},
-
-							success: {
-								borderTop: '2px solid #20bd67',
-								color: 'white',
-								backgroundColor: '#20bd67'
-							}
-						},
-						Title: {
-							success: {
-								color: 'white'
-							}
-						}
-					};
-
 					return (
 						<div className="my-profile">
-							<NotificationSystem ref={this.notificationSystem} style={style} />
+							<NotificationSystem ref={this.notificationSystem} style={Style} />
 							<div className="section-title">My Profile</div>
 							<div className="field is-horizontal">
 								<div className="field-label is-normal">

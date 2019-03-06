@@ -25,6 +25,7 @@ class App extends Component {
 		return (
 			<AuthConsumer>
 				{({ authenticated }) => {
+					console.log(authenticated);
 					return (
 						<MasterPage>
 							<Switch>
