@@ -73,4 +73,8 @@
 			margin-left: 1rem;
 		}
 	}
+
+	@include touch {
+		padding: 0rem 2rem;
+	}
 }
