@@ -20,7 +20,7 @@ if os.environ:
         app.static('/static', './client/static')
 
 @app.route('/') 
-async def index(request, exception):
+async def index(request):
     return await file('./client/build/index.html')
 
 """
