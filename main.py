@@ -1,9 +1,10 @@
 from sanic import Sanic
 from sanic.response import json, file
-from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
+#from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
 from sanic.exceptions import NotFound
 from sanic.log import logger
 from sanic_jwt import Initialize
+import json
 import os
 
 app = Sanic(__name__)
@@ -14,14 +15,21 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-if os.environ:
-    if os.environ.get('ENV') == "production":
-        app.static('/', './client/build')
-        app.static('/static', './client/static')
+if os.environ.get('ENV') == "development":
+    with open('./config/dev-configs.json', 'r') as f:
+        loadedenv = json.load(f)
 
-"""
-    When an endpoint is not found, redirect to index.html and react takes the lead
-"""
+    pathvars = ['SALT', 'DATABASE_URL', 'PORT']
+
+    for p in pathvars:
+        os.environ[p] = str(loadedenv[p])
+        
+if os.environ.get('ENV') == "production":
+    app.static('/', './client/build')
+    app.static('/static', './client/static')
+
+#When an endpoint is not found, redirect to index.html and react takes the lead
+
 @app.exception(NotFound) 
 async def index(request, exception):
     return await file('./client/build/index.html')

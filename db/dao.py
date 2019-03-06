@@ -9,9 +9,7 @@ import os
 class BaseDAO(ABC):
 
     def __init__(self):
-        DATABASE_URL = os.environ['DATABASE_URL']
-        self._engine = create_engine(DATABASE_URL)
-        #self._engine = create_engine('postgresql://postgres:feedbuzz@localhost:5430/feedbuzz')
+        self._engine = create_engine(os.environ['DATABASE_URL'])
         self._session = None
 
     def save(self, entity):
