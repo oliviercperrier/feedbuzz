@@ -1,1 +1,1 @@
-web: npm run prod-server
+web: python3 ./main.py

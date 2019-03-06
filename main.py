@@ -4,11 +4,9 @@ from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_
 from sanic.exceptions import NotFound
 from sanic.log import logger
 from sanic_jwt import Initialize
+import os
 
 app = Sanic(__name__)
-
-#ADD config db host for prod vs dev
-app.config.from_envvar('MYAPP_CONFIGS')
 
 Initialize(app, authenticate=authenticate,
  retrieve_user=retrieve_user,
@@ -16,7 +14,7 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-if app.config.ENV == "production":
+if os.environ['ENV'] == "production":
     app.static('/', './client/build/index.html')
     app.static('/', './client/build')
     app.static('/static', './client/static')
