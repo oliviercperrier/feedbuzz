@@ -14,10 +14,11 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-if os.environ['ENV'] == "production":
-    app.static('/', './client/build/index.html')
-    app.static('/', './client/build')
-    app.static('/static', './client/static')
+if os.environ:
+    if os.environ.get('ENV') == "production":
+        app.static('/', './client/build/index.html')
+        app.static('/', './client/build')
+        app.static('/static', './client/static')
 
 """
     When an endpoint is not found, redirect to index.html and react takes the lead
@@ -27,6 +28,12 @@ async def index(request, exception):
     return await file('./client/build/index.html')
 
 app.blueprint(api)
-app.run(host="0.0.0.0", port=app.config.PORT)
+
+if __name__ == '__main__':
+    app.run(
+        host='0.0.0.0',
+        port=int(os.environ.get('PORT', 8000)),
+        workers=int(os.environ.get('WEB_CONCURRENCY', 1)),
+        debug=bool(os.environ.get('DEBUG', '')))
 
 
