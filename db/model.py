@@ -60,7 +60,10 @@ class RefreshToken(Base):
     token = Column(String(500), nullable=False)
 
 
-engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
+DATABASE_URL = os.environ['DATABASE_URL']
+engine = create_engine(DATABASE_URL)
+
+#engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.

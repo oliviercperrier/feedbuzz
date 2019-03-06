@@ -1,7 +1,6 @@
 from sanic import Sanic
 from sanic.response import json, file
-#from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
-from api import api, authenticate
+from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
 from sanic.exceptions import NotFound
 from sanic.log import logger
 from sanic_jwt import Initialize
@@ -9,12 +8,11 @@ import os
 
 app = Sanic(__name__)
 
-Initialize(app, authenticate=authenticate
- #retrieve_user=retrieve_user,
- #refresh_token_enabled=True,
- #retrieve_refresh_token=retrieve_refresh_token,
- #store_refresh_token=store_refresh_token
- )
+Initialize(app, authenticate=authenticate,
+ retrieve_user=retrieve_user,
+ refresh_token_enabled=True,
+ retrieve_refresh_token=retrieve_refresh_token,
+ store_refresh_token=store_refresh_token)
 
 if os.environ:
     if os.environ.get('ENV') == "production":
@@ -29,7 +27,7 @@ if os.environ:
 async def index(request, exception):
     return await file('./client/build/index.html')
 
-#app.blueprint(api)
+app.blueprint(api)
 
 if __name__ == '__main__':
     app.run(
