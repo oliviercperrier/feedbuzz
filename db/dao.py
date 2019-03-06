@@ -1,4 +1,4 @@
-from .model import User, Base, Product
+from .model import User, Base, Product, RefreshToken
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -10,11 +10,17 @@ class BaseDAO(ABC):
         self._engine = create_engine('postgresql://postgres:feedbuzz@localhost:5430/feedbuzz')
 
     def save(self, entity):
-        pass
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        
+        try:
+            session.add(entity)
+            session.commit()
+        except exc.IntegrityError as e:
+            print(e.args[0])
+            session.rollback()
 
-    @abstractmethod
-    def get(self, id):
-        pass
+        session.close()
 
 
 class UserDAO(BaseDAO):
@@ -26,10 +32,10 @@ class UserDAO(BaseDAO):
         session.close()
         return user
 
-    def get_by_username(self, username):
+    def get_by_email(self, email):
         Session = sessionmaker(bind=self._engine)
         session = Session()
-        user = session.query(User).filter_by(email=username).first()
+        user = session.query(User).filter_by(email=email).first()
         session.close()
         return user
 
@@ -60,5 +66,14 @@ class ProductDAO(BaseDAO):
     def find_by_name(self, query):
         Session = sessionmaker(bind=self._engine)
         session = Session()
-        search_results = session.query(Product).filter(Product.name.like("%" + query + "%")).all()
+        search_results = session.query(Product).filter(Product.name.ilike(query + "%")).all()
         return search_results
+
+class RefreshTokenDAO(BaseDAO):
+
+    def get_by_user_id(self, user_id):
+        Session = sessionmaker(bind=self._engine)
+        session = Session()
+        refresh_token = session.query(RefreshToken).filter_by(user_id=user_id).first()
+        session.close()
+        return  refresh_token
