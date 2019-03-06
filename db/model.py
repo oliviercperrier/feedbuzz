@@ -41,7 +41,8 @@ class Product(Base):
             , "thc_min": self.thc_min
             , "thc_max": self.thc_max
             , "cbd_min": self.cbd_min
-            , "cbd_max": self.cbd_max}
+            , "cbd_max": self.cbd_max
+            , "type": self.type.to_dict()}
 
 
 class ProductType(Base):
