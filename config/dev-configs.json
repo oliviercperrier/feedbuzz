@@ -1,5 +1,0 @@
-{
-	"PORT": 800,
-	"SALT": "FeedbuzzLetsGetHighHasFuck",
-	"DATABASE_URL": "postgresql://postgres:feedbuzz@localhost:5430/feedbuzz"
-}
