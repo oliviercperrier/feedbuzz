@@ -13,14 +13,6 @@ LOG515 TPs
 - Create the database shema `python db/model.py`
 - Populate the database `python db/insert_data.py`
 
-## Production
-- In the root directory, run: `npm run build`
-- The app is now running on `http://localhost:8000`
-### OR
-- `cd client`, `npm run build`
-- In the root directory, run: `npm run prod-server`
-- The app is now running on `http://localhost:8000`
-
 *See what's in the container:*
 - List all container `docker ps -a`
 - `docker exec -it <container_id> /bin/sh`
