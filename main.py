@@ -19,10 +19,6 @@ if os.environ:
         app.static('/', './client/build')
         app.static('/static', './client/static')
 
-@app.route('/') 
-async def index(request):
-    return await file('./client/build/index.html')
-
 """
     When an endpoint is not found, redirect to index.html and react takes the lead
 """
