@@ -52,7 +52,7 @@ ReactDOM.render(
 		<Fade clear>
 			<Auth>
 				<LastLocationProvider>
-					<Favicon url="img/favicon.png" />
+					<Favicon url="/img/favicon.png" />
 					<Switch>
 						<Route exact path="/authenticate" component={AuthPage} />
 						<Route path="/" component={App} />

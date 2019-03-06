@@ -1,0 +1,27 @@
+.my-settings {
+	.input {
+		height: 40px;
+	}
+	.setting-pw-change {
+		.sh-icon-wrapper {
+			height: 40px !important;
+		}
+		.field {
+			.field-label {
+				text-align: left;
+				flex-grow: 2;
+			}
+		}
+
+		.button[type=save] {
+			float: right;
+			width: unset;
+			padding: 0 2rem;
+			margin-top: 1rem;
+
+			@include mobile {
+				width: 100%;
+			}
+		}
+	}
+}

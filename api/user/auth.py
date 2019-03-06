@@ -6,6 +6,7 @@ from sanic.response import json
 from db import UserDAO, RefreshTokenDAO
 from db import User, RefreshToken
 import hashlib
+import os
 
 auth = Blueprint('auth')
 
@@ -24,7 +25,7 @@ async def authenticate(request):
 	if not user:
 		raise exceptions.AuthenticationFailed('Invalid credential')
 
-	salt = request.app.config.SALT
+	salt = os.environ.get('SALT')
 	password_string = password + salt
 	hashed_password = hashlib.sha512(password_string.encode('utf-8')).hexdigest()
 
@@ -65,7 +66,7 @@ async def sign_up(request):
 	if user_dao.get_by_email(email):
 		return json({'success': False, 'message': 'Email already exist'})	
 
-	salt = request.app.config.SALT
+	salt = os.environ.get('SALT')
 	password_string = password + salt
 	hashed_password = hashlib.sha512(password_string.encode('utf-8')).hexdigest()
 	user = User(username=username, email=email, password=hashed_password)

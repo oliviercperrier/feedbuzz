@@ -5,11 +5,12 @@ from sqlalchemy import exc
 from pprint import pprint
 import requests
 import datetime
+import os
 
 
 class InitDatabase:
     def __init__(self):
-        self._engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
+        self._engine = create_engine(os.environ['DATABASE_URL'])
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
 

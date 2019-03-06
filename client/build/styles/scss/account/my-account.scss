@@ -1,0 +1,80 @@
+.my-account-container {
+	margin-bottom: 2rem;
+
+	.column {
+		border-radius: 3px;
+        padding: 2rem;
+        
+        @include mobile {
+            padding: 0rem;
+        }
+
+		&.section-container {
+			margin-top: 2rem;
+
+			.field-label {
+				.label {
+					font-weight: normal;
+				}
+			}
+
+			.section-title {
+				font-size: 1.75rem;
+				font-weight: bold;
+				margin-bottom: 1.5rem;
+			}
+
+			.sub-section-title {
+				font-size: 1.25rem;
+				font-weight: bold;
+				margin-bottom: 1.5rem;
+			}
+		}
+
+		.sb-avatar {
+			width: 100% !important;
+			height: auto !important;
+			text-align: center;
+
+			img {
+				width: 100% !important;
+				height: auto !important;
+				padding: 2rem;
+				max-width: 300px;
+                
+                @include mobile {
+                    padding: 2rem 6rem;
+                }
+            }
+		}
+
+		.account-menu {
+			text-align: center;
+
+			.account-menu-item {
+				margin-bottom: -1px;
+				padding: 0.75rem 0.5rem;
+                border-bottom: 1px solid #f7f7f7;
+                border-top: 1px solid #f7f7f7;
+
+				&.active {
+					background: #20bd67;
+					color: white;
+					font-weight: bold;
+					border-radius: 3px;
+
+					&:hover {
+						cursor: pointer;
+						background: #20bd67;
+					}
+				}
+
+				&:hover {
+					cursor: pointer;
+                    background: $light-gray;
+                    @include transition(background 0.5s);
+				}
+			}
+		}
+	}
+}

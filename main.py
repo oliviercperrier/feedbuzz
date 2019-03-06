@@ -4,11 +4,10 @@ from api import api, authenticate, retrieve_user, store_refresh_token, retrieve_
 from sanic.exceptions import NotFound
 from sanic.log import logger
 from sanic_jwt import Initialize
+import json
+import os
 
 app = Sanic(__name__)
-
-#ADD config db host for prod vs dev
-app.config.from_envvar('MYAPP_CONFIGS')
 
 Initialize(app, authenticate=authenticate,
  retrieve_user=retrieve_user,
@@ -16,19 +15,32 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-if app.config.ENV == "production":
-    app.static('/', './client/build/index.html')
+if os.environ.get('ENV') == "development":
+    with open('./config/dev-configs.json', 'r') as f:
+        loadedenv = json.load(f)
+
+    pathvars = ['SALT', 'DATABASE_URL', 'PORT']
+
+    for p in pathvars:
+        os.environ[p] = str(loadedenv[p])
+        
+if os.environ.get('ENV') == "production":
     app.static('/', './client/build')
     app.static('/static', './client/static')
 
-"""
-    When an endpoint is not found, redirect to index.html and react takes the lead
-"""
-@app.exception(NotFound)
+#When an endpoint is not found, redirect to index.html and react takes the lead
+
+@app.exception(NotFound) 
 async def index(request, exception):
     return await file('./client/build/index.html')
 
 app.blueprint(api)
-app.run(host="0.0.0.0", port=app.config.PORT)
+
+if __name__ == '__main__':
+    app.run(
+        host='0.0.0.0',
+        port=int(os.environ.get('PORT', 8000)),
+        workers=int(os.environ.get('WEB_CONCURRENCY', 1)),
+        debug=bool(os.environ.get('DEBUG', '')))
 
 

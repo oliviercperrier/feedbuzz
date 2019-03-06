@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+import os
 
 Base = declarative_base()
 
@@ -69,8 +70,9 @@ class RefreshToken(Base):
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
 
+engine = create_engine(os.environ['DATABASE_URL'])
 
-engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
+#engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
