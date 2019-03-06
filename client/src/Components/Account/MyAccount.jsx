@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Avatar from 'react-avatar';
 
 import MyFavorites from './Sections/MyFavorites';
 import MyReviews from './Sections/MyReviews';
@@ -26,33 +27,51 @@ class MyAccount extends Component {
 		};
 
 		this.getCurrentSectionComponent = this.getCurrentSectionComponent.bind(this);
+		this.handleSectionChange = this.handleSectionChange.bind(this);
 	}
 
 	getCurrentSectionComponent() {
-		switch (this.state.component) {
+		switch (parseInt(this.state.component)) {
 			case 1:
-				return <MyProfile></MyProfile>;
+				return <MyProfile />;
 			case 2:
-				return <MyFavorites></MyFavorites>;
+				return <MyFavorites />;
 			case 3:
-				return <MyReviews></MyReviews>;
+				return <MyReviews />;
 			case 4:
-				return <MySettings></MySettings>;
+				return <MySettings />;
+			default:
+				return <MyProfile />;
 		}
 	}
 
+	handleSectionChange(e) {
+		this.setState({ component: e.currentTarget.getAttribute('data-component-id') });
+	}
+
 	render() {
-		const menuItems = this.menuItems.map((item) => <li key={item.title}>{item.title}</li>);
+		const { component } = this.state;
+		const menuItems = this.menuItems.map((item) => {
+			return (
+				<li
+					key={item.title}
+					className={"account-menu-item " + (component === item.component ? "active" : "") }
+					data-component-id={item.component}
+					onClick={this.handleSectionChange}
+				>
+					{item.title}
+				</li>
+			);
+		});
 
 		return (
 			<div className="my-account-container container">
 				<div className="columns">
-					<div className="column is-one-quarter">
-						<ul>{menuItems}</ul>
+					<div className="column is-one-third">
+						<Avatar round={true} src="img/avatar-placeholder.png" />
+						<ul className="account-menu">{menuItems}</ul>
 					</div>
-					<div className="column">
-						{this.getCurrentSectionComponent()}
-					</div>
+					<div className="column section-container">{this.getCurrentSectionComponent()}</div>
 				</div>
 			</div>
 		);

@@ -31,6 +31,20 @@ body {
 		background: rgba(0, 0, 0, 0.08) !important;
 	}
 
+	#feedbuzz-master {
+		#feedbuzz-body {
+			@include mobile {
+				padding: 0.75rem;
+			}
+		}
+
+		#feedbuzz-header {
+		}
+
+		#fdb-footer {
+		}
+	}
+
 	a {
 		text-decoration: none;
 		color: unset;
@@ -48,6 +62,21 @@ body {
 	a:hover,
 	a:active {
 		text-decoration: none;
+	}
+
+	.select {
+		select {
+			&:focus {
+				outline: none;
+				border-color: #dbdbdb;
+				box-shadow: none;
+			}
+		}
+	}
+
+	.button.is-focused:not(:active),
+	.button:focus:not(:active) {
+		box-shadow: none;
 	}
 
 	.columns:last-child {
@@ -99,9 +128,13 @@ body {
 		@media (min-width: 1000px) {
 			max-width: 1500px;
 		}
+	}
 
-		@media (max-width: 999px) {
-			width: 95%;
+	.hero.banner {
+		@include mobile {
+			margin-top: -.75rem;
+			margin-left: -.75rem;
+			margin-right: -.75rem;
 		}
 	}
 

@@ -61,16 +61,14 @@ class Auth extends Component {
 		}
 	}
 
+	async signup(name, username, email, password) {
+		
+	}
+
 	logout() {
 		updateAPIHeader('');
 		TokenManager.clearTokenID();
 		this.setState({ authenticated: false });
-	}
-
-	async signup(email, password, confirmPassword) {
-		console.log('email : ' + email);
-		console.log('password : ' + password);
-		console.log('confirm password : ' + confirmPassword);
 	}
 
 	render() {

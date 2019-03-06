@@ -32,6 +32,11 @@ async function verifyTokenID() {
 	});
 }
 
+export const updateUser = async function(data) {
+	await verifyTokenID();
+	//call update user
+};
+
 export const getUser = async function() {
 	await verifyTokenID();
 	const response = await API.get('/auth/me');

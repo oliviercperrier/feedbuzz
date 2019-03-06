@@ -6,7 +6,7 @@ class MyReviews extends Component {
 	}
 
 	render() {
-		return <div>My Reviews</div>;
+		return <div className="section-title">My Reviews</div>;
 	}
 }
 

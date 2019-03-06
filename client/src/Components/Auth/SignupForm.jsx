@@ -9,37 +9,29 @@ class SignupForm extends Component {
 		super(props);
 
 		this.state = {
+			name: '',
+			username: '',
 			email: '',
 			password: '',
-			confirmPassword: '',
+			confirmpassword: '',
 			error: ''
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleUsrChange = this.handleUsrChange.bind(this);
-		this.handlePWChange = this.handlePWChange.bind(this);
-		this.handleConfPWChange = this.handleConfPWChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleUsrChange = (e) => {
-		this.setState({ email: e.target.value });
-	};
-
-	handlePWChange = (pw) => {
-		this.setState({ password: pw });
-	};
-
-	handleConfPWChange = (pw) => {
-		this.setState({ confirmPassword: pw });
+	handleChange = (e) => {
+		this.setState({ [e.currentTarget.name]: e.currentTarget.value });
 	};
 
 	handleSubmit(e) {
 		e.preventDefault();
-		const { email, password, confirmPassword } = this.state;
+		const { email, password, confirmpassword } = this.state;
 		//make validation on signup data
 		//Password == confirmPassword and email valid
-		if (email && password && confirmPassword) {
-			this.props.handleSignup(email, password, confirmPassword);
+		if (email && password && confirmpassword && password === confirmpassword) {
+			this.props.handleSignup(name, username, email, password);
 		}
 	}
 
@@ -55,11 +47,44 @@ class SignupForm extends Component {
 				<form className="auth-form" onSubmit={this.handleSubmit}>
 					<div className="field">
 						<div className="control">
-							<input className="input" type="text" placeholder="Email" onChange={this.handleUsrChange} />
+							<input
+								className="input"
+								type="text"
+								name="name"
+								placeholder="Name"
+								onChange={this.handleChange}
+							/>
 						</div>
 					</div>
-					<ShowHidePW pwStrength={true} onChange={this.handlePWChange} />
-					<ShowHidePW pwStrength={true} onChange={this.handleConfPWChange} placeholder="Confirm password" />
+					<div className="field">
+						<div className="control">
+							<input
+								className="input"
+								type="text"
+								name="username"
+								placeholder="Username"
+								onChange={this.handleChange}
+							/>
+						</div>
+					</div>
+					<div className="field">
+						<div className="control">
+							<input
+								className="input"
+								type="text"
+								name="email"
+								placeholder="Email"
+								onChange={this.handleChange}
+							/>
+						</div>
+					</div>
+					<ShowHidePW pwStrength={true} name="password" onChange={this.handleChange} />
+					<ShowHidePW
+						pwStrength={true}
+						name="confirmpassword"
+						onChange={this.handleChange}
+						placeholder="Confirm password"
+					/>
 					<div className="field">
 						<div className="control">
 							<button className="button bg-color-trans" type="submit">

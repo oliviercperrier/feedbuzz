@@ -6,7 +6,7 @@ class MyFavorites extends Component {
 	}
 
 	render() {
-		return <div>Favorites</div>;
+		return <div className="section-title">Favorites</div>;
 	}
 }
 

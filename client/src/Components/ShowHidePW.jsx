@@ -15,14 +15,14 @@ class ShowHidePW extends Component {
 	}
 
 	evaluatePWStrenght = (e) => {
-		let val = e.target.value;
+		let val = e.currentTarget.value;
 
 		this.setState({
 			score: val === '' ? 'null' : zxcvbn(val).score
 		});
 
 		//Give input value to parent Component
-		this.props.onChange(val);
+		this.props.onChange(e);
 	};
 
 	onShowHide = (e) => {
@@ -39,12 +39,13 @@ class ShowHidePW extends Component {
 	};
 
 	render() {
-		const { placeholder } = this.props;
+		const { placeholder, name } = this.props;
 
 		return (
 			<div className="sh-pw-input-container field">
 				<div className="control">
 					<input
+						name={name}
 						type={this.state.type}
 						placeholder={placeholder ? placeholder : 'password'}
 						className="input"

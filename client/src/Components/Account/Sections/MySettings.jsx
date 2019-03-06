@@ -6,7 +6,7 @@ class MySettings extends Component {
 	}
 
 	render() {
-		return <div>My Settings</div>;
+		return <div className="section-title">My Settings</div>;
 	}
 }
 
