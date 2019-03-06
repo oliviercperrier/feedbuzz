@@ -39,7 +39,7 @@ LOG515 TPs
   ### - Body:
     ```
     {
-      "username": "<username>",
+      "email": "<email>",
       "password": "<password>"
     }
     ```
