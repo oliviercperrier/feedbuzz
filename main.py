@@ -8,11 +8,12 @@ import os
 
 app = Sanic(__name__)
 
-Initialize(app, authenticate=authenticate,
- retrieve_user=retrieve_user,
- refresh_token_enabled=True,
- retrieve_refresh_token=retrieve_refresh_token,
- store_refresh_token=store_refresh_token)
+Initialize(app, #authenticate=authenticate,
+ #retrieve_user=retrieve_user,
+ #refresh_token_enabled=True,
+ #retrieve_refresh_token=retrieve_refresh_token,
+ #store_refresh_token=store_refresh_token
+ )
 
 if os.environ:
     if os.environ.get('ENV') == "production":
