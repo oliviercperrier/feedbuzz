@@ -9,9 +9,9 @@ import datetime
 
 class InitDatabase:
     def __init__(self):
-        self._engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
+        #self._engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
+        #Session = sessionmaker(bind=self._engine)
+        #self._session = Session()
 
     def pull_data(self, page: int, qty_page: int, province: str, show_hidden=1, count="all") -> list:
 
