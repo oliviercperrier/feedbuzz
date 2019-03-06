@@ -37,6 +37,8 @@ class InitDatabase:
                 cbd_min=product["cbd_min"],
                 cbd_max=product["cbd_max"],
                 type_id=p_type_obj.id,
+                url=product["url"],
+                image_url=product["image"]["original_filename"]
             )
 
             p_price_obj = ProductPrice(

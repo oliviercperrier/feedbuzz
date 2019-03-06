@@ -25,14 +25,23 @@ class Product(Base):
     name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
     type = relationship("ProductType", backref="product")
-
+    url = Column(String(256), nullable=False, unique=False)
+    image_url = Column(String(256), nullable=False, unique=False)
     thc_min = Column(Float)
     thc_max = Column(Float)
     cbd_min = Column(Float)
     cbd_max = Column(Float)
 
     def to_dict(self):
-        return {"id": self.id, "name": self.name, "type_id": self.type_id}
+        return {"id": self.id
+            , "name": self.name
+            , "type_id": self.type_id
+            , "url": self.url
+            , "image_url": self.image_url
+            , "thc_min": self.thc_min
+            , "thc_max": self.thc_max
+            , "cbd_min": self.cbd_min
+            , "cbd_max": self.cbd_max}
 
 
 class ProductType(Base):
@@ -44,7 +53,6 @@ class ProductType(Base):
         return {"id": self.id, "name": self.name}
 
 
-
 class ProductPrice(Base):
     __tablename__ = "product_price"
     product = relationship("Product", backref="product_price")
@@ -53,7 +61,8 @@ class ProductPrice(Base):
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
 
-class RefreshToken(Base): 
+
+class RefreshToken(Base):
     __tablename__ = "refresh_token"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, nullable=False)
