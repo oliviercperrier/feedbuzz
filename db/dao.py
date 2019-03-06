@@ -60,5 +60,6 @@ class ProductDAO(BaseDAO):
     def find_by_name(self, query):
         Session = sessionmaker(bind=self._engine)
         session = Session()
-        search_results = session.query(Product).filter(Product.name.like("%" + query + "%")).all()
+        search_results = session.query(Product).filter(Product.name.like(query + "%")).all()
         return search_results
+
