@@ -6,7 +6,6 @@ User = User
 Base = Base
 RefreshToken = RefreshToken
 
-
 #DAO
 UserDAO = UserDAO
 ProductDAO = ProductDAO

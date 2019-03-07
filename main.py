@@ -7,15 +7,6 @@ from sanic_jwt import Initialize
 import json
 import os
 
-if os.environ.get('ENV') == "development":
-    with open('./config/dev-configs.json', 'r') as f:
-        loadedenv = json.load(f)
-
-    pathvars = ['SALT', 'DATABASE_URL', 'PORT']
-
-    for p in pathvars:
-        os.environ[p] = str(loadedenv[p])
-
 app = Sanic(__name__)
 
 Initialize(app, authenticate=authenticate,
@@ -24,17 +15,16 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-if os.environ.get('ENV') == "production":
+ if os.environ.get('ENV') == "production":
     app.static('/', './client/build')
     app.static('/static', './client/static')
 
 #When an endpoint is not found, redirect to index.html and react takes the lead
-
 @app.exception(NotFound) 
 async def index(request, exception):
     return await file('./client/build/index.html')
 
-app.blueprint(api)
+#app.blueprint(api)
 
 if __name__ == '__main__':
     app.run(
@@ -42,5 +32,3 @@ if __name__ == '__main__':
         port=int(os.environ.get('PORT', 8000)),
         workers=int(os.environ.get('WEB_CONCURRENCY', 1)),
         debug=bool(os.environ.get('DEBUG', '')))
-
-
