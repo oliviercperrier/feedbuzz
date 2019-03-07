@@ -10,5 +10,6 @@ cd ..
 cd ..
 cd styles/
 
+
 rm -r scss
 rm main.css
