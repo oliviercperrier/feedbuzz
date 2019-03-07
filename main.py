@@ -7,14 +7,6 @@ from sanic_jwt import Initialize
 import json
 import os
 
-app = Sanic(__name__)
-
-Initialize(app, authenticate=authenticate,
- retrieve_user=retrieve_user,
- refresh_token_enabled=True,
- retrieve_refresh_token=retrieve_refresh_token,
- store_refresh_token=store_refresh_token)
-
 if os.environ.get('ENV') == "development":
     with open('./config/dev-configs.json', 'r') as f:
         loadedenv = json.load(f)
@@ -27,6 +19,14 @@ if os.environ.get('ENV') == "development":
 if os.environ.get('ENV') == "production":
     app.static('/', './client/build')
     app.static('/static', './client/static')
+
+app = Sanic(__name__)
+
+Initialize(app, authenticate=authenticate,
+ retrieve_user=retrieve_user,
+ refresh_token_enabled=True,
+ retrieve_refresh_token=retrieve_refresh_token,
+ store_refresh_token=store_refresh_token)
 
 #When an endpoint is not found, redirect to index.html and react takes the lead
 
