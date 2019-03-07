@@ -1,8 +1,10 @@
-npm run build &
+cd client/
+
+npm run build
 
 cd build/static/js
 
-find . -name "*.js.map" -type f -delete &
+find . -name "*.js.map" -type f -delete
 
 cd ..
 cd ..
