@@ -1,5 +1,6 @@
 cd client/
 
+npm install react-scripts
 npm run build
 
 cd build/static/js
