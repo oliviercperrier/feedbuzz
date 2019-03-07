@@ -24,7 +24,7 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
- if os.environ.get('ENV') == "production":
+if os.environ.get('ENV') == "production":
     app.static('/', './client/build')
     app.static('/static', './client/static')
 
