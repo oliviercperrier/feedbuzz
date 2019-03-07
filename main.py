@@ -24,7 +24,7 @@ if os.environ.get('ENV') == "production":
 async def index(request, exception):
     return await file('./client/build/index.html')
 
-#app.blueprint(api)
+app.blueprint(api)
 
 if __name__ == '__main__':
     app.run(
