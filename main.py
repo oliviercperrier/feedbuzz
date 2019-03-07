@@ -15,10 +15,6 @@ if os.environ.get('ENV') == "development":
 
     for p in pathvars:
         os.environ[p] = str(loadedenv[p])
-        
-if os.environ.get('ENV') == "production":
-    app.static('/', './client/build')
-    app.static('/static', './client/static')
 
 app = Sanic(__name__)
 
@@ -27,6 +23,10 @@ Initialize(app, authenticate=authenticate,
  refresh_token_enabled=True,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
+
+ if os.environ.get('ENV') == "production":
+    app.static('/', './client/build')
+    app.static('/static', './client/static')
 
 #When an endpoint is not found, redirect to index.html and react takes the lead
 
