@@ -70,7 +70,7 @@ class Header extends Component {
 						</div>
 						<div className="fdb-navbar-brand">
 							<Link className="logo" to="/">
-								<img src="img/feedbuzz_logo_small_cropped.png" alt="FeedBuzz" />
+								<img src="/img/feedbuzz_logo_small_cropped.png" alt="FeedBuzz" />
 							</Link>
 						</div>
 						<div className="fdb-navbar-items-end">
