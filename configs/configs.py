@@ -29,7 +29,10 @@ class ConfigurationLoader(object):
 	def load_config(self):
 		env = os.environ.get('ENV')
 		env_config_file_name =  'configs/configs.{}.json' 
-
-		with open(env_config_file_name.format(env)) as f:
-			env_config = json.load(f)
-		return Configuration(env_config)		
+		env_configs = None
+		if env == 'PROD':
+			env_configs = os.environ
+		else:
+			with open(env_config_file_name.format(env)) as f:
+				env_configs = json.load(f)
+		return Configuration(env_configs)		
