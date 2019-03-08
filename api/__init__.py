@@ -1,6 +1,6 @@
 from sanic import Blueprint
-from .user import user, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
-from .product import find_product, get_by_id, get_all_products, product
+from .user import user, serve_configs_user, authenticate, retrieve_user, store_refresh_token, retrieve_refresh_token
+from .product import find_product, get_by_id, get_all_products, product, serve_configs_init_product
 
 from .base_api import base_api
 
@@ -13,3 +13,8 @@ retrieve_refresh_token = retrieve_refresh_token
 get_by_id = get_by_id
 get_all_products = get_all_products
 find_product = find_product
+
+
+def serve_configs_api(configs):
+	serve_configs_user(configs)
+	serve_configs_init_product(configs)

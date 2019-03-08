@@ -6,7 +6,15 @@ from db import ProductDAO
 
 product = Blueprint('product', url_prefix='/products')
 
-product_dao = ProductDAO()
+product_dao = None
+
+def serve_configs_product(configs):
+    print("Serve configs in product")
+    global product_dao
+    product_dao = ProductDAO(configs)
+    
+    global app_configs
+    app_configs = configs
 
 @product.route('/<id>')
 async def get_by_id(request, id):
