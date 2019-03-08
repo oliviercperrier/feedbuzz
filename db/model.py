@@ -32,6 +32,7 @@ class Product(Base):
     thc_max = Column(Float)
     cbd_min = Column(Float)
     cbd_max = Column(Float)
+    prices = relationship("ProductPrice", back_populates="product")
 
     def to_dict(self):
         return {"id": self.id
@@ -43,7 +44,8 @@ class Product(Base):
             , "thc_max": self.thc_max
             , "cbd_min": self.cbd_min
             , "cbd_max": self.cbd_max
-            , "type": self.type.to_dict()}
+            , "type": self.type.to_dict(),
+            , "prices":}
 
 
 class ProductType(Base):
@@ -62,6 +64,7 @@ class ProductPrice(Base):
     id = Column(Integer, primary_key=True)
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
+    grams = Column(Float, nullable=False)
 
 
 class RefreshToken(Base):
