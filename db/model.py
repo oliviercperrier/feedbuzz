@@ -25,7 +25,7 @@ class Product(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
-    type = relationship("ProductType", backref="product")
+    #type = relationship("ProductType", backref="product")
     url = Column(String(256), nullable=False, unique=False)
     image_url = Column(String(256), nullable=False, unique=False)
     thc_min = Column(Float)
@@ -44,7 +44,6 @@ class Product(Base):
             , "thc_max": self.thc_max
             , "cbd_min": self.cbd_min
             , "cbd_max": self.cbd_max
-            , "type": self.type.to_dict()
             }
 
 
@@ -73,11 +72,12 @@ class RefreshToken(Base):
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
 
-engine = create_engine(os.environ['DATABASE_URL'])
-
 #engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
-res = Base.metadata.create_all(engine)
-print(res)
+def serve_configs_model(configs):
+    print("Serve configs model")
+    engine = create_engine(configs.DATABASE_URL)
+    res = Base.metadata.create_all(engine)
+    print(res)

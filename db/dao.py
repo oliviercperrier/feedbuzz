@@ -5,12 +5,18 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import exc
 import os
 
+app_configs = None
+def serve_configs_dao(configs):
+	print("Serve configs to dao")
+	global app_configs
+	app_configs = configs
 
 class BaseDAO(ABC):
 
-    def __init__(self):
-        self._engine = create_engine(os.environ['DATABASE_URL'])
+    def __init__(self, configs):
+        self._engine = create_engine(configs.DATABASE_URL)
         self._session = None
+        self._configs = configs
 
     def save(self, entity):
         Session = sessionmaker(bind=self._engine)
