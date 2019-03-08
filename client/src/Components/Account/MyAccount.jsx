@@ -67,7 +67,7 @@ class MyAccount extends Component {
 		return (
 			<div className="my-account-container container">
 				<div className="columns">
-					<div className="column is-one-third">
+					<div className="column is-one-quarter account-sidebar">
 						<Avatar round={true} src="img/favicon.svg" />
 						<ul className="account-menu">{menuItems}</ul>
 					</div>

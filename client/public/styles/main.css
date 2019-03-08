@@ -6748,6 +6748,17 @@ label.panel-block {
 
 .my-account-container {
   margin-bottom: 2rem; }
+  .my-account-container .account-sidebar {
+    margin: 2rem 1rem;
+    box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2); }
+    @media screen and (max-width: 720px) {
+      .my-account-container .account-sidebar {
+        margin: unset;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none; } }
   .my-account-container .column {
     border-radius: 3px;
     padding: 2rem; }
