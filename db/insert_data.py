@@ -18,19 +18,21 @@ class InitDatabase:
 
         payload = {"page": page, "per_page": qty_page, "count": "all", "province": province, "show_hidden": show_hidden}
         r = requests.get("https://www.budbudbud.ca/api/v1/strains", params=payload)
+        pprint(r.url)
         return r.json()
 
     def insert_data(self, data: list):
         for product in data:
+            # pprint(product)
 
-            create_product_type = False
-            create_product = True
             p_type_obj = self._session.query(ProductType).filter_by(name=product["type"]).first()
             p_obj = self._session.query(Product).filter_by(name=product["name"]).first()
 
             if p_type_obj is None:
-                create_product_type = True
                 p_type_obj = ProductType(name=product["type"])
+                self._session.add(p_type_obj)
+                self._session.flush()
+
             if p_obj is None:
                 p_obj = Product(
                     name=product["name"],
@@ -42,19 +44,16 @@ class InitDatabase:
                     url=product["url"],
                     image_url=product["image"]["original_filename"]
                 )
-                create_product = True
+                self._session.add(p_obj)
+
+            self._session.flush()
 
             p_price_obj = ProductPrice(
                 date=datetime.datetime.now().date(), price=float(product["price"]), product_id=p_obj.id, grams=product["grams"]
             )
 
             try:
-                if create_product:
-                    self._session.add(p_obj)
                 self._session.add(p_price_obj)
-                if create_product_type:
-                    self._session.add(p_type_obj)
-
                 self._session.commit()
             except exc.IntegrityError as e:
                 print(e.args[0])

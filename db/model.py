@@ -11,7 +11,7 @@ class User(Base):
     __tablename__ = "user"
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
@@ -22,7 +22,7 @@ class User(Base):
 
 class Product(Base):
     __tablename__ = "product"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
     #type = relationship("ProductType", backref="product")
@@ -49,7 +49,7 @@ class Product(Base):
 
 class ProductType(Base):
     __tablename__ = "product_type"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False, unique=True)
 
     def to_dict(self):
@@ -58,9 +58,9 @@ class ProductType(Base):
 
 class ProductPrice(Base):
     __tablename__ = "product_price"
+    id = Column(Integer, primary_key=True, autoincrement=True)
     product = relationship("Product", backref="product_price")
     product_id = Column(Integer, ForeignKey("product.id"))
-    id = Column(Integer, primary_key=True)
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
     grams = Column(Float, nullable=False)
@@ -68,7 +68,7 @@ class ProductPrice(Base):
 
 class RefreshToken(Base):
     __tablename__ = "refresh_token"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
 
