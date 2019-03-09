@@ -7330,6 +7330,385 @@ label.panel-block {
         .product-listing-container .pl-input-container .pl-input {
           font-size: 16px; } }
 
+.product-rating-container .rc-steps-icon svg {
+  height: 100%; }
+
+.steps-progress .rc-steps {
+  font-size: 0;
+  width: 100%;
+  line-height: 1.5;
+  display: -ms-flexbox;
+  display: flex;
+  padding-left: 10px; }
+
+.steps-progress .rc-steps,
+.steps-progress .rc-steps * {
+  box-sizing: border-box; }
+
+.steps-progress .rc-steps-item {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  -ms-flex: 1;
+  flex: 1;
+  overflow: hidden; }
+
+.steps-progress .rc-steps-item:last-child {
+  -ms-flex: none;
+  flex: none; }
+
+.steps-progress .rc-steps-item:last-child .rc-steps-item-tail,
+.steps-progress .rc-steps-item:last-child .rc-steps-item-title:after {
+  display: none; }
+
+.steps-progress .rc-steps-item-icon,
+.steps-progress .rc-steps-item-content {
+  display: inline-block;
+  vertical-align: top; }
+
+.steps-progress .rc-steps-item-icon {
+  border: 1px solid #20bd67;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  border-radius: 26px;
+  font-size: 14px;
+  transition: background-color 0.3s, border-color 0.3s; }
+
+.steps-progress .rc-steps-item-icon > .rc-steps-icon {
+  line-height: 1;
+  top: -1px;
+  color: #20bd67;
+  position: relative; }
+
+.steps-progress .rc-steps-item-icon > .rc-steps-icon.rcicon {
+  font-size: 12px;
+  position: relative;
+  top: -2px; }
+
+.steps-progress .rc-steps-item-tail {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 12px;
+  padding: 0 10px; }
+
+.steps-progress .rc-steps-item-tail:after {
+  content: '';
+  display: inline-block;
+  background: #20bd67;
+  height: 1px;
+  border-radius: 1px;
+  width: 100%;
+  transition: background .3s; }
+
+.steps-progress .rc-steps-item-content {
+  margin-top: 3px; }
+
+.steps-progress .rc-steps-item-title {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: #666;
+  font-weight: bold;
+  display: inline-block;
+  padding-right: 10px;
+  position: relative; }
+
+.steps-progress .rc-steps-item-title:after {
+  content: '';
+  height: 1px;
+  width: 1000px;
+  background: #20bd67;
+  display: block;
+  position: absolute;
+  top: 0.55em;
+  left: 100%; }
+
+.steps-progress .rc-steps-item-description {
+  font-size: 12px;
+  color: #999; }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-icon {
+  border-color: #20bd67;
+  background-color: #fff; }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-icon > .rc-steps-icon {
+  color: #20bd67; }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-icon > .rc-steps-icon .rc-steps-icon-dot {
+  background: #20bd67; }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-title {
+  color: rgba(0, 0, 0, 0.43); }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-title:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-description {
+  color: rgba(0, 0, 0, 0.43); }
+
+.steps-progress .rc-steps-item-wait .rc-steps-item-tail:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-icon {
+  border-color: #20bd67;
+  background-color: #fff; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
+  color: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon .rc-steps-icon-dot {
+  background: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-title {
+  color: rgba(0, 0, 0, 0.65); }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-title:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-description {
+  color: rgba(0, 0, 0, 0.65); }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-tail:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-icon {
+  background: #20bd67; }
+
+.steps-progress .rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
+  color: #fff; }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-icon {
+  border-color: #20bd67;
+  background-color: #fff; }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
+  color: #20bd67; }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon .rc-steps-icon-dot {
+  background: #20bd67; }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-title {
+  color: rgba(0, 0, 0, 0.43); }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-title:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-description {
+  color: rgba(0, 0, 0, 0.43); }
+
+.steps-progress .rc-steps-item-finish .rc-steps-item-tail:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-icon {
+  border-color: #f50;
+  background-color: #fff; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-icon > .rc-steps-icon {
+  color: #f50; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-icon > .rc-steps-icon .rc-steps-icon-dot {
+  background: #f50; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-title {
+  color: #f50; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-title:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-description {
+  color: #f50; }
+
+.steps-progress .rc-steps-item-error .rc-steps-item-tail:after {
+  background-color: #20bd67; }
+
+.steps-progress .rc-steps-item.rc-steps-next-error .rc-steps-item-title:after {
+  background: #f50; }
+
+.steps-progress .rc-steps-horizontal:not(.rc-steps-label-vertical) .rc-steps-item {
+  margin-right: 10px; }
+
+.steps-progress .rc-steps-horizontal:not(.rc-steps-label-vertical) .rc-steps-item:last-child {
+  margin-right: 0; }
+
+.steps-progress .rc-steps-horizontal:not(.rc-steps-label-vertical) .rc-steps-item-tail {
+  display: none; }
+
+.steps-progress .rc-steps-horizontal:not(.rc-steps-label-vertical) .rc-steps-item-description {
+  max-width: 100px; }
+
+.steps-progress .rc-steps-item-custom .rc-steps-item-icon {
+  background: none;
+  border: 0;
+  width: auto;
+  height: auto; }
+
+.steps-progress .rc-steps-item-custom .rc-steps-item-icon > .rc-steps-icon {
+  font-size: 20px;
+  top: 1px;
+  width: 20px;
+  height: 20px; }
+
+.steps-progress .rc-steps-item-custom.rc-steps-item-process .rc-steps-item-icon > .rc-steps-icon {
+  color: #20bd67; }
+
+.steps-progress .rc-steps-small .rc-steps-item-icon {
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 18px;
+  font-size: 12px;
+  margin-right: 10px; }
+
+.steps-progress .rc-steps-small .rc-steps-item-icon > .rc-steps-icon {
+  font-size: 12px;
+  font-size: 9px \9;
+  transform: scale(0.75);
+  top: -1px; }
+
+.steps-progress .rc-steps-small .rc-steps-item-content {
+  margin-top: 0; }
+
+.steps-progress .rc-steps-small .rc-steps-item-title {
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #666;
+  font-weight: bold; }
+
+.steps-progress .rc-steps-small .rc-steps-item-description {
+  font-size: 12px;
+  color: #999; }
+
+.steps-progress .rc-steps-small .rc-steps-item-tail {
+  top: 8px;
+  padding: 0 8px; }
+
+.steps-progress .rc-steps-small .rc-steps-item-tail:after {
+  height: 1px;
+  border-radius: 1px;
+  width: 100%; }
+
+.steps-progress .rc-steps-small .rc-steps-item-custom .rc-steps-item-icon {
+  width: inherit;
+  height: inherit;
+  line-height: inherit;
+  border-radius: 0;
+  border: 0;
+  background: none; }
+
+.steps-progress .rc-steps-small .rc-steps-item-custom .rc-steps-item-icon > .rc-steps-icon {
+  font-size: 20px;
+  top: -2.5px;
+  transform: none; }
+
+.steps-progress .rc-steps-vertical {
+  display: block; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item {
+  display: block;
+  overflow: visible; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-icon {
+  float: left; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-icon-inner {
+  margin-right: 16px; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-content {
+  min-height: 48px;
+  overflow: hidden;
+  display: block; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-title {
+  line-height: 26px; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-title:after {
+  display: none; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-description {
+  padding-bottom: 12px; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-tail {
+  position: absolute;
+  left: 13px;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  padding: 30px 0 4px 0; }
+
+.steps-progress .rc-steps-vertical .rc-steps-item-tail:after {
+  height: 100%;
+  width: 1px; }
+
+.steps-progress .rc-steps-vertical.rc-steps-small .rc-steps-item-tail {
+  position: absolute;
+  left: 9px;
+  top: 0;
+  padding: 22px 0 4px 0; }
+
+.steps-progress .rc-steps-vertical.rc-steps-small .rc-steps-item-title {
+  line-height: 18px; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item {
+  overflow: visible; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-tail {
+  padding: 0px 24px;
+  margin-left: 48px; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-content {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  width: 100px; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-icon {
+  display: inline-block;
+  margin-left: 36px; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-title {
+  padding-right: 0; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-title:after {
+  display: none; }
+
+.steps-progress .rc-steps-label-vertical .rc-steps-item-description {
+  text-align: left; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-tail {
+  width: 100%;
+  top: 1px;
+  margin: 0 0 0 50px;
+  padding: 0; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-tail:after {
+  height: 3px; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-icon {
+  padding-right: 0;
+  width: 5px;
+  height: 5px;
+  line-height: 5px;
+  border: 0;
+  margin-left: 48px; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-icon .rc-steps-icon-dot {
+  float: left;
+  width: 100%;
+  height: 100%;
+  border-radius: 2.5px; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-process .rc-steps-dot .rc-steps-item-icon {
+  top: -1px;
+  width: 7px;
+  height: 7px;
+  line-height: 7px; }
+
+.steps-progress .rc-steps-dot .rc-steps-item-process .rc-steps-dot .rc-steps-item-icon .rc-steps-icon-dot {
+  border-radius: 3.5px; }
+
 .fake-content {
   height: 1500px; }
 

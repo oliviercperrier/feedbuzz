@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Steps, { Step } from 'rc-steps';
+import { MdDone } from 'react-icons/md';
+
+import 'rc-steps/assets/iconfont.css';
 
 import Step1 from './RatingSteps/Step1';
 import Step2 from './RatingSteps/Step2';
@@ -28,7 +32,21 @@ class ProductRating extends Component {
 	render() {
 		const { current_step } = this.state;
 		const CurrentStep = this.steps[current_step];
-		return <CurrentStep />;
+		return (
+			<div className="product-rating-container container">
+				<div className="steps-progress">
+					<Steps icons={{ finish: <MdDone /> }} current={current_step}>
+						<Step />
+						<Step />
+						<Step />
+					</Steps>
+				</div>
+				<div className="product-rating-step-container">
+					<CurrentStep />
+				</div>
+				<div />
+			</div>
+		);
 	}
 }
 
