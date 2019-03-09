@@ -18,7 +18,6 @@ class InitDatabase:
 
         payload = {"page": page, "per_page": qty_page, "count": "all", "province": province, "show_hidden": show_hidden}
         r = requests.get("https://www.budbudbud.ca/api/v1/strains", params=payload)
-        pprint(r.url)
         return r.json()
 
     def insert_data(self, data: list):
@@ -26,13 +25,13 @@ class InitDatabase:
             # pprint(product)
 
             p_type_obj = self._session.query(ProductType).filter_by(name=product["type"]).first()
-            p_obj = self._session.query(Product).filter_by(name=product["name"]).first()
 
             if p_type_obj is None:
                 p_type_obj = ProductType(name=product["type"])
                 self._session.add(p_type_obj)
                 self._session.flush()
 
+            p_obj = self._session.query(Product).filter_by(name=product["name"]).first()
             if p_obj is None:
                 p_obj = Product(
                     name=product["name"],
@@ -47,13 +46,16 @@ class InitDatabase:
                 self._session.add(p_obj)
 
             self._session.flush()
+            
+            # Some product are duplicate in the budbud api. Check if a product_price is already inserted with the same price/gram
+            p_price_obj = self._session.query(ProductPrice).filter_by(product_id=p_obj.id, price=float(product["price"]), grams=product["grams"]).first()
 
-            p_price_obj = ProductPrice(
-                date=datetime.datetime.now().date(), price=float(product["price"]), product_id=p_obj.id, grams=product["grams"]
-            )
-
-            try:
+            if p_price_obj is None:
+                p_price_obj = ProductPrice(
+                    date=datetime.datetime.now().date(), price=float(product["price"]), product_id=p_obj.id, grams=product["grams"]
+                )
                 self._session.add(p_price_obj)
+            try:
                 self._session.commit()
             except exc.IntegrityError as e:
                 print(e.args[0])
