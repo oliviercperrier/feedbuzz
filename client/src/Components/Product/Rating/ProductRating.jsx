@@ -46,6 +46,7 @@ class ProductRating extends Component {
 		var toStep = this.state.currentStep + parseInt(e.currentTarget.getAttribute('data-change'));
 
 		if (this.state.isLoading) {
+			console.log(this.state.data);
 			return;
 		}
 
