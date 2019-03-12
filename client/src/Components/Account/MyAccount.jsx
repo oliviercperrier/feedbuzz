@@ -33,7 +33,6 @@ class MyAccount extends Component {
 			component: 0
 		};
 
-		this.getCurrentSectionComponent = this.getCurrentSectionComponent.bind(this);
 		this.handleSectionChange = this.handleSectionChange.bind(this);
 	}
 
