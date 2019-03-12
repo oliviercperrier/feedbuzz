@@ -22,15 +22,16 @@ class InitDatabase:
 
     def insert_data(self, data: list):
         for product in data:
+            # pprint(product)
 
-            create_product_type = False
-            create_product = True
             p_type_obj = self._session.query(ProductType).filter_by(name=product["type"]).first()
-            p_obj = self._session.query(Product).filter_by(name=product["name"]).first()
 
             if p_type_obj is None:
-                create_product_type = True
                 p_type_obj = ProductType(name=product["type"])
+                self._session.add(p_type_obj)
+                self._session.flush()
+
+            p_obj = self._session.query(Product).filter_by(name=product["name"]).first()
             if p_obj is None:
                 p_obj = Product(
                     name=product["name"],
@@ -42,19 +43,19 @@ class InitDatabase:
                     url=product["url"],
                     image_url=product["image"]["original_filename"]
                 )
-                create_product = True
+                self._session.add(p_obj)
 
-            p_price_obj = ProductPrice(
-                date=datetime.datetime.now().date(), price=float(product["price"]), product_id=p_obj.id, grams=product["grams"]
-            )
+            self._session.flush()
+            
+            # Some product are duplicate in the budbud api. Check if a product_price is already inserted with the same price/gram
+            p_price_obj = self._session.query(ProductPrice).filter_by(product_id=p_obj.id, price=float(product["price"]), grams=product["grams"]).first()
 
-            try:
-                if create_product:
-                    self._session.add(p_obj)
+            if p_price_obj is None:
+                p_price_obj = ProductPrice(
+                    date=datetime.datetime.now().date(), price=float(product["price"]), product_id=p_obj.id, grams=product["grams"]
+                )
                 self._session.add(p_price_obj)
-                if create_product_type:
-                    self._session.add(p_type_obj)
-
+            try:
                 self._session.commit()
             except exc.IntegrityError as e:
                 print(e.args[0])
