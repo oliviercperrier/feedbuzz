@@ -1,0 +1,47 @@
+.step2-container {
+	.eyes {
+		width: 100%;
+		margin: 3rem auto;
+		display: inline-flex;
+
+		.eye {
+			width: 100px;
+			height: 100px;
+			border: solid 8px #4a4a4a;
+			border-radius: 75% 15%;
+			position: relative;
+			transform: rotate(45deg);
+			box-sizing: unset;
+
+			&.left-eye {
+				margin-right: 5rem;
+
+				@include mobile {
+					margin-right: 3.5rem;
+				}
+			}
+
+			.ball {
+				height: 50px;
+				width: 50px;
+				background: saddlebrown;
+				border-radius: 50%;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+
+				.pupille {
+					height: 20px;
+					width: 20px;
+					background: black;
+					border-radius: 50%;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
+		}
+	}
+}

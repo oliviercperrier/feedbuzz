@@ -1,0 +1,77 @@
+.step4-container {
+    margin-bottom: -3rem;
+	.common-flavors {
+		margin: 3rem 0;
+
+		.tag {
+			margin-right: 0.25rem;
+			margin-bottom: 0.25rem;
+			border: 1px solid #20bd67;
+			background: white;
+			color: unset;
+
+			&.selected-flavor {
+				background: $light-gray;
+				border: 1px solid #4a4a4a;
+			}
+		}
+
+		.common-flavor {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+
+	.add-more-flavors {
+		.additional-flavors-container {
+			margin-top: 1rem;
+			.tag {
+				margin-right: 0.25rem;
+				margin-bottom: 0.25rem;
+				color: unset;
+				background: $light-gray;
+				border: 1px solid #4a4a4a;
+			}
+		}
+
+		.pl-input-container {
+			z-index: 1;
+			width: 100%;
+			text-align: center;
+
+			.b-input-icon-wrapper {
+				width: 50px;
+				height: 46px;
+				background: #20bd67;
+				color: #fff;
+				font-size: 1rem;
+				border-top-right-radius: 3px;
+				border-bottom-right-radius: 3px;
+				@include transition(background 0.5s);
+
+				&:hover {
+					background: $secondary;
+				}
+			}
+
+			.pl-input {
+				border-bottom-left-radius: 3px;
+				border-top-left-radius: 3px;
+				border-bottom-right-radius: 0;
+				border-top-right-radius: 0;
+				line-height: 30px;
+				background: #f7f7f7;
+				border: none;
+				padding: .5rem 1.5rem;
+				font-size: 1.10rem;
+				outline: 0;
+				width: 100%;
+
+				@include mobile {
+					font-size: 16px;
+				}
+			}
+		}
+	}
+}
