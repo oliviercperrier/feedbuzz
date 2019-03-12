@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Steps, { Step } from 'rc-steps';
 import { MdDone } from 'react-icons/md';
 
-import 'rc-steps/assets/iconfont.css';
-
 import StepHigh from './RatingSteps/StepHigh';
 import StepRedEye from './RatingSteps/StepRedEye';
 import StepEffects from './RatingSteps/StepEffects';
