@@ -7332,7 +7332,7 @@ label.panel-block {
 
 .product-rating-container {
   max-width: 800px;
-  margin: 2rem auto; }
+  margin: 4rem auto; }
   @media screen and (min-width: 721px) and (max-width: 1023px) {
     .product-rating-container {
       padding: 0 1rem; } }
@@ -7871,7 +7871,8 @@ label.panel-block {
       margin-bottom: 0.25rem;
       border: 1px solid #20bd67;
       background: white;
-      color: unset; }
+      color: unset;
+      font-size: 1.10rem; }
       .step3-container .common-effects .tag.selected-effect {
         background: #f7f7f7;
         border: 1px solid #4a4a4a; }
@@ -7927,7 +7928,8 @@ label.panel-block {
       margin-bottom: 0.25rem;
       border: 1px solid #20bd67;
       background: white;
-      color: unset; }
+      color: unset;
+      font-size: 1.10rem; }
       .step4-container .common-flavors .tag.selected-flavor {
         background: #f7f7f7;
         border: 1px solid #4a4a4a; }
