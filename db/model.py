@@ -72,6 +72,19 @@ class RefreshToken(Base):
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
 
+class Comment(Base):
+    __tablename__= "comments"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    author_id = Column(Integer, ForeignKey("user.id"))
+    parent_comment_id = Column(Integer, ForeignKey("comment.id"))
+    content = Column(String(2500), nullable=False)
+    score = Column(Integer, nullable=False, default=0)
+    replies = relationship("Comment")
+
+    def to_dict(self):
+        return {"id": self.id, "author_id": self.author_id, "content": self.content, "score": self.score, "replies": [reply.to_dict() for reply in self.replies]}
+
+
 #engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"

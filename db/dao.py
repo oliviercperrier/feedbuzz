@@ -1,4 +1,4 @@
-from .model import User, Base, Product, RefreshToken
+from .model import User, Base, Product, RefreshToken, Comment
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -88,4 +88,29 @@ class RefreshTokenDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id).first()
+        self._session.close()
         return  refresh_token
+
+class CommentDAO(BaseDAO):
+
+    def get_comment_by_user(self, user_id):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        comments = self._session.query(Comment).filter_by(author_id=user_id)
+        return comments
+
+    def create_comment(self, comment):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        self._session.add(comment)
+        self._session.close()
+
+    def delete_comment(self, comment):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        self._session.delete(comment)
+        self._session.close()
+
+
+
+
