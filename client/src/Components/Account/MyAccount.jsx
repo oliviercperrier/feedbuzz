@@ -37,11 +37,12 @@ class MyAccount extends Component {
 	}
 
 	handleSectionChange(e) {
-		this.setState({ component: this.views[e.currentTarget.getAttribute('data-component')] });
+		this.setState({ component: e.currentTarget.getAttribute('data-component') });
 	}
 
 	render() {
 		const { component } = this.state;
+		console.log(component)
 		const CurrentView = this.views[component];
 		const menuItems = this.menuItems.map((item) => {
 			return (

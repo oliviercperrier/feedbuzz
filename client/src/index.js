@@ -34,6 +34,8 @@ class App extends Component {
 								<Route exact path="/" component={HomePage} />
 								<Route exact path="/products" component={ProductListing} />
 								<Route exact path="/product/:id" component={ProductDetails} />
+								<Route exact path="/test" component={MyAccount} />
+
 								<PrivateRoute
 									exact
 									path="/product/review/:id"
