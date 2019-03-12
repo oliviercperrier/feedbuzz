@@ -56,3 +56,32 @@ LOG515 TPs
 
 ## Bubdubuuu.ca
 - https://www.budbudbud.ca/api/v1/strains?page=1&per_page=50&column=name&direction=asc&with_trashed=0&quantity=&type=&count=all&strain_hide=[]&show_hidden=0&ignore_stores=[]&province=qc&_=1548200672682
+
+# Feedbuzz Rating data model
+{
+    "0": {
+        "value": 1
+    },
+    "1": {
+        "value": 72
+    },
+    "2": {
+        "commonEffects": ["Headache", "Euphoric", "Dry mouth"],
+        "addedEffects": ["Pain", "Horrible"]
+    },
+    "3": {
+        "commonFlavors": ["Grape", "Flowery", "Lemon"],
+        "addedFlavors": ["Shit", "Grass"]
+    },
+    "4": {
+        "rating": 4,
+        "comment": "Test comment blablabla blablabla blablabla blablabla"
+    }
+}
+
+## Where:
+  0: High Step
+  1: Red eye Step
+  2: Effects Step
+  3: Flavors Step
+  4: Final comment Step
