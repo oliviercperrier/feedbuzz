@@ -58,6 +58,7 @@ LOG515 TPs
 - https://www.budbudbud.ca/api/v1/strains?page=1&per_page=50&column=name&direction=asc&with_trashed=0&quantity=&type=&count=all&strain_hide=[]&show_hidden=0&ignore_stores=[]&province=qc&_=1548200672682
 
 # Feedbuzz Rating data model
+```
 {
     "0": {
         "value": 1
@@ -78,10 +79,11 @@ LOG515 TPs
         "comment": "Test comment blablabla blablabla blablabla blablabla"
     }
 }
+```
 
 ## Where:
-  0: High Step
-  1: Red eye Step
-  2: Effects Step
-  3: Flavors Step
-  4: Final comment Step
+  - 0: High Step
+  - 1: Red eye Step
+  - 2: Effects Step
+  - 3: Flavors Step
+  - 4: Final comment Step
