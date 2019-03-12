@@ -7,11 +7,25 @@ from db import UserDAO, RefreshTokenDAO
 from db import User, RefreshToken
 import hashlib
 import os
+from sanic.log import logger
 
 auth = Blueprint('auth')
 
-user_dao = UserDAO()
-refresh_token_dao = RefreshTokenDAO()
+user_dao = None
+refresh_token_dao = None
+
+def serve_configs_auth(configs):
+	print("Serve configs to auth")
+	global refresh_token_dao
+	refresh_token_dao = RefreshTokenDAO(configs)
+	
+	global user_dao
+	user_dao = UserDAO(configs)
+
+	global app_configs
+	app_configs = configs
+	
+
 
 async def authenticate(request):
 	email = request.json.get('email')
@@ -25,7 +39,7 @@ async def authenticate(request):
 	if not user:
 		raise exceptions.AuthenticationFailed('Invalid credential')
 
-	salt = os.environ.get('SALT')
+	salt = app_configs.SALT
 	password_string = password + salt
 	hashed_password = hashlib.sha512(password_string.encode('utf-8')).hexdigest()
 
@@ -66,7 +80,7 @@ async def sign_up(request):
 	if user_dao.get_by_email(email):
 		return json({'success': False, 'message': 'Email already exist'})	
 
-	salt = os.environ.get('SALT')
+	salt = app_configs.SALT
 	password_string = password + salt
 	hashed_password = hashlib.sha512(password_string.encode('utf-8')).hexdigest()
 	user = User(username=username, email=email, password=hashed_password)

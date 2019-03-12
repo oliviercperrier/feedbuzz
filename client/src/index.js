@@ -19,6 +19,8 @@ import MyAccount from './Components/Account/MyAccount';
 
 /* PRODUCTS */
 import ProductListing from './Components/Product/Listing/ProductListing';
+import ProductDetails from './Components/Product/ProductDetails';
+import ProductRating from './Components/Product/Rating/ProductRating';
 
 class App extends Component {
 	render() {
@@ -30,7 +32,15 @@ class App extends Component {
 						<MasterPage>
 							<Switch>
 								<Route exact path="/" component={HomePage} />
-								<Route path="/products" component={ProductListing} />
+								<Route exact path="/products" component={ProductListing} />
+								<Route exact path="/product/:id" component={ProductDetails} />
+								<PrivateRoute
+									exact
+									path="/product/review/:id"
+									redirect="/authenticate"
+									component={ProductRating}
+									isAuthenticated={authenticated}
+								/>
 								<PrivateRoute
 									path="/my-account"
 									redirect="/authenticate"

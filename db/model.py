@@ -11,7 +11,7 @@ class User(Base):
     __tablename__ = "user"
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
@@ -22,16 +22,17 @@ class User(Base):
 
 class Product(Base):
     __tablename__ = "product"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
-    type = relationship("ProductType", backref="product")
+    #type = relationship("ProductType", backref="product")
     url = Column(String(256), nullable=False, unique=False)
     image_url = Column(String(256), nullable=False, unique=False)
     thc_min = Column(Float)
     thc_max = Column(Float)
     cbd_min = Column(Float)
     cbd_max = Column(Float)
+    prices = relationship("ProductPrice", back_populates="product")
 
     def to_dict(self):
         return {"id": self.id
@@ -43,12 +44,12 @@ class Product(Base):
             , "thc_max": self.thc_max
             , "cbd_min": self.cbd_min
             , "cbd_max": self.cbd_max
-            , "type": self.type.to_dict()}
+            }
 
 
 class ProductType(Base):
     __tablename__ = "product_type"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False, unique=True)
 
     def to_dict(self):
@@ -57,24 +58,26 @@ class ProductType(Base):
 
 class ProductPrice(Base):
     __tablename__ = "product_price"
+    id = Column(Integer, primary_key=True, autoincrement=True)
     product = relationship("Product", backref="product_price")
     product_id = Column(Integer, ForeignKey("product.id"))
-    id = Column(Integer, primary_key=True)
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
+    grams = Column(Float, nullable=False)
 
 
 class RefreshToken(Base):
     __tablename__ = "refresh_token"
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
-
-engine = create_engine(os.environ['DATABASE_URL'])
 
 #engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
-res = Base.metadata.create_all(engine)
-print(res)
+def serve_configs_model(configs):
+    print("Serve configs model")
+    engine = create_engine(configs.DATABASE_URL)
+    res = Base.metadata.create_all(engine)
+    print(res)

@@ -15,48 +15,41 @@ class MyAccount extends Component {
 	constructor(props) {
 		super(props);
 
+		this.views = {
+			0: MyProfile,
+			1: MyFavorites,
+			2: MyReviews,
+			3: MySettings
+		};
+
 		this.menuItems = [
-			{ title: 'My profile', component: 1 },
-			{ title: 'My favorites', component: 2 },
-			{ title: 'My reviews', component: 3 },
-			{ title: 'My Settings', component: 4 }
+			{ title: 'My profile', component: 0 },
+			{ title: 'My favorites', component: 1 },
+			{ title: 'My reviews', component: 2 },
+			{ title: 'My Settings', component: 3 }
 		];
 
 		this.state = {
-			component: 1
+			component: 0
 		};
 
 		this.getCurrentSectionComponent = this.getCurrentSectionComponent.bind(this);
 		this.handleSectionChange = this.handleSectionChange.bind(this);
 	}
 
-	getCurrentSectionComponent() {
-		switch (this.state.component) {
-			case 1:
-				return <MyProfile />;
-			case 2:
-				return <MyFavorites />;
-			case 3:
-				return <MyReviews />;
-			case 4:
-				return <MySettings />;
-			default:
-				return <MyProfile />;
-		}
-	}
-
 	handleSectionChange(e) {
-		this.setState({ component: parseInt(e.currentTarget.getAttribute('data-component-id')) });
+		this.setState({ component: this.views[e.currentTarget.getAttribute('data-component')] });
 	}
 
 	render() {
 		const { component } = this.state;
+		const CurrentView = this.views[component];
 		const menuItems = this.menuItems.map((item) => {
 			return (
 				<li
 					key={item.title}
-					className={"account-menu-item " + (component === item.component ? "active" : "") }
-					data-component-id={item.component}
+					className={'account-menu-item ' + (component === item.component ? 'active' : '')}
+					data-component={item.component}
 					onClick={this.handleSectionChange}
 				>
 					{item.title}
@@ -71,7 +64,9 @@ class MyAccount extends Component {
 						<Avatar round={true} src="img/favicon.svg" />
 						<ul className="account-menu">{menuItems}</ul>
 					</div>
-					<div className="column section-container">{this.getCurrentSectionComponent()}</div>
+					<div className="column section-container">
+						<CurrentView />
+					</div>
 				</div>
 			</div>
 		);

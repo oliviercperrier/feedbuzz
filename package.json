@@ -5,8 +5,9 @@
 	"dependencies": {},
 	"scripts": {
 		"start": "concurrently \"docker-compose up\" \"npm run dev-server\" \"npm run dev-client\"",
-		"dev-server": "ENV=development DATABASE_URL='postgresql://postgres:feedbuzz@localhost:5430/feedbuzz' SALT='FeedbuzzLetsGetHighHasFuck' python3 main.py",
-		"dev-client": "cd client && npm run start"
+		"dev-server": "ENV=DEV python3 main.py",
+		"dev-client": "cd client && npm run start",
+		"insert-data": "DATABASE_URL='postgresql://postgres:feedbuzz@localhost:5430/feedbuzz' python3 db/insert_data.py"
 	},
 	"devDependencies": {
 		"concurrently": "3.1.0"
