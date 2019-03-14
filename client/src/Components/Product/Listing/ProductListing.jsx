@@ -64,8 +64,7 @@ class ProductListing extends Component {
 	render() {
 		const { search, data } = this.state;
 		const to = '/products?q=' + search;
-
-		console.log(data); //SHOULD BE JSON
+		console.log(data);
 
 		return (
 			<div className="product-listing-container container">

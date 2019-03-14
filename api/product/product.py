@@ -26,7 +26,7 @@ async def get_all_products(request):
     product_list = product_dao.get_all()
     return response.text(json.dumps([json.dumps(product.to_dict()) for product in product_list]))
 
-@product.route('/find/<query:[A-z0-9]>')
+@product.route('/find/<query:[A-z0-9]+>')
 async def find_product(request, query):
     search_results = product_dao.find_by_name(query)
     return response.text([json.dumps(product.to_dict()) for product in search_results])
