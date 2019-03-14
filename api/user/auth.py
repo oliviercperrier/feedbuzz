@@ -73,6 +73,7 @@ async def sign_up(request):
 	email = request.json.get('email')
 	password = request.json.get('password')
 	username = request.json.get('username')
+	name = request.json.get('name')
 
 	if not email or not password or not username:
 		raise ServerError("username and password and email needed", status_code=400)
@@ -83,7 +84,27 @@ async def sign_up(request):
 	salt = app_configs.SALT
 	password_string = password + salt
 	hashed_password = hashlib.sha512(password_string.encode('utf-8')).hexdigest()
-	user = User(username=username, email=email, password=hashed_password)
+	user = User(username=username, email=email, password=hashed_password, name=name)
 	user_dao.save(user)
 	return json({'success': True})
+
+@auth.route('', methods=['PUT'])
+@protected()
+async def put(request):
+	current_user = request['user']
+
+	email = request.json.get('email')
+	username = request.json.get('username')
+	name = request.json.get('name')
+	gender =request.json.get('gender')
+
+	user = user_dao.get(current_user.id)
+
+	user.email = email
+	user.username = username
+	user.name = name
+	user.gender = gender
+	user_dao.commit()
+	return json({'success': True})
+
 

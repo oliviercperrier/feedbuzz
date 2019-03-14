@@ -42,7 +42,6 @@ class UserDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         user = self._session.query(User).filter_by(id=id).first()
-        self._session.close()
         return user
 
     def get_by_email(self, email):

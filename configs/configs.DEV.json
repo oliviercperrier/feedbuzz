@@ -1,4 +1,6 @@
 {
 	"DATABASE_URL": "postgresql://postgres:feedbuzz@localhost:5430/feedbuzz",
-	"SALT": "FeedbuzzLetsGetHighHasFuck"
+	"SALT": "FeedbuzzLetsGetHighHasFuck",
+	"S3_KEY": "AKIAJPL6XE3LHXEDIEKA",
+	"S3_TOKEN": "SrlUanQDY/0C1MEjrH2gdONRgizaLmtSGJvfzbmq"
 }
