@@ -67,13 +67,6 @@ class MyProfile extends Component {
 				{({ user }) => {
 					const { name, username, email, gender, loading } = this.state;
 
-					user = {
-						first_name:'',
-						last_name:'',
-						username:'',
-						email:'',
-					};
-
 					return (
 						<div className="my-profile">
 							<NotificationSystem ref={this.notificationSystem} style={Style} />
