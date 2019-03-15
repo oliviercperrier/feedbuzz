@@ -55,7 +55,7 @@ class Product(Base):
             "cbd_min": self.cbd_min,
             "cbd_max": self.cbd_max,
             "type": self.type.to_dict(),
-            # "price": self.prices.to_dict(),
+            "price": [price.to_dict() for price in self.prices],
         }
 
 
@@ -71,10 +71,10 @@ class ProductPrice(Base):
     def to_dict(self):
         return {
             "id": self.id,
-            # "product": self.product.to_dict(),
-            # "price": self.price,
-            # "date": self.date,
-            # "grams": self.grams,
+            "product_id": self.product_id,
+            "price": self.price,
+            # "date": self.date.strftime("%Y-%m-%d %H:%M:%S"),
+            "grams": self.grams,
         }
 
 

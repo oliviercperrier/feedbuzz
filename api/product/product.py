@@ -3,7 +3,6 @@ from sanic import response
 import json
 from db import ProductDAO
 from sanic.log import logger
-from pprint import pprint
 
 product = Blueprint("product", url_prefix="/products")
 
@@ -28,9 +27,6 @@ async def get_by_id(request, id):
 @product.route("/all")
 async def get_all_products(request):
     product_list = product_dao.get_all()
-    prod = product_list[0]
-    pprint(prod) 
-    logger.info(prod.prices[0].id)
     return response.text(
         json.dumps([json.dumps(product.to_dict()) for product in product_list])
     )
