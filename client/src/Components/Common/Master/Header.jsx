@@ -27,21 +27,14 @@ class Header extends Component {
 	}
 
 	handleScroll() {
-		if (window.pageYOffset === 0) {
+		if (window.pageYOffset <= 125) {
 			this.setState({
 				isSticky: false,
-				isDown: false
 			});
-		} else if (window.pageYOffset >= 250) {
-			if (!this.state.isSticky) {
-				this.setState({
-					isSticky: true
-				});
-			} else {
-				this.setState({
-					isDown: true
-				});
-			}
+		} else if (window.pageYOffset >= 125){
+			this.setState({
+				isSticky: true
+			});
 		}
 	}
 
@@ -84,7 +77,6 @@ class Header extends Component {
 					<DrawerMenu menuOpen={menuOpen} closeCallback={this.toggleMenu} />
 				</header>
 				<SearchBar isOpen={searchOpen} closeCallback={this.toggleSearch} />
-				<div className={isSticky ? 'header-spacer' : ''}></div>
 			</div>
 		);
 	}
