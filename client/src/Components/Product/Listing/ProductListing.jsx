@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import queryString from 'query-string';
+import StarRatings from 'react-star-ratings';
 
 import { API } from '../../../Utils/api';
 
@@ -64,7 +65,32 @@ class ProductListing extends Component {
 	render() {
 		const { search, data } = this.state;
 		const to = '/products?q=' + search;
-		console.log(data);
+
+		const products = data.map((product) => {
+			var item = JSON.parse(product);
+			return (
+				<div key={item.id} className="product-listing-item">
+					<div className="product-image-container">
+						<img src={item.image_url} alt={item.name} />
+					</div>
+					<div className="item-content">
+						<div className="product-info">
+							<h1 className="product-name">{item.name}</h1>
+							<div className="rating-info">
+								<StarRatings
+									rating={4}
+									starRatedColor="gold"
+									starDimension="15px"
+									starSpacing=""
+								/>
+								<span className="nb-reviews"> | 240 reviews</span>
+							</div>
+						</div>
+						<button className="button">Review</button>
+					</div>
+				</div>
+			)
+		});
 
 		return (
 			<div className="product-listing-container container">
@@ -81,6 +107,9 @@ class ProductListing extends Component {
 							<IoIosSearch className="fdb-navbar-icon" />
 						</div>
 					</Link>
+				</div>
+				<div className="product-listing-content">
+					{products}
 				</div>
 			</div>
 		);
