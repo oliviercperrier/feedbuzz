@@ -1,35 +1,38 @@
-
 from sanic import Blueprint
 from sanic import response
 import json
 from db import ProductDAO
+from sanic.log import logger
 
-product = Blueprint('product', url_prefix='/products')
+product = Blueprint("product", url_prefix="/products")
 
 product_dao = None
+
 
 def serve_configs_product(configs):
     print("Serve configs in product")
     global product_dao
     product_dao = ProductDAO(configs)
-    
+
     global app_configs
     app_configs = configs
 
-@product.route('/<id:int>')
+
+@product.route("/<id:int>")
 async def get_by_id(request, id):
     product = product_dao.get(id)
     return response.text(json.dumps(product.to_dict()))
 
-@product.route('/all')
+
+@product.route("/all")
 async def get_all_products(request):
     product_list = product_dao.get_all()
-    return response.text(json.dumps([json.dumps(product.to_dict()) for product in product_list]))
+    return response.text(
+        json.dumps([json.dumps(product.to_dict()) for product in product_list])
+    )
 
-@product.route('/find/<query:[A-z0-9]+>')
+
+@product.route("/find/<query:[A-z0-9]+>")
 async def find_product(request, query):
     search_results = product_dao.find_by_name(query)
     return response.text([json.dumps(product.to_dict()) for product in search_results])
-
-
-
