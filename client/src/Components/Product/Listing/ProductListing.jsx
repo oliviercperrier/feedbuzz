@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io';
 import queryString from 'query-string';
 import StarRatings from 'react-star-ratings';
+import ReactLoading from 'react-loading';
+import Fade from 'react-reveal/Fade';
 
 import { API } from '../../../Utils/api';
 
@@ -19,8 +21,8 @@ class ProductListing extends Component {
 		const search = queryString.parse(this.props.location.search);
 
 		this.state = {
+			last_search: '',
 			search: search.q === undefined ? '' : search.q,
-			changed: false,
 			data: []
 		};
 
@@ -37,28 +39,36 @@ class ProductListing extends Component {
 	}
 
 	handleSearch(e) {
-		if (this.state.changed) {
-			this.fetch(this.state.search);
+		const { search, last_search } = this.state;
+		if (search.trim() !== last_search.trim()) {
+			var search_term = this.state.search.trim();
+			if (search_term) {
+				this.fetch(this.state.search.trim());
+			} else {
+				this.fetchAll();
+			}
 		}
 	}
 
 	async fetchAll() {
 		const response = await API.get('/api/products/all');
-		this.setState({ data: response.data });
+		this.setState({
+			last_search: '',
+			data: response.data
+		});
 	}
 
 	async fetch(search) {
 		const response = await API.get('/api/products/find/' + search);
 		this.setState({
-			changed: false,
+			last_search: this.state.search,
 			data: response.data
 		});
 	}
 
 	searchChange(e) {
 		this.setState({
-			search: e.currentTarget.value,
-			changed: true
+			search: e.currentTarget.value
 		});
 	}
 
@@ -67,28 +77,30 @@ class ProductListing extends Component {
 		const to = '/products?q=' + search;
 
 		const products = data.map((product) => {
-			var item = JSON.parse(product);
+			var item = product;
 			return (
-				<div key={item.id} className="product-listing-item">
-					<div className="product-image-container">
-						<img src={item.image_url} alt={item.name} />
-					</div>
-					<div className="item-content">
-						<div className="product-info">
-							<h1 className="product-name">{item.name}</h1>
-							<div className="rating-info">
-								<StarRatings
-									rating={4}
-									starRatedColor="gold"
-									starDimension="15px"
-									starSpacing=""
-								/>
-								<span className="nb-reviews"> | 240 reviews</span>
-							</div>
+				<Fade>
+					<div key={item.id} className="product-listing-item">
+						<div className="product-image-container">
+							<img src={item.image_url} alt={item.name} />
 						</div>
-						<button className="button">Review</button>
+						<div className="item-content">
+							<div className="product-info">
+								<h1 className="product-name">{item.name}</h1>
+								<div className="rating-info">
+									<StarRatings
+										rating={4}
+										starRatedColor="gold"
+										starDimension="15px"
+										starSpacing=""
+									/>
+									<span className="nb-reviews"> | 240 reviews</span>
+								</div>
+							</div>
+							<button className="button">Review</button>
+						</div>
 					</div>
-				</div>
+				</Fade>
 			)
 		});
 
@@ -109,7 +121,7 @@ class ProductListing extends Component {
 					</Link>
 				</div>
 				<div className="product-listing-content">
-					{products}
+					{data.length == 0 ? <ReactLoading className="product-loader" type="bubbles" color="#20bd67 " height={'90px'} width={'90px'} /> : products}
 				</div>
 			</div>
 		);

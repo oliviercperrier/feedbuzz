@@ -7333,6 +7333,8 @@ label.panel-block {
     margin-top: 1rem;
     margin-left: -0.75rem;
     margin-right: -0.75rem; }
+    .product-listing-container .product-listing-content .product-loader {
+      margin: auto; }
     .product-listing-container .product-listing-content .product-listing-item {
       width: 25%;
       padding: 0.75rem;
