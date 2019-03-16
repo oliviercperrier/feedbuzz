@@ -1,6 +1,10 @@
 .product-listing-container {
     margin-bottom: 2rem;
-    margin-top: 2rem;
+    padding-top: 2rem;
+
+    @include mobile {
+        padding-top: 1rem;
+    }
 
     .pl-input-container {
         z-index: 1;
@@ -46,7 +50,7 @@
         margin-left: -0.75rem;
         margin-right: -0.75rem;
 
-        .product-loader{
+        .product-loader {
             margin: auto;
         }
 
@@ -78,6 +82,17 @@
                     .product-name {
                         font-size: 0.9rem;
                         font-weight: bold;
+                        float: left;
+                        width: 70%;
+                        max-width: 70%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .product-price {
+                        font-size: 0.9rem;
+                        float: right;
                     }
 
                     .rating-info {

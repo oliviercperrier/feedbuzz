@@ -12,7 +12,6 @@ class Header extends Component {
 
 		this.state = {
 			isSticky: false,
-			isDown: false,
 			menuOpen: false,
 			searchOpen: false
 		};
@@ -48,11 +47,11 @@ class Header extends Component {
 	};
 
 	render() {
-		const { isSticky, isDown, menuOpen, searchOpen } = this.state;
+		const { isSticky, menuOpen, searchOpen } = this.state;
 
 		return (
 			<div id="feedbuzz-header">
-				<header className={'fdb-header' + (isSticky ? ' sticky' : '') + (isDown ? ' down' : '')}>
+				<header className={'fdb-header' + (isSticky ? ' sticky' : '')}>
 					<nav className="container fdb-navbar" role="navigation" aria-label="main navigation">
 						<div className="fdb-navbar-items-start">
 							<div className="v-and-h-centered fdb-navbar-item">

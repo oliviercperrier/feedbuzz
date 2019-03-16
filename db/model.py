@@ -41,7 +41,7 @@ class Product(Base):
     thc_max = Column(Float)
     cbd_min = Column(Float)
     cbd_max = Column(Float)
-    prices = relationship("ProductPrice", lazy="joined", back_populates="product")
+    prices = relationship("ProductPrice", lazy="joined", back_populates="product", order_by=lambda: ProductPrice.price)
 
     def to_dict(self):
         return {

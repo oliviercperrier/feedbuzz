@@ -2,10 +2,6 @@
 	&.sticky {
 		@include box-shadow((0 5px 30px rgba(0, 0, 0, 0.10), 0 2px 9px rgba(0, 0, 0, 0.20)));
 
-		&.down {
-			top: 0;
-		}
-
 		@include tablet {
 			.fdb-navbar {
 				height: 65px;

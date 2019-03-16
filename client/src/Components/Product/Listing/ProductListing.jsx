@@ -86,7 +86,10 @@ class ProductListing extends Component {
 						</div>
 						<div className="item-content">
 							<div className="product-info">
-								<h1 className="product-name">{item.name}</h1>
+								<div>
+									<h1 className="product-name">{item.name}</h1>
+									<span className="product-price">${item.price[0].price}</span>
+								</div>
 								<div className="rating-info">
 									<StarRatings
 										rating={4}

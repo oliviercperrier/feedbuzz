@@ -5,7 +5,7 @@ class Footer extends Component {
 	render() {
 		return (
 			<div className="fdb-footer">
-        <h1 className="height-teen-tag">18+</h1>
+				<h1 className="height-teen-tag">18+</h1>
 				<div className="container">
 					<div className="columns">
 						<div className="column">
