@@ -23,7 +23,8 @@ class ProductListing extends Component {
 		this.state = {
 			last_search: '',
 			search: search.q === undefined ? '' : search.q,
-			data: []
+			data: [],
+			isLoading: true
 		};
 
 		this.handleSearch = this.handleSearch.bind(this);
@@ -54,7 +55,8 @@ class ProductListing extends Component {
 		const response = await API.get('/api/products/all');
 		this.setState({
 			last_search: '',
-			data: response.data
+			data: response.data,
+			isLoading: false
 		});
 	}
 
@@ -62,7 +64,8 @@ class ProductListing extends Component {
 		const response = await API.get('/api/products/find/' + search);
 		this.setState({
 			last_search: this.state.search,
-			data: response.data
+			data: response.data,
+			isLoading: false
 		});
 	}
 
@@ -73,20 +76,19 @@ class ProductListing extends Component {
 	}
 
 	render() {
-		const { search, data } = this.state;
+		const { search, data, isLoading } = this.state;
 		const to = '/products?q=' + search;
 
 		const products = data.map((product) => {
-			var item = product;
 			return (
 				<Fade>
-					<div key={item.id} className="product-listing-item">
+					<div key={product.id} className="product-listing-item">
 						<div className="product-image-container">
-							<img src={item.image_url} alt={item.name} />
+							<img src={product.image_url} alt={product.name} />
 						</div>
 						<div className="item-content">
 							<div className="product-info">
-								<h1 className="product-name">{item.name}</h1>
+								<h1 className="product-name">{product.name}</h1>
 								<div className="rating-info">
 									<StarRatings
 										rating={4}
@@ -97,7 +99,7 @@ class ProductListing extends Component {
 									<span className="nb-reviews"> | 240 reviews</span>
 								</div>
 							</div>
-							<button className="button">Review</button>
+							<Link className="button" to={{ pathname: '/product/' + product.id, state: { product: product } }} >Review</Link>
 						</div>
 					</div>
 				</Fade>
@@ -121,7 +123,9 @@ class ProductListing extends Component {
 					</Link>
 				</div>
 				<div className="product-listing-content">
-					{data.length == 0 ? <ReactLoading className="product-loader" type="bubbles" color="#20bd67 " height={'90px'} width={'90px'} /> : products}
+					{isLoading ? <ReactLoading className="product-loader" type="bubbles" color="#20bd67 " height={'90px'} width={'90px'} /> :
+						(data.length == 0 ? <h1>No products found!</h1> :
+							products)}
 				</div>
 			</div>
 		);
