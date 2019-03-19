@@ -29,6 +29,7 @@ class ProductRating extends Component {
 		this.state = {
 			currentStep: 0,
 			isLoading: false,
+			product_id: null,
 			data: {
 				0: {},
 				1: {},
@@ -40,6 +41,10 @@ class ProductRating extends Component {
 
 		this.changeStep = this.changeStep.bind(this);
 		this.onStepDataChange = this.onStepDataChange.bind(this);
+	}
+
+	async componentDidMount() {
+
 	}
 
 	changeStep(e) {

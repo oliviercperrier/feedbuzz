@@ -19,15 +19,9 @@ class ProductDetails extends Component {
 			product: null,
 			reviews: []
 		};
-
-		this.fetchCurrentProduct = this.fetchCurrentProduct.bind(this);
 	}
 
 	async componentDidMount() {
-		this.fetchCurrentProduct();
-	}
-
-	async fetchCurrentProduct() {
 		var product = null;
 		const state = this.props.location.state;
 
@@ -44,7 +38,24 @@ class ProductDetails extends Component {
 	}
 
 	render() {
-		return <div></div>;
+		const { product } = this.state;
+
+		if (!product) {
+			return <div />;
+		}
+
+		return (
+			<div className="product-details-container">
+				<div className="product-details-banner-container">
+					<div className="product-detail-img">
+						<img src={product.image_url} />
+					</div>
+					<div className="product-detail-header-info">
+						<h1 className="product-name">{product.name}</h1>
+					</div>
+				</div>
+			</div>
+		);
 	}
 }
 

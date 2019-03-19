@@ -124,7 +124,7 @@ class ProductListing extends Component {
 				</div>
 				<div className="product-listing-content">
 					{isLoading ? <ReactLoading className="product-loader" type="bubbles" color="#20bd67 " height={'90px'} width={'90px'} /> :
-						(data.length == 0 ? <h1>No products found!</h1> :
+						(data.length == 0 ? <h1 className="not-products">No products found!</h1> :
 							products)}
 				</div>
 			</div>
