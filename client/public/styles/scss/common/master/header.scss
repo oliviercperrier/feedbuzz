@@ -1,7 +1,10 @@
 .fdb-header {
+	border-bottom: 1px solid $light-gray;
+
 	&.sticky {
 		@include box-shadow((0 5px 30px rgba(0, 0, 0, 0.10), 0 2px 9px rgba(0, 0, 0, 0.20)));
-
+		border-bottom: none;
+		
 		@include tablet {
 			.fdb-navbar {
 				height: 65px;
