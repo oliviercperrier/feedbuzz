@@ -34,18 +34,19 @@ class Product(Base):
     cbd_max = Column(Float)
     prices = relationship("ProductPrice", lazy="joined", back_populates="product", order_by=lambda: ProductPrice.price)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "type_id": self.type_id,
-            "url": self.url,
-            "image_url": self.image_url,
-            "thc_min": self.thc_min,
-            "thc_max": self.thc_max,
-            "cbd_min": self.cbd_min,
-            "cbd_max": self.cbd_max,
-        }
+    # def to_dict(self):
+    #     return {
+    #         "id": self.id,
+    #         "name": self.name,
+    #         "type_id": self.type_id,
+    #         "url": self.url,
+    #         "image_url": self.image_url,
+    #         "thc_min": self.thc_min,
+    #         "thc_max": self.thc_max,
+    #         "cbd_min": self.cbd_min,
+    #         "cbd_max": self.cbd_max,
+    #         "avg": dao.CommentDAO.get_average_rating_by_product(self.id)
+    #     }
 
 
 class ProductType(Base):
@@ -54,7 +55,9 @@ class ProductType(Base):
     name = Column(String(250), nullable=False, unique=True)
 
     def to_dict(self):
-        return {"id": self.id, "name": self.name,
+        return {
+            "id": self.id,
+            "name": self.name,
             "type": self.type.to_dict(),
             "price": [price.to_dict() for price in self.prices],
         }
@@ -97,13 +100,7 @@ class CommentRatingStep(Base):
     comment = relationship("Comment")
 
     def to_dict(self):
-        return {
-                "id": self.id,
-                "step": self.step,
-                "common": self.common,
-                "added": self.added,
-                "rating": self.rating,
-                }
+        return {"id": self.id, "step": self.step, "common": self.common, "added": self.added, "rating": self.rating}
 
 
 class Comment(Base):
@@ -123,10 +120,10 @@ class Comment(Base):
             "author_id": self.author_id,
             "content": self.content,
             "score": self.score,
-            "commentStep": [step.to_dict() for step in self.comment_rating_step]
+            "commentStep": [step.to_dict() for step in self.comment_rating_step],
+
             # "replies": [reply.to_dict() for reply in self.replies],
         }
-
 
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 

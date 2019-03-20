@@ -1,7 +1,7 @@
 from sanic import Blueprint
 from sanic import response
 import json
-from db import ProductDAO
+from db import ProductDAO, CommentDAO
 from sanic.log import logger
 
 product = Blueprint("product", url_prefix="/products")
@@ -20,15 +20,15 @@ def serve_configs_product(configs):
 
 @product.route("/<id:int>")
 async def get_by_id(request, id):
-    product = product_dao.get(id)
-    return response.json(product.to_dict())
+    product = product_dao.to_dict(product_dao.get(id))
+    return response.json(product)
 
 
 @product.route("/all")
 async def get_all_products(request):
     product_list = product_dao.get_all()
     return response.json(
-       [product.to_dict() for product in product_list]
+       [product_dao.to_dict(product) for product in product_list]
     )
 
 
@@ -36,5 +36,5 @@ async def get_all_products(request):
 async def find_product(request, query):
     search_results = product_dao.find_by_name(query)
     return response.json(
-        [product.to_dict() for product in search_results]
+        [product_dao.to_dict(product)for product in search_results]
     )
