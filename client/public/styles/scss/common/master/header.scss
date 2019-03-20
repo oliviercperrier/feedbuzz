@@ -1,19 +1,6 @@
 .fdb-header {
-	border-bottom: 2px solid $light-gray;
-
 	&.sticky {
-		z-index: 99;
-		top: -80px;
-		width: 100%;
-		position: fixed;
-		background: white;
-		border-bottom: none;
-		@include transition(top 0.3s);
 		@include box-shadow((0 5px 30px rgba(0, 0, 0, 0.10), 0 2px 9px rgba(0, 0, 0, 0.20)));
-
-		&.down {
-			top: 0;
-		}
 
 		@include tablet {
 			.fdb-navbar {
@@ -39,7 +26,8 @@
 
 	.fdb-navbar {
 		display: flex;
-		height: 125px;
+		height: $header-height;
+		@include transition(height 0.5s);
 
 		.fdb-navbar-items-start,
 		.fdb-navbar-items-end {
@@ -113,7 +101,7 @@
 		}
 
 		@include mobile {
-			height: 60px;
+			height: $header-height-mobile;
 		}
 
 		@include touch {

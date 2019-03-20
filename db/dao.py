@@ -1,7 +1,7 @@
 from .model import User, Base, Product, RefreshToken, Comment
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, raiseload, joinedload
 from sqlalchemy import exc
 import os
 
@@ -73,6 +73,9 @@ class ProductDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         product_list = self._session.query(Product).all()
+        # product_list = self._session.query(Product).options(joinedload('type')).all()
+
+
         self._session.close()
         return product_list
 
