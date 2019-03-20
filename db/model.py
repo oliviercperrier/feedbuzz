@@ -123,7 +123,7 @@ class Comment(Base):
             "author_id": self.author_id,
             "content": self.content,
             "score": self.score,
-            "comment_rating_step": [step.to_dict() for step in self.comment_rating_step]
+            "commentStep": [step.to_dict() for step in self.comment_rating_step]
             # "replies": [reply.to_dict() for reply in self.replies],
         }
 

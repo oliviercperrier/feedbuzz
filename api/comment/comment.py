@@ -41,7 +41,6 @@ async def create_comment(request):
 
     logger.info(request.json.get("commentStep"))
     comment_steps = []
-    # comment_steps_json = baseJson.loads(request.json.get("commentStep"))
 
     for step_type, step_data in request.json.get("commentStep").items():
         comment_steps.append(
