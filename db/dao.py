@@ -95,6 +95,11 @@ class RefreshTokenDAO(BaseDAO):
         return  refresh_token
 
 class CommentDAO(BaseDAO):
+    def get_comment_by_product(self, product: int) -> Comment:
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        comments = self._session.query(Comment).filter_by(product_id=product)
+        return comments
 
     def get_comment_by_user(self, user_id):
         Session = sessionmaker(bind=self._engine)
@@ -102,10 +107,17 @@ class CommentDAO(BaseDAO):
         comments = self._session.query(Comment).filter_by(author_id=user_id)
         return comments
 
-    def create_comment(self, comment):
+    def save(self, comment, comment_steps):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         self._session.add(comment)
+        self._session.flush()
+        self._session.refresh(comment)
+        # res = self._session.commit()
+        for step in comment_steps:
+            step.comment_id = comment.id
+            self._session.add(step)
+        res = self._session.commit()
         self._session.close()
 
     def delete_comment(self, comment):
