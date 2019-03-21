@@ -37,12 +37,20 @@ async def create_rating(request):
 
     rating = Rating(user_id=user_id, comment=comment, rating=rating, product_id=product)
 
-    rating_step = []
+    rating_steps = []
 
     for step_type, step_data in request.json.get("ratingStep").items():
-        rating_step.append(
-                RatingStep(step_type=step_type, common=step_data["common"], added=step_data["added"], rating=step_data["rating"])
-        )
+        rating_step = RatingStep(step_type=step_type)
+        common=step_data.get("common",False)
+        added=step_data.get("added", False)
+        step_rating=step_data.get("rating", False)
+        if common is not False:
+            rating_step.common = common
+        if added is not False:
+            rating_step.added = added
+        if step_rating is not False:
+            rating_step.rating = step_rating
+        rating_steps.append(rating_step)
 
-    res = rating_dao.save(rating, rating_step)
+    res = rating_dao.save(rating, rating_steps)
     return json({"success": True})
