@@ -52,19 +52,11 @@ async def authenticate(request):
 
 
 async def retrieve_user(request, payload, *args, **kwargs):
-<<<<<<< HEAD
 	if payload:
 		user_id = payload.get('user_id', None)
 		user = user_dao.get(user_id)
 		user_dao.close()
 		return user
-=======
-    if payload:
-        user_id = payload.get("user_id", None)
-        user = user_dao.get(user_id)
-        return user
-
->>>>>>> develop
 
 async def store_refresh_token(user_id, refresh_token, *args, **kwargs):
     r_token = refresh_token_dao.get_by_user_id(user_id)
@@ -83,7 +75,6 @@ async def retrieve_refresh_token(request, user_id, *args, **kwargs):
 
 @auth.route("/signup", methods=["POST"])
 async def sign_up(request):
-<<<<<<< HEAD
 	email = request.json.get('email')
 	password = request.json.get('password')
 	username = request.json.get('username')
@@ -149,25 +140,4 @@ def save_profile_image(base46_string, user_id):
 		response = s3.Object('feedbuzz', 'images/{}'.format(image_name)).put(Body=content, ContentType='image/jpeg')
 		try_count += 1
 	
-	return response['ResponseMetadata']['HTTPStatusCode'] == 200 
-	
-
-
-=======
-    email = request.json.get("email")
-    password = request.json.get("password")
-    username = request.json.get("username")
-
-    if not email or not password or not username:
-        raise ServerError("username and password and email needed", status_code=400)
-
-    if user_dao.get_by_email(email):
-        return json({"success": False, "message": "Email already exist"})
-
-    salt = app_configs.SALT
-    password_string = password + salt
-    hashed_password = hashlib.sha512(password_string.encode("utf-8")).hexdigest()
-    user = User(username=username, email=email, password=hashed_password)
-    user_dao.save(user)
-    return json({"success": True})
->>>>>>> develop
+	return response['ResponseMetadata']['HTTPStatusCode'] == 200
