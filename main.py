@@ -26,9 +26,9 @@ Initialize(app, authenticate=authenticate,
  retrieve_refresh_token=retrieve_refresh_token,
  store_refresh_token=store_refresh_token)
 
-#if os.environ.get('ENV') == "PROD":
-app.static('/', './client/build')
-app.static('/static', './client/static')
+if os.environ.get('ENV') == "PROD":
+    app.static('/', './client/build')
+    app.static('/static', './client/static')
 
 #When an endpoint is not found, redirect to index.html and react takes the lead
 @app.exception(NotFound) 
