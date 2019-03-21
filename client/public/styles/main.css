@@ -7000,7 +7000,8 @@ label.panel-block {
     display: block; }
   @media screen and (max-width: 1023px) {
     .fdb-footer {
-      padding: 3rem 2rem; } }
+      padding: 3rem 2rem;
+      margin: -0.75rem; } }
 
 .fdb-header {
   border-bottom: 2px solid #f7f7f7; }
@@ -7403,10 +7404,21 @@ label.panel-block {
 
 .product-rating-container {
   max-width: 800px;
-  margin: 4rem auto; }
+  margin: 2rem auto; }
   @media screen and (min-width: 721px) and (max-width: 1023px) {
     .product-rating-container {
-      padding: 0 1rem; } }
+      padding: 2rem 2rem; } }
+  @media screen and (max-width: 720px) {
+    .product-rating-container {
+      padding: 0rem 1rem;
+      margin: 1rem auto; } }
+  .product-rating-container .rated-product-img-container {
+    text-align: center;
+    margin-bottom: 2rem; }
+    .product-rating-container .rated-product-img-container img {
+      height: 75px;
+      width: 75px;
+      margin-left: -15px; }
   .product-rating-container .rc-steps-icon svg {
     height: 100%; }
   .product-rating-container .product-rating-step-container {

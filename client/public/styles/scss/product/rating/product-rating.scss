@@ -1,9 +1,25 @@
 .product-rating-container {
 	max-width: 800px;
-	margin: 4rem auto;
+	margin: 2rem auto;
 
 	@include tablet-only {
-		padding: 0 1rem;
+		padding: 2rem 2rem;
+	}
+
+	@include mobile {
+		padding: 0rem 1rem;
+		margin: 1rem auto;
+	}
+
+	.rated-product-img-container {
+		text-align: center;
+		margin-bottom: 2rem;
+
+		img {
+			height: 75px;
+			width: 75px;
+			margin-left: -15px;
+		}
 	}
 
 	.rc-steps-icon {
@@ -477,10 +493,10 @@
   * Rangeslider - Horizontal slider
   */
 .rangeslider-horizontal {
-    max-width: 780px;
+	max-width: 780px;
 	height: 15px;
-    border-radius: 8px;
-    margin: auto;
+	border-radius: 8px;
+	margin: auto;
 }
 .rangeslider-horizontal .rangeslider__fill {
 	height: 100%;
@@ -497,7 +513,7 @@
 }
 
 .rangeslider-horizontal .rangeslider__handle:focus {
-    outline: none;
+	outline: none;
 }
 
 .rangeslider-horizontal .rangeslider__handle-tooltip {

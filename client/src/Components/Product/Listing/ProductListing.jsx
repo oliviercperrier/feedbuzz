@@ -99,7 +99,7 @@ class ProductListing extends Component {
 									<span className="nb-reviews"> | 240 reviews</span>
 								</div>
 							</div>
-							<Link className="button" to={{ pathname: '/product/' + product.id, state: { product: product } }} >Review</Link>
+							<Link className="button" to={{ pathname: '/product/review/' + product.id, state: { product: product } }} >Review</Link>
 						</div>
 					</div>
 				</Fade>
