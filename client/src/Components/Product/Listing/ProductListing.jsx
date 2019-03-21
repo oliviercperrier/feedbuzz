@@ -84,7 +84,9 @@ class ProductListing extends Component {
 				<Fade>
 					<div key={product.id} className="product-listing-item">
 						<div className="product-image-container">
-							<img src={product.image_url} alt={product.name} />
+							<Link to={{ pathname: '/product/' + product.id, state: { product: product } }}>
+								<img src={product.image_url} alt={product.name} />
+							</Link>
 						</div>
 						<div className="item-content">
 							<div className="product-info">
