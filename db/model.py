@@ -89,40 +89,37 @@ class RefreshToken(Base):
     token = Column(String(500), nullable=False)
 
 
-class CommentRatingStep(Base):
-    __tablename__ = "comment_rating_step"
+class RatingStep(Base):
+    __tablename__ = "rating_step"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    step = Column(String(100))
+    step_type = Column(String(100))
     common = Column(ARRAY(String(50)))
     added = Column(ARRAY(String(50)))
     rating = Column(Integer)
-    comment_id = Column(Integer, ForeignKey("comment.id"))
-    comment = relationship("Comment")
+    rating_id = Column(Integer, ForeignKey("rating.id"))
+    rating_rel = relationship("Rating")
 
     def to_dict(self):
-        return {"id": self.id, "step": self.step, "common": self.common, "added": self.added, "rating": self.rating}
+        return {"id": self.id, "step_type": self.step_type, "common": self.common, "added": self.added, "rating": self.rating}
 
 
-class Comment(Base):
-    __tablename__ = "comment"
+class Rating(Base):
+    __tablename__ = "rating"
     id = Column(Integer, primary_key=True, autoincrement=True)
     product_id = Column(Integer, ForeignKey("product.id"))
-    author_id = Column(Integer, ForeignKey("user.id"))
-    # parent_comment_id = Column(Integer, ForeignKey("comment.id"))
-    content = Column(String(2500), nullable=False)
-    score = Column(Integer, nullable=False, default=0)
-    # replies = relationship("Comment")
-    comment_rating_step = relationship("CommentRatingStep", backref="comments")
+    user_id = Column(Integer, ForeignKey("user.id"))
+    comment = Column(String(2500), nullable=False)
+    rating = Column(Integer, nullable=False, default=0)
+    rating_step = relationship("RatingStep", backref="ratings")
 
     def to_dict(self):
         return {
             "id": self.id,
-            "author_id": self.author_id,
-            "content": self.content,
-            "score": self.score,
-            "commentStep": [step.to_dict() for step in self.comment_rating_step],
-
-            # "replies": [reply.to_dict() for reply in self.replies],
+            "user_id": self.user_id,
+            "rating": self.comment,
+            "rating": self.rating,
+            "rating_step": [step.to_dict() for step in self.rating_step],
+            "comment": self.comment
         }
 
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")

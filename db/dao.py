@@ -1,9 +1,10 @@
-from .model import User, Base, Product, RefreshToken, Comment
+from .model import User, Base, Product, RefreshToken, Rating
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, raiseload, joinedload
 from sqlalchemy import exc
 from sqlalchemy.sql import func
+from pprint import pprint
 import os
 
 app_configs = None
@@ -67,7 +68,7 @@ class ProductDAO(BaseDAO):
             "thc_max": prod.thc_max,
             "cbd_min": prod.cbd_min,
             "cbd_max": prod.cbd_max,
-            "avg": CommentDAO(app_configs).get_average_rating_by_product(prod.id)
+            "avg": RatingDAO(app_configs).get_average_rating_by_product(prod.id)
         }
 
     def get(self, id):
@@ -110,46 +111,42 @@ class RefreshTokenDAO(BaseDAO):
         self._session.close()
         return  refresh_token
 
-class CommentDAO(BaseDAO):
-    def get_comment_by_product(self, product: int):
+class RatingDAO(BaseDAO):
+    def get_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        comments = self._session.query(Comment).filter_by(product_id=product)
-        return comments
+        ratings = self._session.query(Rating).filter_by(product_id=product)
+        return ratings
 
     def get_average_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-# session.query(func.avg(Rating.field2).label('average')).filter(Rating.url==url_string.netloc)
-        comment_avg_rating = self._session.query(func.avg(Comment.score)).filter_by(product_id=product)
-        print(comment_avg_rating)
+        rating_avg_rating = self._session.query(func.avg(Rating.rating)).filter_by(product_id=product)
+        return rating_avg_rating
 
-        return comment_avg_rating
+    # def get_rating_by_user(self, user_id):
+    #     Session = sessionmaker(bind=self._engine)
+    #     self._session = Session()
+    #     comments = self._session.query(Comment).filter_by(author_id=user_id)
+    #     return comments
 
-    def get_comment_by_user(self, user_id):
+    def save(self, rating, rating_step):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        comments = self._session.query(Comment).filter_by(author_id=user_id)
-        return comments
-
-    def save(self, comment, comment_steps):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        self._session.add(comment)
+        self._session.add(rating)
         self._session.flush()
-        self._session.refresh(comment)
-        # res = self._session.commit()
-        for step in comment_steps:
-            step.comment_id = comment.id
+        self._session.refresh(rating)
+        for step in rating_step:
+            step.rating_id = rating.id
             self._session.add(step)
         res = self._session.commit()
         self._session.close()
 
-    def delete_comment(self, comment):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        self._session.delete(comment)
-        self._session.close()
+    # def delete_comment(self, comment):
+    #     Session = sessionmaker(bind=self._engine)
+    #     self._session = Session()
+    #     self._session.delete(comment)
+    #     self._session.close()
 
 
 

@@ -1,5 +1,5 @@
-from .model import User, Base, RefreshToken, serve_configs_model, Comment, CommentRatingStep
-from .dao import UserDAO, ProductDAO, RefreshTokenDAO, serve_configs_dao, CommentDAO
+from .model import User, Base, RefreshToken, serve_configs_model, Rating, RatingStep 
+from .dao import UserDAO, ProductDAO, RefreshTokenDAO, serve_configs_dao, RatingDAO
 
 # Model
 User = User
@@ -10,7 +10,7 @@ RefreshToken = RefreshToken
 UserDAO = UserDAO
 ProductDAO = ProductDAO
 RefreshTokenDAO = RefreshTokenDAO
-CommentDAO = CommentDAO
+RatingDAO = RatingDAO
 
 
 def serve_configs_db(configs):
