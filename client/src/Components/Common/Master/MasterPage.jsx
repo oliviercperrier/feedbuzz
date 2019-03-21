@@ -8,8 +8,10 @@ class MasterPage extends Component {
 		return (
 			<div id="feedbuzz-master">
 				<Header />
-				<div id="feedbuzz-body">{this.props.children}</div>
-				<Footer />
+				<div id="feedbuzz-body">
+					{this.props.children}
+					<Footer />
+				</div>
 			</div>
 		);
 	}

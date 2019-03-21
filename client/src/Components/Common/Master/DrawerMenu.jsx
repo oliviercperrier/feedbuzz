@@ -39,7 +39,7 @@ class DrawerMenu extends Component {
 							isOpen={menuOpen}
 							transitionTime={0.5}
 							width={500}
-							closeCallback={this.props.closeCallback}
+							closeCallback={closeCallback}
 						>
 							<Fade clear when={menuOpen}>
 								<div className="drawer-menu-content v-and-h-centered">
