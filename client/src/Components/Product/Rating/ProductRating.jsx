@@ -95,7 +95,7 @@ class ProductRating extends Component {
 			return (
 				<div className="product-rating-container">
 					<div className="rated-product-img-container v-and-h-centered">
-						<img src={product.image_url} />
+						<img className="rated-product-image" src={product.image_url} />
 						<span>{product.name}</span>
 					</div>
 					<div className="steps-progress">
