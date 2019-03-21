@@ -35,6 +35,9 @@ class BaseDAO(ABC):
         self._session.commit()
         self._session.close()
 
+    def close(self):
+        self._session.close()
+
 
 class UserDAO(BaseDAO):
 
@@ -48,7 +51,7 @@ class UserDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         user = self._session.query(User).filter_by(email=email).first()
-        self._session.close()
+        self.close()
         return user
 
 
@@ -58,27 +61,28 @@ class ProductDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         product = self._session.query(Product).filter_by(id=id).first()
-        self._session.close()
+        self.close()
         return product
 
     def get_by_name(self, name):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         product = self._session.query(Product).filter_by(name=name).first()
-        self._session.close()
+        self.close()
         return product
 
     def get_all(self):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         product_list = self._session.query(Product).all()
-        self._session.close()
+        self.close()
         return product_list
 
     def find_by_name(self, query):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         search_results = self._session.query(Product).filter(Product.name.ilike(query + "%")).all()
+        self.close()
         return search_results
 
 class RefreshTokenDAO(BaseDAO):

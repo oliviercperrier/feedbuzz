@@ -2,5 +2,6 @@
 	"DATABASE_URL": "postgresql://postgres:feedbuzz@localhost:5430/feedbuzz",
 	"SALT": "FeedbuzzLetsGetHighHasFuck",
 	"S3_KEY": "AKIAJPL6XE3LHXEDIEKA",
-	"S3_TOKEN": "SrlUanQDY/0C1MEjrH2gdONRgizaLmtSGJvfzbmq"
+	"S3_TOKEN": "SrlUanQDY/0C1MEjrH2gdONRgizaLmtSGJvfzbmq",
+	"S3_BASE_URL": "https://s3.us-east-2.amazonaws.com/feedbuzz/images/"
 }

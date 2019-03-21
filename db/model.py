@@ -17,6 +17,7 @@ class User(Base):
     password = Column(String(250), nullable=False)
     name = Column(String(250), nullable=False)
     gender = Column(String(250))
+    image_url = Column(String(250))
 
     def to_dict(self):
         return {
@@ -24,7 +25,8 @@ class User(Base):
         "username": self.username,
         "email": self.email,
         "name": self.name,
-        "gender": self.gender
+        "gender": self.gender,
+        "image_url": self.image_url
         }
 
 
