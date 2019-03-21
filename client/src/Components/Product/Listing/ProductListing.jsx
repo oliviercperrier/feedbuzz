@@ -33,7 +33,7 @@ class ProductListing extends Component {
 
 	async componentDidMount() {
 		if (!this.state.search) {
-			this.fetchAll()
+			this.fetchAll();
 		} else {
 			this.fetch(this.state.search);
 		}
@@ -88,22 +88,25 @@ class ProductListing extends Component {
 						</div>
 						<div className="item-content">
 							<div className="product-info">
-								<h1 className="product-name">{product.name}</h1>
+								<div>
+									<h1 className="product-name">{product.name}</h1>
+									<span className="product-price">${product.price[0].price}</span>
+								</div>
 								<div className="rating-info">
-									<StarRatings
-										rating={4}
-										starRatedColor="gold"
-										starDimension="15px"
-										starSpacing=""
-									/>
+									<StarRatings rating={4} starRatedColor="gold" starDimension="15px" starSpacing="" />
 									<span className="nb-reviews"> | 240 reviews</span>
 								</div>
 							</div>
-							<Link className="button" to={{ pathname: '/product/review/' + product.id, state: { product: product } }} >Review</Link>
+							<Link
+								className="button"
+								to={{ pathname: '/product/review/' + product.id, state: { product: product } }}
+							>
+								Review
+							</Link>
 						</div>
 					</div>
 				</Fade>
-			)
+			);
 		});
 
 		return (
@@ -123,9 +126,19 @@ class ProductListing extends Component {
 					</Link>
 				</div>
 				<div className="product-listing-content">
-					{isLoading ? <ReactLoading className="product-loader" type="bubbles" color="#20bd67 " height={'90px'} width={'90px'} /> :
-						(data.length == 0 ? <h1 className="not-products">No products found!</h1> :
-							products)}
+					{isLoading ? (
+						<ReactLoading
+							className="product-loader"
+							type="bubbles"
+							color="#20bd67 "
+							height={'90px'}
+							width={'90px'}
+						/>
+					) : data.length == 0 ? (
+						<h1 className="not-products">No products found!</h1>
+					) : (
+						products
+					)}
 				</div>
 			</div>
 		);

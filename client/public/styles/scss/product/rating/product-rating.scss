@@ -1,6 +1,7 @@
 .product-rating-container {
 	max-width: 800px;
-	margin: 2rem auto;
+	margin: 0rem auto;
+	padding: 2rem 0;
 
 	@include tablet-only {
 		padding: 2rem 2rem;
@@ -19,6 +20,10 @@
 			height: 75px;
 			width: 75px;
 			margin-left: -15px;
+		}
+
+		span {
+			font-weight: bold;
 		}
 	}
 
