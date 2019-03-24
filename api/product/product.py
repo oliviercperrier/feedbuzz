@@ -1,7 +1,7 @@
 from sanic import Blueprint
 from sanic import response
 import json
-from db import ProductDAO, CommentDAO
+from db import ProductDAO, RatingDAO
 from sanic.log import logger
 
 product = Blueprint("product", url_prefix="/products")
