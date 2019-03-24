@@ -30,27 +30,24 @@ async def get_by_product(request, id: int):
 @rating.route("/", methods=["POST"])
 @protected()
 async def create_rating(request):
-    user_id = request["user"].user_id
-    comment = request.json.get("comment")
-    rating = request.json.get("rating")
+    user_id = request["user"].id
     product = request.json.get("product_id")
-
-    rating = Rating(user_id=user_id, comment=comment, rating=rating, product_id=product)
-
     rating_steps = []
 
-    for step_type, step_data in request.json.get("ratingStep").items():
-        rating_step = RatingStep(step_type=step_type)
-        common=step_data.get("common",False)
-        added=step_data.get("added", False)
-        step_rating=step_data.get("rating", False)
-        if common is not False:
-            rating_step.common = common
-        if added is not False:
-            rating_step.added = added
-        if step_rating is not False:
-            rating_step.rating = step_rating
-        rating_steps.append(rating_step)
+    high_step = request.json.get("0")
+    rating_steps.append(RatingStep(step_type="high", rating=high_step.get("value")))
+    
+    red_eye_step = request.json.get("1")
+    rating_steps.append(RatingStep(step_type="red_eye", rating=high_step.get("value")))
+
+    effects_step = request.json.get("2")
+    rating_steps.append(RatingStep(step_type="effects", common=effects_step.get("commonEffects"), added=effects_step.get("addedEffects")))
+
+    flavors_step = request.json.get("3")
+    rating_steps.append(RatingStep(step_type="flavors", common=flavors_step.get("commonEffects"), added=flavors_step.get("addedEffects")))
+
+    final_comment_step = request.json.get("4")
+    rating = Rating(user_id=user_id, comment=final_comment_step.get("comment"), rating=final_comment_step.get("rating"), product_id=product)
 
     res = rating_dao.save(rating, rating_steps)
     return json({"success": True})
