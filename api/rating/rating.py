@@ -28,10 +28,9 @@ async def get_by_product(request, id: int):
 
 
 @rating.route("/", methods=["POST"])
-# @protected()
+@protected()
 async def create_rating(request):
-    # user_id = request["user"].id
-    user_id = 1
+    user_id = request["user"].id
     product = request.json.get("product_id")
     rating_steps = []
 
