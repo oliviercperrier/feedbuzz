@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Steps, { Step } from 'rc-steps';
 import { MdDone } from 'react-icons/md';
 
+import { API } from '../../../Utils/api';
+
 import StepHigh from './RatingSteps/StepHigh';
 import StepRedEye from './RatingSteps/StepRedEye';
 import StepEffects from './RatingSteps/StepEffects';
@@ -18,6 +20,8 @@ class ProductRating extends Component {
 	constructor(props) {
 		super(props);
 
+		const product_id = this.props.match.params.id;
+
 		this.steps = {
 			0: StepHigh,
 			1: StepRedEye,
@@ -27,6 +31,8 @@ class ProductRating extends Component {
 		};
 
 		this.state = {
+			product_id: product_id,
+			product: null,
 			currentStep: 0,
 			isLoading: false,
 			data: {
@@ -40,6 +46,20 @@ class ProductRating extends Component {
 
 		this.changeStep = this.changeStep.bind(this);
 		this.onStepDataChange = this.onStepDataChange.bind(this);
+	}
+
+	async componentDidMount() {
+		var product = null;
+		const state = this.props.location.state;
+
+		if (state) {
+			product = this.props.location.state.product;
+		} else {
+			const response = await API.get('/api/products/' + this.state.product_id);
+			product = response.data;
+		}
+
+		this.setState({ product: product });
 	}
 
 	changeStep(e) {
@@ -68,37 +88,45 @@ class ProductRating extends Component {
 	}
 
 	render() {
-		const { currentStep, isLoading } = this.state;
+		const { currentStep, isLoading, product } = this.state;
 		const CurrentStep = this.steps[currentStep];
 
-		return (
-			<div className="product-rating-container">
-				<div className="steps-progress">
-					<Steps icons={{ finish: <MdDone /> }} current={currentStep}>
-						<Step />
-						<Step />
-						<Step />
-						<Step />
-						<Step />
-					</Steps>
+		if (product) {
+			return (
+				<div className="product-rating-container">
+					<div className="rated-product-img-container v-and-h-centered">
+						<img className="rated-product-image" src={product.image_url} />
+						<span>{product.name}</span>
+					</div>
+					<div className="steps-progress">
+						<Steps icons={{ finish: <MdDone /> }} current={currentStep}>
+							<Step />
+							<Step />
+							<Step />
+							<Step />
+							<Step />
+						</Steps>
+					</div>
+					<div className="product-rating-step-container">
+						<CurrentStep data={this.state.data[currentStep]} onDataChange={this.onStepDataChange} />
+					</div>
+					<div className="rating-steps-nav">
+						<button className="button bg-color-trans previous" data-change={-1} onClick={this.changeStep}>
+							Previous
+						</button>
+						<button
+							className={'button bg-color-trans next ' + (isLoading ? 'is-loading' : '')}
+							data-change={1}
+							onClick={this.changeStep}
+						>
+							{currentStep === 4 ? 'Finish' : 'Next'}
+						</button>
+					</div>
 				</div>
-				<div className="product-rating-step-container">
-					<CurrentStep data={this.state.data[currentStep]} onDataChange={this.onStepDataChange} />
-				</div>
-				<div className="rating-steps-nav">
-					<button className="button bg-color-trans previous" data-change={-1} onClick={this.changeStep}>
-						Previous
-					</button>
-					<button
-						className={'button bg-color-trans next ' + (isLoading ? 'is-loading' : '')}
-						data-change={1}
-						onClick={this.changeStep}
-					>
-						{currentStep === 4 ? 'Finish' : 'Next'}
-					</button>
-				</div>
-			</div>
-		);
+			);
+		}
+
+		return <div></div>;
 	}
 }
 
