@@ -46,7 +46,7 @@ class StepGeneral extends Component {
 		return (
 			<div className="step5-container">
 				<div className="step-header">
-					<h1 className="step-title">Any general comments?</h1>
+					<h1 className="step-title">Tell us your experience?</h1>
 				</div>
 				<div className="general-comments">
 					<div className="general-rating">

@@ -5,6 +5,11 @@
 		background-repeat: no-repeat;
 		background-position: left;
 
+		@include mobile {
+			margin: -0.75rem;
+			margin-bottom: 0.75rem;
+		}
+
 		&:before {
 			content: '';
 			top: 0;

@@ -7293,6 +7293,10 @@ label.panel-block {
   background-image: url(../img/main-banner.jpg);
   background-repeat: no-repeat;
   background-position: left; }
+  @media screen and (max-width: 720px) {
+    .product-details-container .product-details-banner-container {
+      margin: -0.75rem;
+      margin-bottom: 0.75rem; } }
   .product-details-container .product-details-banner-container:before {
     content: '';
     top: 0;
