@@ -79,6 +79,8 @@ class ProductListing extends Component {
 		const { search, data, isLoading } = this.state;
 		const to = '/products?q=' + search;
 
+		//{product.price[0].price}
+
 		const products = data.map((product) => {
 			return (
 				<Fade>
@@ -92,7 +94,7 @@ class ProductListing extends Component {
 							<div className="product-info">
 								<div>
 									<h1 className="product-name">{product.name}</h1>
-									<span className="product-price">${product.price[0].price}</span>
+									<span className="product-price">$</span>
 								</div>
 								<div className="rating-info">
 									<StarRatings rating={4} starRatedColor="gold" starDimension="15px" starSpacing="" />

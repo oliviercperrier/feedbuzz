@@ -16,7 +16,7 @@ def serve_configs_dao(configs):
 class BaseDAO(ABC):
 
     def __init__(self, configs):
-        self._engine = create_engine(configs.DATABASE_URL)
+        self._engine = create_engine(configs.DATABASE_URL, pool_size=20)
         self._session = None
         self._configs = configs
 
@@ -116,13 +116,15 @@ class RatingDAO(BaseDAO):
     def get_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        ratings = self._session.query(Rating).filter_by(product_id=product)
+        ratings = self._session.query(Rating).filter_by(product_id=product).first()
+        self.close()
         return ratings
 
     def get_average_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        rating_avg_rating = self._session.query(func.avg(Rating.rating)).filter_by(product_id=product)
+        rating_avg_rating = self._session.query(func.avg(Rating.rating)).filter_by(product_id=product).first()
+        self.close()
         return rating_avg_rating
 
     # def get_rating_by_user(self, user_id):

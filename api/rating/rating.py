@@ -49,5 +49,6 @@ async def create_rating(request):
     final_comment_step = request.json.get("4")
     rating = Rating(user_id=user_id, comment=final_comment_step.get("comment"), rating=final_comment_step.get("rating"), product_id=product)
 
-    res = rating_dao.save(rating, rating_steps)
-    return json({"success": True})
+    rating_dao.save(rating, rating_steps)
+
+    return json({'success': True})

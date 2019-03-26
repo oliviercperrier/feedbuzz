@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Steps, { Step } from 'rc-steps';
 import { MdDone } from 'react-icons/md';
 
-import { API } from '../../../Utils/api';
+import { API , saveRating} from '../../../Utils/api';
 
 import StepHigh from './RatingSteps/StepHigh';
 import StepRedEye from './RatingSteps/StepRedEye';
@@ -65,11 +65,6 @@ class ProductRating extends Component {
 	changeStep(e) {
 		var toStep = this.state.currentStep + parseInt(e.currentTarget.getAttribute('data-change'));
 
-		if (this.state.isLoading) {
-			console.log(this.state.data);
-			return;
-		}
-
 		if (toStep >= 0 && toStep < 5) {
 			this.setState({ currentStep: toStep });
 			return;
@@ -77,7 +72,13 @@ class ProductRating extends Component {
 
 		if (toStep === 5) {
 			this.setState({ isLoading: true });
-			//Save
+			
+			var data = this.state.data;
+			data['product_id'] = this.state.product_id;
+
+			saveRating(data).then((response) => {
+				console.log(response);
+			})
 		}
 	}
 

@@ -33,6 +33,12 @@ async function verifyTokenID() {
 	});
 }
 
+export const saveRating = async function(data) {
+	await verifyTokenID();
+	const response = await API.post('/api/rating', data);
+	return response.success;
+};
+
 export const updateUser = async function(data) {
 	await verifyTokenID();
 	const response = await API.put('/api/user', data);
