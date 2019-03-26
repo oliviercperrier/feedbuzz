@@ -6749,6 +6749,7 @@ label.panel-block {
 .my-account-container {
   margin-bottom: 2rem; }
   .my-account-container .account-sidebar {
+    position: relative;
     margin: 2rem 2rem;
     box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
@@ -6759,6 +6760,26 @@ label.panel-block {
         box-shadow: none;
         -moz-box-shadow: none;
         -webkit-box-shadow: none; } }
+    .my-account-container .account-sidebar input[type=file] {
+      display: none; }
+    .my-account-container .account-sidebar .edit-user-image {
+      position: absolute;
+      top: 9px;
+      right: 8px;
+      font-size: 12px;
+      border: 1px solid #e8e7e7;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-weight: bold;
+      color: gray;
+      cursor: pointer; }
+      .my-account-container .account-sidebar .edit-user-image:hover {
+        border: 1px solid #20bd67;
+        font-weight: bold;
+        color: white;
+        background: #20bd67; }
+      .my-account-container .account-sidebar .edit-user-image:focus {
+        outline: none; }
   .my-account-container .column {
     border-radius: 3px;
     padding: 2rem; }
@@ -6777,17 +6798,20 @@ label.panel-block {
         font-size: 1.25rem;
         font-weight: bold;
         margin-bottom: 1.5rem; }
-    .my-account-container .column .sb-avatar {
+    .my-account-container .column .user-image {
       width: 100% !important;
       height: auto !important;
       text-align: center; }
-      .my-account-container .column .sb-avatar img {
+      .my-account-container .column .user-image img {
         width: 100% !important;
         height: auto !important;
         padding: 2rem;
         max-width: 300px; }
+        @media screen and (min-width: 721px) and (max-width: 1023px) {
+          .my-account-container .column .user-image img {
+            padding: 1rem; } }
         @media screen and (max-width: 720px) {
-          .my-account-container .column .sb-avatar img {
+          .my-account-container .column .user-image img {
             padding: 2rem 6rem; } }
     .my-account-container .column .account-menu {
       text-align: center; }

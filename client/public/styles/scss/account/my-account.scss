@@ -2,22 +2,51 @@
 	margin-bottom: 2rem;
 
 	.account-sidebar {
-		margin: 2rem 2rem;	
+		position: relative;
+		margin: 2rem 2rem;
 		@include box-shadow((0 1px 0px rgba(0,0,0,.1), 0 0px 2px rgba(0,0,0,.2)));
 
 		@include mobile {
-			margin: unset;	
-			@include box-shadow(none)
+			margin: unset;
+			@include box-shadow(none);
+		}
+
+		input[type=file] {
+			display: none;
+		}
+
+		.edit-user-image {
+			position: absolute;
+			top: 9px;
+			right: 8px;
+			font-size: 12px;
+			border: 1px solid #e8e7e7;
+			padding: 3px 6px;
+			border-radius: 3px;
+			font-weight: bold;
+			color: gray;
+			cursor: pointer;
+
+			&:hover {
+				border: 1px solid #20bd67;
+				font-weight: bold;
+				color: white;
+				background: #20bd67;
+			}
+
+			&:focus {
+				outline: none;
+			}
 		}
 	}
 
 	.column {
 		border-radius: 3px;
-        padding: 2rem;
-        
-        @include mobile {
-            padding: 0rem;
-        }
+		padding: 2rem;
+
+		@include mobile {
+			padding: 0rem;
+		}
 
 		&.section-container {
 			margin-top: 2rem;
@@ -41,7 +70,7 @@
 			}
 		}
 
-		.sb-avatar {
+		.user-image {
 			width: 100% !important;
 			height: auto !important;
 			text-align: center;
@@ -51,11 +80,15 @@
 				height: auto !important;
 				padding: 2rem;
 				max-width: 300px;
-                
-                @include mobile {
-                    padding: 2rem 6rem;
-                }
-            }
+
+				@include tablet-only {
+					padding: 1rem;
+				}
+
+				@include mobile {
+					padding: 2rem 6rem;
+				}
+			}
 		}
 
 		.account-menu {
@@ -64,8 +97,8 @@
 			.account-menu-item {
 				margin-bottom: -1px;
 				padding: 0.75rem 0.5rem;
-                border-bottom: 1px solid #f7f7f7;
-                border-top: 1px solid #f7f7f7;
+				border-bottom: 1px solid #f7f7f7;
+				border-top: 1px solid #f7f7f7;
 
 				&.active {
 					background: #20bd67;
@@ -81,8 +114,8 @@
 
 				&:hover {
 					cursor: pointer;
-                    background: $light-gray;
-                    @include transition(background 0.5s);
+					background: $light-gray;
+					@include transition(background 0.5s);
 				}
 			}
 		}

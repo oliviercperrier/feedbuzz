@@ -1,5 +1,8 @@
+import { MdReport } from 'react-icons/md';
+
 var axios = require('axios');
 var TokenManager = require('./tokenManager');
+var Storage = require('../Utils/browserStorage');
 
 export const API = axios.create();
 API.defaults.baseURL = window.baseURL;
@@ -32,7 +35,9 @@ async function verifyTokenID() {
 
 export const updateUser = async function(data) {
 	await verifyTokenID();
-	//call update user
+	const response = await API.put('/api/user', data);
+	Storage.getStorage().setItem('usr_info', JSON.stringify(response.data.me));
+	return response.data.me;
 };
 
 export const getUser = async function() {

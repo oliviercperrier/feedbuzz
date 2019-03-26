@@ -6,6 +6,9 @@ import MyReviews from './Sections/MyReviews';
 import MyProfile from './Sections/MyProfile';
 import MySettings from './Sections/MySettings';
 
+import { AuthConsumer } from '../../Contexts/authContext';
+import { updateUser } from '../../Utils/api';
+
 /**
  * Show the account information of the current user
  * 
@@ -30,19 +33,52 @@ class MyAccount extends Component {
 		];
 
 		this.state = {
-			component: 0
+			component: 0,
+			image_loading: false,
+			image_url: null
 		};
 
 		this.handleSectionChange = this.handleSectionChange.bind(this);
+		this.handleRealFileInputChange = this.handleRealFileInputChange.bind(this);
 	}
 
 	handleSectionChange(e) {
-		this.setState({ component: e.currentTarget.getAttribute('data-component') });
+		this.setState({ component: parseInt(e.currentTarget.getAttribute('data-component')) });
+	}
+
+	handleUploadImage(e) {
+		e.preventDefault();
+		document.getElementById('real-input').click();
+	}
+
+	handleRealFileInputChange(e) {
+		if (e.currentTarget.files && e.currentTarget.files[0]) {
+			var fileReader = new FileReader();
+			var that = this;
+			that.setState({ image_loading: true });
+
+			fileReader.addEventListener('load', function(e) {
+				//REMOVE name, username, etc.. when vincent make the update on unique param
+				updateUser({
+					name: 'name',
+					username: 'username',
+					gender: 'Male',
+					email: 'email',
+					image: e.target.result.split(',')[1]
+				}).then((response) => {
+					that.setState({
+						image_loading: false,
+						image_url: response.image_url
+					});
+				});
+			});
+
+			fileReader.readAsDataURL(e.currentTarget.files[0]);
+		}
 	}
 
 	render() {
-		const { component } = this.state;
-		console.log(component)
+		const { component, image_loading, image_url } = this.state;
 		const CurrentView = this.views[component];
 		const menuItems = this.menuItems.map((item) => {
 			return (
@@ -58,17 +94,39 @@ class MyAccount extends Component {
 		});
 
 		return (
-			<div className="my-account-container container">
-				<div className="columns">
-					<div className="column is-one-quarter account-sidebar">
-						<Avatar round={true} src="img/favicon.svg" />
-						<ul className="account-menu">{menuItems}</ul>
-					</div>
-					<div className="column section-container">
-						<CurrentView />
-					</div>
-				</div>
-			</div>
+			<AuthConsumer>
+				{({ user }) => {
+					return (
+						<div className="my-account-container container">
+							<div className="columns">
+								<div className="column is-one-quarter account-sidebar">
+									<input type="file" id="real-input" onChange={this.handleRealFileInputChange} />
+									<button onClick={this.handleUploadImage} className="browse-btn edit-user-image">
+										Edit image
+									</button>
+									<Avatar
+										className="user-image"
+										round={false}
+										src={
+											image_loading ? (
+												'img/loader.gif'
+											) : user.image_url || image_url ? (
+												(user.image_url || image_url) + ('?t=' + new Date().getTime())
+											) : (
+												'img/favicon.svg'
+											)
+										}
+									/>
+									<ul className="account-menu">{menuItems}</ul>
+								</div>
+								<div className="column section-container">
+									<CurrentView user={user} />
+								</div>
+							</div>
+						</div>
+					);
+				}}
+			</AuthConsumer>
 		);
 	}
 }

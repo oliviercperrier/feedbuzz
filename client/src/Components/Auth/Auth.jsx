@@ -84,6 +84,7 @@ class Auth extends Component {
 	async signup(name, username, email, password) {
 		const auth_res = await API.post('/api/user/signup', {
 			email: email,
+			name: name,
 			username: username,
 			password: password
 		});

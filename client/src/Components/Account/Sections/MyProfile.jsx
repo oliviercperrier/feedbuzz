@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import NotificationSystem from 'react-notification-system';
 
-import { AuthConsumer } from '../../../Contexts/authContext';
 import { Style } from '../../../Utils/notification';
+import { updateUser } from '../../../Utils/api';
+import Storage from '../../../Utils/browserStorage';
 
 class MyProfile extends Component {
 	constructor(props) {
 		super(props);
 
+		const { user } = this.props;
 		this.state = {
-			name: '',
-			username: '',
-			email: '',
-			gender: '',
+			name: user.name,
+			username: user.username,
+			email: user.email,
+			gender: user.gender ? user.gender : 'Male',
+			image_url: user.image_url,
 			loading: false
 		};
 
 		this.notificationSystem = React.createRef();
-
 		this.addNotification = this.addNotification.bind(this);
 		this.handleSave = this.handleSave.bind(this);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -48,122 +50,125 @@ class MyProfile extends Component {
 
 	handleSave(e) {
 		this.setState({ loading: true });
+		const { name, username, gender, email } = this.state;
 
-		//FAKE LOADING FOR TEST
-		setTimeout(
-			function() {
-				this.setState({ loading: false });
-				this.addNotification();
-			}.bind(this),
-			2000
-		);
-		/* SAVE DATA TO BACK END */
-		// API.updateUser
+		updateUser({
+			name: name,
+			username: username,
+			gender: gender,
+			email: email
+		}).then((response) => {
+			this.setState({ loading: false });
+			this.addNotification();
+		});
+	}
+
+	updateStateUserInfo(user) {
+		const { name, username, gender, email } = this.state;
+		if (!name || !username || !gender || !email) {
+			this.setState({
+				name: name,
+				username: username,
+				gender: gender,
+				email: email
+			});
+		}
 	}
 
 	render() {
-		return (
-			<AuthConsumer>
-				{({ user }) => {
-					const { name, username, email, gender, loading } = this.state;
+		const { name, username, email, gender, loading } = this.state;
 
-					return (
-						<div className="my-profile">
-							<NotificationSystem ref={this.notificationSystem} style={Style} />
-							<div className="section-title">My Profile</div>
-							<div className="field is-horizontal">
-								<div className="field-label is-normal">
-									<label className="label">Name</label>
-								</div>
-								<div className="field-body">
-									<div className="field">
-										<p className="control">
-											<input
-												className="input"
-												onChange={this.handleInputChange}
-												type="text"
-												name="name"
-												value={name === '' ? user.first_name + ' ' + user.last_name : name}
-												placeholder="Name"
-											/>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div className="field is-horizontal">
-								<div className="field-label is-normal">
-									<label className="label">Username</label>
-								</div>
-								<div className="field-body">
-									<div className="field">
-										<p className="control">
-											<input
-												className="input"
-												value={username === '' ? user.username : username}
-												onChange={this.handleInputChange}
-												type="text"
-												name="username"
-												placeholder="Username"
-											/>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div className="field is-horizontal">
-								<div className="field-label is-normal">
-									<label className="label">Email</label>
-								</div>
-								<div className="field-body">
-									<div className="field">
-										<p className="control">
-											<input
-												className="input"
-												onChange={this.handleInputChange}
-												type="text"
-												name="email"
-												value={email === '' ? user.email : email}
-												placeholder="Email"
-											/>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div className="field is-horizontal">
-								<div className="field-label is-normal">
-									<label className="label">Gender</label>
-								</div>
-								<div className="field-body">
-									<div className="field">
-										<div className="control">
-											<div className="select">
-												<select
-													value={gender === '' ? 'Male' || user.gender : gender}
-													onChange={this.handleGenderChange}
-												>
-													<option>Male</option>
-													<option>Female</option>
-													<option>Other</option>
-												</select>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="field">
-								<div className="control is-clearfix">
-									<button
-										className={'button bg-color-trans ' + (loading ? 'is-loading' : '')}
-										onClick={this.handleSave}
-										type="save"
-									>
-										Save
-									</button>
+		return (
+			<div className="my-profile">
+				<NotificationSystem ref={this.notificationSystem} style={Style} />
+				<div className="section-title">My Profile</div>
+				<div className="field is-horizontal">
+					<div className="field-label is-normal">
+						<label className="label">Name</label>
+					</div>
+					<div className="field-body">
+						<div className="field">
+							<p className="control">
+								<input
+									className="input"
+									onChange={this.handleInputChange}
+									type="text"
+									name="name"
+									value={name}
+									placeholder="Name"
+								/>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className="field is-horizontal">
+					<div className="field-label is-normal">
+						<label className="label">Username</label>
+					</div>
+					<div className="field-body">
+						<div className="field">
+							<p className="control">
+								<input
+									className="input"
+									value={username}
+									onChange={this.handleInputChange}
+									type="text"
+									name="username"
+									placeholder="Username"
+								/>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className="field is-horizontal">
+					<div className="field-label is-normal">
+						<label className="label">Email</label>
+					</div>
+					<div className="field-body">
+						<div className="field">
+							<p className="control">
+								<input
+									className="input"
+									onChange={this.handleInputChange}
+									type="text"
+									name="email"
+									value={email}
+									placeholder="Email"
+								/>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className="field is-horizontal">
+					<div className="field-label is-normal">
+						<label className="label">Gender</label>
+					</div>
+					<div className="field-body">
+						<div className="field">
+							<div className="control">
+								<div className="select">
+									<select value={gender} onChange={this.handleGenderChange}>
+										<option>Male</option>
+										<option>Female</option>
+										<option>Other</option>
+									</select>
 								</div>
 							</div>
 						</div>
-					);
-				}}
-			</AuthConsumer>
+					</div>
+				</div>
+				<div className="field">
+					<div className="control is-clearfix">
+						<button
+							className={'button bg-color-trans ' + (loading ? 'is-loading' : '')}
+							onClick={this.handleSave}
+							type="save"
+						>
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
 		);
 	}
 }
