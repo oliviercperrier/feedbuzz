@@ -79,6 +79,9 @@ class ProductListing extends Component {
 		const { search, data, isLoading } = this.state;
 		const to = '/products?q=' + search;
 
+		console.log(data);
+
+		//READD price
 		//{product.price[0].price}
 
 		const products = data.map((product) => {
@@ -97,7 +100,7 @@ class ProductListing extends Component {
 									<span className="product-price">$</span>
 								</div>
 								<div className="rating-info">
-									<StarRatings rating={4} starRatedColor="gold" starDimension="15px" starSpacing="" />
+									<StarRatings rating={product.avg[0] ? product.avg[0] : 4} starRatedColor="gold" starDimension="15px" starSpacing="" />
 									<span className="nb-reviews"> | 240 reviews</span>
 								</div>
 							</div>
