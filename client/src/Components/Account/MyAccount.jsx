@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Avatar from 'react-avatar';
+import queryString from 'query-string';
 
 import MyFavorites from './Sections/MyFavorites';
 import MyReviews from './Sections/MyReviews';
@@ -18,6 +19,8 @@ class MyAccount extends Component {
 	constructor(props) {
 		super(props);
 
+		const search = queryString.parse(this.props.location.search);
+
 		this.views = {
 			0: MyProfile,
 			1: MyFavorites,
@@ -33,7 +36,7 @@ class MyAccount extends Component {
 		];
 
 		this.state = {
-			component: 0,
+			component: search.view === undefined || (search.view < 0 || search.view > 3) ? 0 : parseInt(search.view),
 			image_loading: false,
 			image_url: null
 		};

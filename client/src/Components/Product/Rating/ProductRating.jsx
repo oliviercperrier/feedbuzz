@@ -77,7 +77,7 @@ class ProductRating extends Component {
 			data['product_id'] = this.state.product_id;
 
 			saveRating(data).then((response) => {
-				window.location.href = '/';
+				window.location.href = '/my-account?view=2';
 			})
 		}
 	}
