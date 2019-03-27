@@ -125,8 +125,8 @@ class Rating(Base):
     def to_dict(self):
         return {
             "id": self.id,
+            "product_id": self.product_id,
             "user_id": self.user_id,
-            "rating": self.comment,
             "rating": self.rating,
             "rating_step": [step.to_dict() for step in self.rating_step],
             "comment": self.comment

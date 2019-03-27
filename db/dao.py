@@ -116,15 +116,15 @@ class RatingDAO(BaseDAO):
     def get_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        ratings = self._session.query(Rating).filter_by(product_id=product).first()
-        self.close()
+        ratings = self._session.query(Rating).filter_by(product_id=product).all()
+        self._session.close()
         return ratings
 
     def get_average_rating_by_product(self, product: int):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         rating_avg_rating = self._session.query(func.avg(Rating.rating)).filter_by(product_id=product).first()
-        self.close()
+        self._session.close()
         return rating_avg_rating
 
     # def get_rating_by_user(self, user_id):
