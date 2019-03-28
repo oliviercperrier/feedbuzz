@@ -30,7 +30,7 @@ if os.environ.get('ENV') == "PROD":
     app.static('/', './client/build')
     app.static('/static', './client/static')
 
-#When an endpoint is not found, redirect to index.html and react takes the lead
+#When an endpoint not found, redirect to index.html and react takes the lead
 @app.exception(NotFound) 
 async def index(request, exception):
     return await file('./client/build/index.html')
