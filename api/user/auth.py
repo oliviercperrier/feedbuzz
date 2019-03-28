@@ -1,7 +1,7 @@
 from sanic import Blueprint
 from sanic_jwt.decorators import inject_user, protected
 from sanic_jwt import exceptions
-from sanic.exceptions import ServerError
+from sanic.exceptions import ServerError, InvalidUsage
 from sanic.response import json
 from db import UserDAO, RefreshTokenDAO
 from db import User, RefreshToken
@@ -98,19 +98,19 @@ async def sign_up(request):
 async def put(request):
 	current_user = request['user']
 
-	profile_image = request.json.get('image')
-	email = request.json.get('email')
-	username = request.json.get('username')
-	name = request.json.get('name')
-	gender =request.json.get('gender')
+	profile_image = request.json.get('image', '')
+	email = request.json.get('email', current_user.email)
+	username = request.json.get('username', current_user.username)
+	name = request.json.get('name', current_user.name)
+	gender =request.json.get('gender', current_user.gender)
 
 	if not email or not username or not name:
 		raise ServerError('username and email and name needed', status_code=400)
 
-	image_url = None
+	image_url = current_user.image_url if profile_image == '' else None
 	user = user_dao.get(current_user.id)
 
-	if profile_image is not None:
+	if profile_image is not None and profile_image is not '':
 		succeed = save_profile_image(profile_image, current_user.id)
 		if succeed:
 			image_url = app_configs.S3_BASE_URL + 'profile_image{}.jpeg'.format(current_user.id)
@@ -132,7 +132,11 @@ def save_profile_image(base46_string, user_id):
 	)
 
 	image_name = 'profile_image{}.jpeg'.format(user_id)
-	content = base64.b64decode(base46_string)    
+	try:
+		content = base64.b64decode(base46_string)   
+	except:
+		raise InvalidUsage('image parameter must be a valid base64 encoded string')
+
 	response = s3.Object('feedbuzz', 'images/{}'.format(image_name)).put(Body=content, ContentType='image/jpeg')
 
 	try_count = 1
