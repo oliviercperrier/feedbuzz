@@ -26,7 +26,11 @@ async def get_by_id(request, id):
 
 @product.route("/all")
 async def get_all_products(request):
-    product_list = product_dao.get_all()
+    pageOffset = int(request.args.get("pageOffset"))
+    product_list: []= product_dao.get_all()
+    total = len(product_list)
+    items_per_page = 21
+    product_list = product_list[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
     return response.json(
        [product_dao.to_dict(product) for product in product_list]
     )
