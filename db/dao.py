@@ -70,6 +70,7 @@ class ProductDAO(BaseDAO):
             "thc_max": prod.thc_max,
             "cbd_min": prod.cbd_min,
             "cbd_max": prod.cbd_max,
+            "price": [price.to_dict() for price in prod.prices],
             "avg": RatingDAO(app_configs).get_average_rating_by_product(prod.id)
         }
 
