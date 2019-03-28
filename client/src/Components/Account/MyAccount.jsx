@@ -63,10 +63,6 @@ class MyAccount extends Component {
 			fileReader.addEventListener('load', function(e) {
 				//REMOVE name, username, etc.. when vincent make the update on unique param
 				updateUser({
-					name: 'name',
-					username: 'username',
-					gender: 'Male',
-					email: 'email',
 					image: e.target.result.split(',')[1]
 				}).then((response) => {
 					that.setState({
