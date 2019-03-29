@@ -33,7 +33,7 @@ class ProductListing extends Component {
 
 	async componentDidMount() {
 		if (!this.state.search) {
-			this.fetchAll();
+			this.fetchAll(1);
 		} else {
 			this.fetch(this.state.search);
 		}
@@ -46,16 +46,17 @@ class ProductListing extends Component {
 			if (search_term) {
 				this.fetch(this.state.search.trim());
 			} else {
-				this.fetchAll();
+				this.fetchAll(1);
 			}
 		}
 	}
 
-	async fetchAll() {
-		const response = await API.get('/api/products/all');
+	async fetchAll(page) {
+		const response = await API.get('/api/products/all?pageOffset=' + page);
 		this.setState({
 			last_search: '',
-			data: response.data,
+			total: response.data.total,
+			data: response.data.products,
 			isLoading: false
 		});
 	}
@@ -97,7 +98,7 @@ class ProductListing extends Component {
 							<div className="product-info">
 								<div>
 									<h1 className="product-name">{product.name}</h1>
-									<span className="product-price">$</span>
+									<span className="product-price">${product.price[0].price}</span>
 								</div>
 								<div className="rating-info">
 									<StarRatings rating={product.avg[0] ? product.avg[0] : 4} starRatedColor="gold" starDimension="15px" starSpacing="" />
