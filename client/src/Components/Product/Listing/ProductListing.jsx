@@ -26,6 +26,7 @@ class ProductListing extends Component {
 			search: search.q === undefined ? '' : search.q,
 			data: [],
 			total: 0,
+			nb_pages: 0,
 			isLoading: true
 		};
 
@@ -62,6 +63,7 @@ class ProductListing extends Component {
 			current_page: page,
 			total: response.data.total,
 			data: response.data.products,
+			nb_pages: Math.ceil(response.data.total / 20),
 			isLoading: false
 		});
 	}
@@ -72,6 +74,7 @@ class ProductListing extends Component {
 			last_search: this.state.search,
 			current_page: page,
 			total: response.data.total,
+			nb_pages: Math.ceil(response.data.total / 20),
 			data: response.data,
 			isLoading: false
 		});
@@ -102,7 +105,7 @@ class ProductListing extends Component {
 					<a
 						class={'pagination-link' + (current_page == i ? ' is-current' : '')}
 						onClick={this.handlePageChange}
-						data-page={live_page - 1}
+						data-page={i}
 						aria-label={'Go to page ' + i}
 					>
 						{i}
@@ -115,7 +118,7 @@ class ProductListing extends Component {
 	}
 
 	render() {
-		const { search, data, total, current_page, isLoading } = this.state;
+		const { search, data, total, current_page, nb_pages, isLoading } = this.state;
 		const to = '/products?q=' + search;
 
 		console.log(data);
@@ -156,6 +159,19 @@ class ProductListing extends Component {
 			);
 		});
 
+		const previous_page = current_page - 1;
+		const next_page = current_page + 1;
+
+		var prev_ops = {};
+		var next_ops = {};
+        if (previous_page < 0) {
+            prev_ops['disabled'] = 'disabled';
+		}
+		
+		if (next_page > (nb_pages - 1)) {
+            next_ops['disabled'] = 'disabled';
+        }
+
 		return (
 			<div className="product-listing-container container">
 				<div className="pl-input-container v-and-h-centered">
@@ -188,10 +204,10 @@ class ProductListing extends Component {
 					)}
 				</div>
 				<nav class="pagination is-centered" role="navigation" aria-label="pagination">
-					<a class="pagination-previous" onClick={this.handlePageChange} data-page={current_page - 1}>
+					<a class="pagination-previous" {...prev_ops} onClick={this.handlePageChange} data-page={previous_page}>
 						Previous
 					</a>
-					<a class="pagination-next" onClick={this.handlePageChange} data-page={current_page + 1}>
+					<a class="pagination-next" {...next_ops} onClick={this.handlePageChange} data-page={next_page}>
 						Next page
 					</a>
 					<ul class="pagination-list">{this.renderPaginator(total, current_page)}</ul>
