@@ -29,7 +29,7 @@ async def get_all_products(request):
     pageOffset = int(request.args.get("pageOffset"))
     product_list: []= product_dao.get_all()
     total = len(product_list)
-    items_per_page = 21
+    items_per_page = 20
     product_list = product_list[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
     return response.json({
        "total":total,
