@@ -7,6 +7,7 @@ from sanic.log import logger
 product = Blueprint("product", url_prefix="/products")
 
 product_dao = None
+items_per_page = 20
 
 
 def serve_configs_product(configs):
@@ -29,7 +30,6 @@ async def get_all_products(request):
     pageOffset = int(request.args.get("pageOffset"))
     product_list: []= product_dao.get_all()
     total = len(product_list)
-    items_per_page = 21
     product_list = product_list[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
     return response.json({
        "total":total,
@@ -41,6 +41,10 @@ async def get_all_products(request):
 @product.route("/find/<query:[A-z0-9]+>")
 async def find_product(request, query):
     search_results = product_dao.find_by_name(query)
-    return response.json(
-        [product_dao.to_dict(product)for product in search_results]
-    )
+    pageOffset = int(request.args.get("pageOffset"))
+    total = len(search_results)
+    search_results = search_results[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
+    return response.json({
+        "total": total,
+        "results": [product_dao.to_dict(product)for product in search_results]
+    })
