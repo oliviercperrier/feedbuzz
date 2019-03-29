@@ -96,8 +96,8 @@ class ProductListing extends Component {
 		var nb_pages = Math.ceil(total / 20);
 		var pages = [];
 
-		for (var i = 0; i < nb_pages - 1; i++) {
-			var live_page = i + 1;
+		for (var i = 1; i < nb_pages; i++) {
+			var live_page = i - 1;
 			pages.push(
 				<li key={i}>
 					<a
