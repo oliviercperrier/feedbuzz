@@ -97,16 +97,15 @@ class ProductListing extends Component {
 		var pages = [];
 
 		for (var i = 1; i < nb_pages; i++) {
-			var live_page = i - 1;
 			pages.push(
 				<li key={i}>
 					<a
-						class={'pagination-link' + (current_page == live_page ? ' is-current' : '')}
+						class={'pagination-link' + (current_page == i ? ' is-current' : '')}
 						onClick={this.handlePageChange}
-						data-page={live_page}
-						aria-label={'Go to page ' + live_page}
+						data-page={live_page - 1}
+						aria-label={'Go to page ' + i}
 					>
-						{live_page}
+						{i}
 					</a>
 				</li>
 			);
