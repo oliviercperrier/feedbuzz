@@ -72,7 +72,7 @@ class ProductListing extends Component {
 			last_search: this.state.search,
 			current_page: page,
 			total: response.data.total,
-			data: response.data,
+			data: response.data.products,
 			isLoading: false
 		});
 	}
