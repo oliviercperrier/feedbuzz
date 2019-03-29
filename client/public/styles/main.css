@@ -8138,6 +8138,12 @@ body a:hover,
 body a:active {
   text-decoration: none; }
 
+body .pagination {
+  margin-top: 2rem !important; }
+  body .pagination .pagination-link.is-current {
+    background-color: #20bd67;
+    border-color: #20bd67; }
+
 body .select select:focus {
   outline: none;
   border-color: #dbdbdb;

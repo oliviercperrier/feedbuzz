@@ -38,7 +38,7 @@ body {
 		#feedbuzz-body {
 			top: $header-height;
 			position: relative;
-	
+
 			@include mobile {
 				padding: 0.75rem;
 				top: $header-height-mobile;
@@ -73,6 +73,16 @@ body {
 	a:hover,
 	a:active {
 		text-decoration: none;
+	}
+
+	.pagination {
+		margin-top: 2rem !important;
+		.pagination-link {
+			&.is-current {
+				background-color: $primary;
+				border-color: $primary;
+			}
+		}
 	}
 
 	.select {
