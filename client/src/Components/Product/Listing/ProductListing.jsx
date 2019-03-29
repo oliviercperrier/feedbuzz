@@ -22,7 +22,7 @@ class ProductListing extends Component {
 
 		this.state = {
 			last_search: '',
-			currentPage: 1,
+			current_page: 1,
 			search: search.q === undefined ? '' : search.q,
 			data: [],
 			total: 0,
@@ -38,9 +38,9 @@ class ProductListing extends Component {
 
 	async componentDidMount() {
 		if (!this.state.search) {
-			this.fetchAll(1);
+			this.fetchAll(0);
 		} else {
-			this.fetch(this.state.search, 1);
+			this.fetch(this.state.search, 0);
 		}
 	}
 
@@ -49,9 +49,9 @@ class ProductListing extends Component {
 		if (search.trim() !== last_search.trim()) {
 			var search_term = this.state.search.trim();
 			if (search_term) {
-				this.fetch(this.state.search.trim(), 1);
+				this.fetch(this.state.search.trim(), 0);
 			} else {
-				this.fetchAll(1);
+				this.fetchAll(0);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ class ProductListing extends Component {
 	}
 
 	handlePageChange(e) {
-		const page = e.currentTarget.getAttribute('data-page');
+		const page = parseInt(e.currentTarget.getAttribute('data-page'));
 		if (this.state.last_search) {
 			this.fetch(this.state.last_search, page);
 		} else {
@@ -99,7 +99,7 @@ class ProductListing extends Component {
 		var nb_pages = Math.ceil(total / 20);
 		var pages = [];
 
-		for (var i = 1; i < nb_pages; i++) {
+		for (var i = 0; i < nb_pages; i++) {
 			pages.push(
 				<li key={i}>
 					<a
@@ -108,7 +108,7 @@ class ProductListing extends Component {
 						data-page={i}
 						aria-label={'Go to page ' + i}
 					>
-						{i}
+						{i + 1}
 					</a>
 				</li>
 			);
@@ -164,13 +164,13 @@ class ProductListing extends Component {
 
 		var prev_ops = {};
 		var next_ops = {};
-        if (previous_page < 0) {
-            prev_ops['disabled'] = 'disabled';
+		if (previous_page < 0) {
+			prev_ops['disabled'] = 'disabled';
 		}
-		
-		if (next_page > (nb_pages - 1)) {
-            next_ops['disabled'] = 'disabled';
-        }
+
+		if (next_page > nb_pages - 1) {
+			next_ops['disabled'] = 'disabled';
+		}
 
 		return (
 			<div className="product-listing-container container">
@@ -204,7 +204,12 @@ class ProductListing extends Component {
 					)}
 				</div>
 				<nav class="pagination is-centered" role="navigation" aria-label="pagination">
-					<a class="pagination-previous" {...prev_ops} onClick={this.handlePageChange} data-page={previous_page}>
+					<a
+						class="pagination-previous"
+						{...prev_ops}
+						onClick={this.handlePageChange}
+						data-page={previous_page}
+					>
 						Previous
 					</a>
 					<a class="pagination-next" {...next_ops} onClick={this.handlePageChange} data-page={next_page}>
