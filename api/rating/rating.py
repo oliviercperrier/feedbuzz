@@ -14,7 +14,6 @@ def serve_configs_rating(configs):
     print("Serve configs in rating")
     global rating_dao
     rating_dao = RatingDAO(configs)
-    print(rating_dao)
 
     global app_configs
     app_configs = configs
