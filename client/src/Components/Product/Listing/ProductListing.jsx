@@ -75,7 +75,7 @@ class ProductListing extends Component {
 			current_page: page,
 			total: response.data.total,
 			nb_pages: Math.ceil(response.data.total / 20),
-			data: response.data,
+			data: response.data.products,
 			isLoading: false
 		});
 	}
