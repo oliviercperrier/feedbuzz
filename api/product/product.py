@@ -35,8 +35,7 @@ async def get_all_products(request):
     return response.json({
        "total":total,
        "products": [product_dao.to_dict(product) for product in product_list]
-    }
-    )
+    })
 
 
 @product.route("/find/<query:[A-z0-9]+>")
@@ -46,6 +45,7 @@ async def find_product(request, query):
     total = len(search_results)
     items_per_page = 20
     search_results = search_results[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
+    print(len(search_results))
     return response.json({
         "total": total,
         "products": [product_dao.to_dict(product)for product in search_results]
