@@ -48,5 +48,5 @@ async def find_product(request, query):
     search_results = search_results[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]
     return response.json({
         "total": total,
-        "results": [product_dao.to_dict(product)for product in search_results]
+        "products": [product_dao.to_dict(product)for product in search_results]
     })
