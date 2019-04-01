@@ -136,7 +136,7 @@ class ProductListing extends Component {
 							<div className="product-info">
 								<div>
 									<h1 className="product-name">{product.name}</h1>
-									<span className="product-price">${product.price[0].price}</span>
+									<span className="product-price">${parseFloat(product.price[0].price).toFixed(2)}</span>
 								</div>
 								<div className="rating-info">
 									<StarRatings
