@@ -6854,6 +6854,20 @@ label.panel-block {
     .my-profile .button[type=save] {
       width: 100%; } }
 
+.my-reviews .my-reviews-listing-content .my-reviews-listing-item {
+  height: 80px;
+  margin-bottom: 1rem; }
+  .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
+    width: 80px;
+    height: 100%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain; }
+  .my-reviews .my-reviews-listing-content .my-reviews-listing-item .review-info {
+    margin-left: 0.5rem;
+    display: inline-block;
+    vertical-align: top; }
+
 .my-settings .input {
   height: 40px; }
 
