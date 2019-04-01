@@ -6867,8 +6867,7 @@ label.panel-block {
     font-weight: bold;
     margin-top: 1rem !important; }
   .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
-    margin-bottom: 1rem;
-    overflow: auto; }
+    border-bottom: 1px solid #f7f7f7; }
     .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
       float: left;
       width: 80px;
@@ -6877,7 +6876,8 @@ label.panel-block {
       background-size: contain;
       background-repeat: no-repeat; }
     .my-reviews .my-reviews-listing-content .my-reviews-listing-item .review-info-comment {
-      font: 200 12px/1.5 Georgia, Times New Roman, serif; }
+      font-size: 14px;
+      margin-bottom: 1rem; }
 
 .my-settings .input {
   height: 40px; }
