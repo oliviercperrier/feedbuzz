@@ -15,7 +15,7 @@ if (TokenManager.getAccessToken()) {
 export const updateAPIHeader = function(token) {
 	if (token) {
 		API.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-	} else {
+	} else { 
 		delete axios.defaults.headers.common['Authorization'];
 	}
 };
