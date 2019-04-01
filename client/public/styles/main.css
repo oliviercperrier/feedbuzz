@@ -6864,7 +6864,8 @@ label.panel-block {
     margin: 0;
     padding: 0; }
   .my-reviews .my-reviews-listing-content .review-info-title {
-    font-weight: bold; }
+    font-weight: bold;
+    margin-top: 1rem !important; }
   .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
     margin-bottom: 1rem;
     overflow: auto; }
