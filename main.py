@@ -45,6 +45,6 @@ if __name__ == '__main__':
     app.run(
         access_log=True,
         host='0.0.0.0',
-        port=int(os.environ.get('PORT', 8000)),
+        port=int(os.environ.get('PORT', 8001)),
         workers=int(os.environ.get('WEB_CONCURRENCY', 1)),
         debug=bool(os.environ.get('DEBUG', '')))
