@@ -3,6 +3,7 @@ from sanic import response
 import json
 from db import ProductDAO, RatingDAO
 from sanic.log import logger
+from db import dao_instance
 
 product = Blueprint("product", url_prefix="/products")
 
@@ -13,7 +14,7 @@ items_per_page = 20
 def serve_configs_product(configs):
     print("Serve configs in product")
     global product_dao
-    product_dao = ProductDAO(configs)
+    product_dao = dao_instance(ProductDAO)
 
     global app_configs
     app_configs = configs

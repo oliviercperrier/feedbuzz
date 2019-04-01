@@ -13,8 +13,9 @@ class AppNeedsProvider():
         configs_funcs = provide_funcs['configs_funcs']
         engine_funcs = provide_funcs['engine_funcs']
 
-        self.__provide_configs__(configs_funcs)
+        # MUST PROVIDE DB ENGINE BEFORE CONFIG !!!!!!!!!
         self.__provide_db_engine__(engine_funcs)
+        self.__provide_configs__(configs_funcs)
 
     def __provide_configs__(self, provide_funcs):
 

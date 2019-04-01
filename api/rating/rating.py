@@ -6,6 +6,7 @@ from sanic.response import json
 from sanic_jwt.decorators import inject_user, protected
 from db import RatingDAO, Rating, RatingStep
 from sanic.log import logger
+from db import dao_instance
 
 rating = Blueprint("rating", url_prefix="/rating")
 rating_dao = None
@@ -13,7 +14,7 @@ rating_dao = None
 def serve_configs_rating(configs):
     print("Serve configs in rating")
     global rating_dao
-    rating_dao = RatingDAO(configs)
+    rating_dao = dao_instance(RatingDAO)
 
     global app_configs
     app_configs = configs

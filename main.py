@@ -6,7 +6,7 @@ from sanic.log import logger
 from sanic_jwt import Initialize
 import json
 import os
-from db import serve_configs_db
+from db import serve_configs_db, serve_engine_to_db, dao_instance
 from configs import ConfigurationLoader
 from bootstrap import BaseApplication
 
@@ -47,12 +47,15 @@ class FeedBuzzServer(BaseApplication):
     def _get_needs_providing_func(self):
         provide_funcs = {}
         
+        # This order is very important !!!!
         provide_funcs['configs_funcs'] = [
+            serve_configs_db,
             serve_configs_api,
-            serve_configs_db
-            ]
+        ]
 
-        provide_funcs['engine_funcs'] = []
+        provide_funcs['engine_funcs'] = [
+            serve_engine_to_db
+        ]
 
         return provide_funcs
 
