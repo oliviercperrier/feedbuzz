@@ -193,7 +193,7 @@ class ProductListing extends Component {
 						<ReactLoading
 							className="product-loader"
 							type="bubbles"
-							color="#20bd67 "
+							color="#20bd67"
 							height={'90px'}
 							width={'90px'}
 						/>

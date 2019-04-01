@@ -6748,7 +6748,10 @@ label.panel-block {
 
 .my-account-container {
   margin-bottom: 2rem; }
+  .my-account-container .section-container {
+    padding-top: 0 !important; }
   .my-account-container .account-sidebar {
+    height: max-content;
     position: relative;
     margin: 2rem 2rem;
     box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
@@ -6853,6 +6856,27 @@ label.panel-block {
   @media screen and (max-width: 720px) {
     .my-profile .button[type=save] {
       width: 100%; } }
+
+.my-reviews .my-reviews-listing-content {
+  list-style-type: none;
+  width: 100%; }
+  .my-reviews .my-reviews-listing-content * {
+    margin: 0;
+    padding: 0; }
+  .my-reviews .my-reviews-listing-content .review-info-title {
+    font-weight: bold; }
+  .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
+    margin-bottom: 1rem;
+    overflow: auto; }
+    .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
+      float: left;
+      width: 80px;
+      height: 80px;
+      margin-right: 1rem;
+      background-size: contain;
+      background-repeat: no-repeat; }
+    .my-reviews .my-reviews-listing-content .my-reviews-listing-item .review-info-comment {
+      font: 200 12px/1.5 Georgia, Times New Roman, serif; }
 
 .my-settings .input {
   height: 40px; }

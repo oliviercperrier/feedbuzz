@@ -33,6 +33,18 @@ async function verifyTokenID() {
 	});
 }
 
+export const getProductRating = async function(product_id) {
+	await verifyTokenID();
+	const response = await API.get('/api/rating/product/' + product_id);
+	return response.data;
+};
+
+export const getUserRating = async function(user_id) {
+	await verifyTokenID();
+	const response = await API.get('/api/rating/user/' + user_id);
+	return response.data;
+};
+
 export const saveRating = async function(data) {
 	await verifyTokenID();
 	const response = await API.post('/api/rating', data);

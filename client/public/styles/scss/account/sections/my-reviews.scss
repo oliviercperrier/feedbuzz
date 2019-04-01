@@ -1,0 +1,33 @@
+.my-reviews {
+	.my-reviews-listing-content {
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		list-style-type: none;
+		width: 100%;
+
+		.review-info-title {
+			font-weight: bold;
+		}
+
+		.my-reviews-listing-item {
+			margin-bottom: 1rem;
+			overflow: auto;
+
+			.product-img {
+				float: left;
+				width: 80px;
+				height: 80px;
+				margin-right: 1rem;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.review-info-comment {
+				font: 200 12px/1.5 Georgia, Times New Roman, serif;
+			}
+		}
+	}
+}
