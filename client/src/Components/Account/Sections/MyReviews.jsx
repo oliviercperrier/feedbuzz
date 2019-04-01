@@ -32,12 +32,11 @@ class MyReviews extends Component {
 		const reviews = data.map((review) => {
 			return (
 				<Fade>
-					<div key={review.id} className="my-reviews-listing-item">
+					<li key={review.id} className="my-reviews-listing-item">
 						<div className="product-img" style={{ backgroundImage: 'url(' + product_img_url + ')' }} />
-						<div className="review-info">
-							<h1>Product name</h1>
-						</div>
-					</div>
+						<h1 className="review-info-title">Product name</h1>
+						<p className="review-info-comment">{review.comment}</p>
+					</li>
 				</Fade>
 			);
 		});
@@ -55,7 +54,7 @@ class MyReviews extends Component {
 							width={'90px'}
 						/>
 					) : (
-						reviews
+						<ul className="my-reviews-listing-content">{reviews}</ul>
 					)}
 				</div>
 			</div>
