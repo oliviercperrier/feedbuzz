@@ -1,5 +1,3 @@
-import { MdReport } from 'react-icons/md';
-
 var axios = require('axios');
 var TokenManager = require('./tokenManager');
 var Storage = require('../Utils/browserStorage');
@@ -22,15 +20,15 @@ export const updateAPIHeader = function(token) {
 
 async function verifyTokenID() {
 	return API.get('/auth/verify').catch(async function(error) {
-		console.log("VERIFY (refresh token) : " + TokenManager.getRefreshToken());
-		console.log("VERIFY (access token): " + TokenManager.getAccessToken())
+		console.log('VERIFY (refresh token) : ' + TokenManager.getRefreshToken());
+		console.log('VERIFY (access token): ' + TokenManager.getAccessToken());
+		console.log(error.response);
 		if (error.response.data.exception === 'InvalidToken') {
 			const response = await API.post('/auth/refresh', {
 				refresh_token: TokenManager.getRefreshToken()
 			});
 
-			console.log("REFRESH (access token): " + TokenManager.getAccessToken())
-
+			console.log('REFRESH (access token): ' + TokenManager.getAccessToken());
 			TokenManager.updateAccessToken(response.data.access_token);
 			updateAPIHeader(TokenManager.getAccessToken());
 		}
