@@ -8,15 +8,24 @@ from pprint import pprint
 import os
 
 app_configs = None
+daos = {}
+db_engine = None
+
 def serve_configs_dao(configs):
 	print("Serve configs to dao")
 	global app_configs
 	app_configs = configs
 
+def serve_db_engine(engine):
+    print("Serve db engine to dao")
+    global db_engine
+    db_engine = engine
+
+
 class BaseDAO(ABC):
 
-    def __init__(self, configs):
-        self._engine = create_engine(configs.DATABASE_URL, pool_size=20)
+    def __init__(self, engine, configs):
+        self._engine = engine
         self._session = None
         self._configs = configs
 
@@ -60,6 +69,7 @@ class UserDAO(BaseDAO):
 class ProductDAO(BaseDAO):
 
     def to_dict(self, prod):
+        rating_dao = dao_instance(RatingDAO)
         return {
             "id": prod.id,
             "name": prod.name,
@@ -71,7 +81,7 @@ class ProductDAO(BaseDAO):
             "cbd_min": prod.cbd_min,
             "cbd_max": prod.cbd_max,
             "price": [price.to_dict() for price in prod.prices],
-            "avg": RatingDAO(app_configs).get_average_rating_by_product(prod.id)
+            "avg": rating_dao.get_average_rating_by_product(prod.id)
         }
 
     def get(self, id):
@@ -110,7 +120,7 @@ class RefreshTokenDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id).first()
-        self._session.close()
+        # dont close now
         return  refresh_token
 
 class RatingDAO(BaseDAO):
@@ -155,4 +165,9 @@ class RatingDAO(BaseDAO):
 
 
 
-
+def dao_instance(instance_type):
+    if instance_type in daos:
+        return daos[instance_type]
+    else:
+        daos[instance_type] = instance_type(db_engine, app_configs)
+        return daos[instance_type]   
