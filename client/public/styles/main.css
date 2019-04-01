@@ -6865,8 +6865,9 @@ label.panel-block {
     padding: 0; }
   .my-reviews .my-reviews-listing-content .review-info-title {
     font-weight: bold;
-    margin-top: 1rem !important; }
+    padding-top: 1rem !important; }
   .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
+    height: 80px;
     border-bottom: 1px solid #f7f7f7; }
     .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
       float: left;
