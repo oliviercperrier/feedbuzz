@@ -22,7 +22,7 @@ def serve_configs_auth(configs):
 	print("Serve configs to auth")
 	global user_dao
 	user_dao = dao_instance(UserDAO)
-	
+
 	global refresh_token_dao
 	refresh_token_dao = dao_instance(RefreshTokenDAO)
 
@@ -70,8 +70,9 @@ async def store_refresh_token(user_id, refresh_token, *args, **kwargs):
 
 
 async def retrieve_refresh_token(request, user_id, *args, **kwargs):
-    r_token = refresh_token_dao.get_by_user_id(user_id)
-    return r_token.token
+	r_token = refresh_token_dao.get_by_user_id(user_id)
+	refresh_token_dao.close()
+	return r_token.token
 
 
 @auth.route("/signup", methods=["POST"])

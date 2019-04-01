@@ -120,7 +120,7 @@ class RefreshTokenDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id).first()
-        self._session.close()
+        # dont close now
         return  refresh_token
 
 class RatingDAO(BaseDAO):
