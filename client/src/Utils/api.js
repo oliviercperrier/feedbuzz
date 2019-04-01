@@ -21,11 +21,15 @@ export const updateAPIHeader = function(token) {
 };
 
 async function verifyTokenID() {
-	API.get('/auth/verify').catch(async function(error) {
+	return API.get('/auth/verify').catch(async function(error) {
+		console.log("VERIFY (refresh token) : " + TokenManager.getRefreshToken());
+		console.log("VERIFY (access token): " + TokenManager.getAccessToken())
 		if (error.response.data.exception === 'InvalidToken') {
 			const response = await API.post('/auth/refresh', {
 				refresh_token: TokenManager.getRefreshToken()
 			});
+
+			console.log("REFRESH (access token): " + TokenManager.getAccessToken())
 
 			TokenManager.updateAccessToken(response.data.access_token);
 			updateAPIHeader(TokenManager.getAccessToken());
