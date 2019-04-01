@@ -53,6 +53,7 @@ class Auth extends Component {
 		this.checkAuthentication();
 	}
 
+	/* TODO FIX CHECK */
 	isAuthenticated() {
 		return !!TokenManager.getAccessToken();
 	}
