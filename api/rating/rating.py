@@ -44,7 +44,7 @@ async def get_by_user(request, id: int):
         rating_dict.pop("product_id")
         rating_array.append(rating_dict)
 
-    return response.json(rating_dict)
+    return response.json(rating_array)
 
 @rating.route("/", methods=["POST"])
 @protected()

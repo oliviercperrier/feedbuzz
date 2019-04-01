@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import Fade from 'react-reveal/Fade';
+import { Link } from 'react-router-dom';
 
 import { getUserRating } from '../../../Utils/api';
 
@@ -27,14 +28,18 @@ class MyReviews extends Component {
 
 	render() {
 		const { isLoading, data } = this.state;
-		var product_img_url = 'img/review-place-holder.png';
 
 		const reviews = data.map((review) => {
 			return (
 				<Fade>
 					<li key={review.id} className="my-reviews-listing-item">
-						<div className="product-img" style={{ backgroundImage: 'url(' + product_img_url + ')' }} />
-						<h1 className="review-info-title">Product name</h1>
+						<Link to={'/product/' + review.product.id}>
+							<div
+								className="product-img"
+								style={{ backgroundImage: 'url(' + review.product.image_url + ')' }}
+							/>
+						</Link>
+						<h1 className="review-info-title">{review.product.name}</h1>
 						<p className="review-info-comment">{review.comment}</p>
 					</li>
 				</Fade>
