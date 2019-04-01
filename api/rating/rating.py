@@ -26,6 +26,12 @@ async def get_by_product(request, id: int):
     logger.info(ratings)
     return response.json([rating.to_dict() for rating in ratings])
 
+@rating.route("/user/<id:int>")
+async def get_by_user(request, id: int):
+    ratings = rating_dao.get_rating_by_user(id)
+    logger.info(ratings)
+    return response.json([rating.to_dict() for rating in ratings])
+
 
 @rating.route("/", methods=["POST"])
 @protected()

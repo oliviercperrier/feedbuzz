@@ -128,11 +128,12 @@ class RatingDAO(BaseDAO):
         self._session.close()
         return rating_avg_rating
 
-    # def get_rating_by_user(self, user_id):
-    #     Session = sessionmaker(bind=self._engine)
-    #     self._session = Session()
-    #     comments = self._session.query(Comment).filter_by(author_id=user_id)
-    #     return comments
+    def get_rating_by_user(self, user_id):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        comments = self._session.query(Rating).filter_by(user_id=user_id)
+        self._session.close()
+        return comments
 
     def save(self, rating, rating_step):
         Session = sessionmaker(bind=self._engine)

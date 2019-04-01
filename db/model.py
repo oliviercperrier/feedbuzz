@@ -120,7 +120,7 @@ class Rating(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     comment = Column(String(2500), nullable=False)
     rating = Column(Integer, nullable=False, default=0)
-    rating_step = relationship("RatingStep", backref="ratings")
+    rating_step = relationship("RatingStep", lazy="joined", backref="ratings")
 
     def to_dict(self):
         return {
