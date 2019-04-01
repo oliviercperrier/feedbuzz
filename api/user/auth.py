@@ -10,6 +10,7 @@ import os
 from sanic.log import logger
 import boto3
 import base64
+from db import dao_instance
 
 auth = Blueprint("auth")
 
@@ -18,37 +19,37 @@ refresh_token_dao = None
 
 
 def serve_configs_auth(configs):
-    print("Serve configs to auth")
-    global refresh_token_dao
-    refresh_token_dao = RefreshTokenDAO(configs)
+	print("Serve configs to auth")
+	global user_dao
+	user_dao = dao_instance(UserDAO)
 
-    global user_dao
-    user_dao = UserDAO(configs)
+	global refresh_token_dao
+	refresh_token_dao = dao_instance(RefreshTokenDAO)
 
-    global app_configs
-    app_configs = configs
+	global app_configs
+	app_configs = configs
 
 
 async def authenticate(request):
-    email = request.json.get("email")
-    password = request.json.get("password")
+	email = request.json.get("email")
+	password = request.json.get("password")
 
-    if not email or not password:
-        raise exceptions.AuthenticationFailed("Invalid credential")
+	if not email or not password:
+		raise exceptions.AuthenticationFailed("Invalid credential")
 
-    user = user_dao.get_by_email(email)
+	user = user_dao.get_by_email(email)
 
-    if not user:
-        raise exceptions.AuthenticationFailed("Invalid credential")
+	if not user:
+		raise exceptions.AuthenticationFailed("Invalid credential")
 
-    salt = app_configs.SALT
-    password_string = password + salt
-    hashed_password = hashlib.sha512(password_string.encode("utf-8")).hexdigest()
+	salt = app_configs.SALT
+	password_string = password + salt
+	hashed_password = hashlib.sha512(password_string.encode("utf-8")).hexdigest()
 
-    if hashed_password == user.password:
-        return user
-    else:
-        raise exceptions.AuthenticationFailed("Invalid credential")
+	if hashed_password == user.password:
+		return user
+	else:
+		raise exceptions.AuthenticationFailed("Invalid credential")
 
 
 async def retrieve_user(request, payload, *args, **kwargs):
@@ -69,8 +70,9 @@ async def store_refresh_token(user_id, refresh_token, *args, **kwargs):
 
 
 async def retrieve_refresh_token(request, user_id, *args, **kwargs):
-    r_token = refresh_token_dao.get_by_user_id(user_id)
-    return r_token.token
+	r_token = refresh_token_dao.get_by_user_id(user_id)
+	refresh_token_dao.close()
+	return r_token.token
 
 
 @auth.route("/signup", methods=["POST"])
