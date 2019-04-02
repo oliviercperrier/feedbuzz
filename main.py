@@ -8,7 +8,11 @@ import json
 import os
 from db import serve_configs_db, serve_engine_to_db, dao_instance
 from configs import ConfigurationLoader
-from bootstrap import BaseApplication
+from bootstrap import BaseApplication, FeedbuzzAuthentication, FeedbuzzAuthenticateEndpoint, FeedbuzzReponseClass
+
+my_views = (
+    ('/', FeedbuzzAuthenticateEndpoint),
+)
 
 class FeedBuzzServer(BaseApplication):
 
@@ -16,10 +20,14 @@ class FeedBuzzServer(BaseApplication):
         app = Sanic(__name__)
 
         Initialize(app, authenticate=authenticate,
+        path_to_authenticate='/auth_legacy',
         retrieve_user=retrieve_user,
         refresh_token_enabled=True,
         retrieve_refresh_token=retrieve_refresh_token,
-        store_refresh_token=store_refresh_token)
+        store_refresh_token=store_refresh_token,
+        authentication_class=FeedbuzzAuthentication,
+        class_views=my_views,
+        responses_class=FeedbuzzReponseClass)
 
         if os.environ.get('ENV') == "PROD":
             app.static('/', './client/build')

@@ -11,6 +11,7 @@ from sanic.log import logger
 import boto3
 import base64
 from db import dao_instance
+from utils import LegacyEndpointException
 
 auth = Blueprint("auth")
 
@@ -31,6 +32,10 @@ def serve_configs_auth(configs):
 
 
 async def authenticate(request):
+
+	if request.raw_url.decode("utf-8")  == '/auth/auth_legacy':
+		raise LegacyEndpointException('This endpoint is deprecated. Please use /auth')
+
 	email = request.json.get("email")
 	password = request.json.get("password")
 
@@ -59,14 +64,14 @@ async def retrieve_user(request, payload, *args, **kwargs):
 		user_dao.close()
 		return user
 
-async def store_refresh_token(user_id, refresh_token, *args, **kwargs):
-    r_token = refresh_token_dao.get_by_user_id(user_id)
-    if r_token:
-        r_token.token = refresh_token
-        refresh_token_dao.commit()
-    else:
-        r_token = RefreshToken(user_id=user_id, token=refresh_token)
-        refresh_token_dao.save(r_token)
+async def store_refresh_token(user_id, refresh_token, identifier, *args, **kwargs):
+	r_token = refresh_token_dao.get_by_user_id(user_id)
+	if r_token:
+		r_token.token = refresh_token
+		refresh_token_dao.commit()
+	else:
+		r_token = RefreshToken(user_id=user_id, token=refresh_token)
+		refresh_token_dao.save(r_token)
 
 
 async def retrieve_refresh_token(request, user_id, *args, **kwargs):

@@ -1,3 +1,6 @@
-from .base import BaseApplication
+from .base import BaseApplication, FeedbuzzAuthentication, FeedbuzzAuthenticateEndpoint, FeedbuzzReponseClass
 
 BaseApplication = BaseApplication
+FeedbuzzAuthentication = FeedbuzzAuthentication
+FeedbuzzAuthenticateEndpoint = FeedbuzzAuthenticateEndpoint
+FeedbuzzReponseClass = FeedbuzzReponseClass

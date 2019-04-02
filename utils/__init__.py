@@ -1,3 +1,3 @@
-from .require import AppNeedsProvider
+from .exceptions import LegacyEndpointException
 
-AppNeedsProvider = AppNeedsProvider
+LegacyEndpointException = LegacyEndpointException
