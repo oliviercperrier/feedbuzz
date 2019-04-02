@@ -73,8 +73,8 @@ class ProductDetails extends Component {
 										starSpacing=""
 									/>
 								</div>
+								<p className="review-info-comment">{review.comment}</p>
 							</div>
-							<p className="review-info-comment">{review.comment}</p>
 						</div>
 					</li>
 				</Fade>
