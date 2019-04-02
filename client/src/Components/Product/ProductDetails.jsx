@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import StarRatings from 'react-star-ratings';
 import Avatar from 'react-avatar';
 import Fade from 'react-reveal/Fade';
+import ReactLoading from 'react-loading';
 
 import { API } from '../../Utils/api';
 
@@ -88,7 +89,17 @@ class ProductDetails extends Component {
 		const { product, show_spec } = this.state;
 
 		if (!product) {
-			return <div />;
+			return (
+				<div className="product-loading v-and-h-centered">
+					<ReactLoading
+						className="product-loader"
+						type="bubbles"
+						color="#20bd67"
+						height={'90px'}
+						width={'90px'}
+					/>
+				</div>
+			);
 		}
 
 		return (
