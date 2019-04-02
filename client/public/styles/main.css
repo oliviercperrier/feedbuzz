@@ -6865,9 +6865,8 @@ label.panel-block {
     padding: 0; }
   .my-reviews .my-reviews-listing-content .review-info-title {
     font-weight: bold;
-    padding-top: 1rem !important; }
+    padding-top: 0.75rem !important; }
   .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
-    height: 80px;
     border-bottom: 1px solid #f7f7f7; }
     .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
       float: left;
@@ -6877,8 +6876,10 @@ label.panel-block {
       background-size: contain;
       background-repeat: no-repeat; }
     .my-reviews .my-reviews-listing-content .my-reviews-listing-item .review-info-comment {
+      text-align: justify;
       font-size: 14px;
-      margin-bottom: 1rem; }
+      margin-left: 96px;
+      margin-bottom: 0.75rem; }
 
 .my-settings .input {
   height: 40px; }
@@ -7342,7 +7343,8 @@ label.panel-block {
   position: relative;
   background-image: url(../img/main-banner.jpg);
   background-repeat: no-repeat;
-  background-position: left; }
+  background-position: left;
+  background-size: cover; }
   @media screen and (max-width: 720px) {
     .product-details-container .product-details-banner-container {
       margin: -0.75rem;
@@ -7375,6 +7377,37 @@ label.panel-block {
       @media screen and (max-width: 720px) {
         .product-details-container .product-details-banner-container .product-detail-header-info .product-name {
           font-size: 2rem; } }
+    .product-details-container .product-details-banner-container .product-detail-header-info .product-rating-starts {
+      transform: translateY(-50%);
+      text-align: center; }
+
+.product-details-container .tabs li.is-active .tab-item {
+  border-bottom-color: #20bd67;
+  color: #20bd67; }
+
+.product-details-container .tabs li .tab-item {
+  height: 3rem;
+  font-weight: bold;
+  font-size: 1.50rem;
+  padding: 1.5em 2em; }
+  @media screen and (max-width: 720px) {
+    .product-details-container .tabs li .tab-item {
+      font-size: 1rem; } }
+
+.product-details-container .product-details-content {
+  margin-bottom: 2rem; }
+  .product-details-container .product-details-content.container {
+    max-width: 600px; }
+  .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing {
+    list-style-type: none; }
+    .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid #f7f7f7; }
+      .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item .user-image {
+        float: left;
+        margin-right: 1rem; }
+      .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item .user-review-content {
+        margin-left: 66px; }
 
 .product-listing-container {
   margin-bottom: 2rem;

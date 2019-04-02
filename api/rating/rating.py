@@ -4,7 +4,7 @@ from pprint import pprint
 import sanic
 from sanic.response import json
 from sanic_jwt.decorators import inject_user, protected
-from db import RatingDAO, ProductDAO, Rating, RatingStep
+from db import RatingDAO, ProductDAO, Rating, RatingStep, UserDAO
 from sanic.log import logger
 from db import dao_instance
 
@@ -15,9 +15,11 @@ def serve_configs_rating(configs):
     print("Serve configs in rating")
     global rating_dao
     global product_dao
+    global user_dao
 
     rating_dao = dao_instance(RatingDAO)
     product_dao = dao_instance(ProductDAO)
+    user_dao = dao_instance(UserDAO)
 
     global app_configs
     app_configs = configs
@@ -27,7 +29,16 @@ def serve_configs_rating(configs):
 async def get_by_product(request, id: int):
     ratings = rating_dao.get_rating_by_product(id)
     logger.info(ratings)
-    return response.json([rating.to_dict() for rating in ratings])
+    rating_array = []
+
+   # Add the user info in the response
+    for rating in ratings:
+        rating_dict = rating.to_dict()
+        rating_dict['user'] = user_dao.get(rating_dict["user_id"]).to_dict()
+        rating_dict.pop("user_id")
+        rating_array.append(rating_dict)
+
+    return response.json(rating_array)
 
 @rating.route("/user/<id:int>")
 async def get_by_user(request, id: int):

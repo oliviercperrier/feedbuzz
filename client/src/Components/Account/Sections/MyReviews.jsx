@@ -32,7 +32,7 @@ class MyReviews extends Component {
 		const reviews = data.map((review) => {
 			return (
 				<Fade>
-					<li key={review.id} className="my-reviews-listing-item">
+					<li key={review.id} className="is-clearfix my-reviews-listing-item">
 						<Link to={'/product/' + review.product.id}>
 							<div
 								className="product-img"

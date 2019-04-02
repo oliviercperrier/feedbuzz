@@ -10,11 +10,10 @@
 
 		.review-info-title {
 			font-weight: bold;
-			padding-top: 1rem !important;
+			padding-top: 0.75rem !important;
 		}
 
 		.my-reviews-listing-item {
-			height: 80px;
 			border-bottom: 1px solid $light-gray;
 
 			.product-img {
@@ -27,8 +26,10 @@
 			}
 
 			.review-info-comment {
+				text-align: justify;
 				font-size: 14px;
-				margin-bottom: 1rem;
+				margin-left: 96px;
+				margin-bottom: 0.75rem;
 			}
 		}
 	}
