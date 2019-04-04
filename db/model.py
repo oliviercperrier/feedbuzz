@@ -97,6 +97,7 @@ class RefreshToken(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
+    identifier = Column(String(250), nullable=False)
 
 
 class RatingStep(Base):

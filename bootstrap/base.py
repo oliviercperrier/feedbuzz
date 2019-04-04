@@ -56,7 +56,7 @@ class FeedbuzzAuthenticateEndpoint(BaseEndpoint):
             request, user, self.config, self.instance
         )
 
-        identifier = str(uuid.uuid1())
+        identifier = request.json.get('identifier', str(uuid.uuid1()))
 
         if config.refresh_token_enabled():
             refresh_token = await sanic_utils.call(
@@ -108,8 +108,6 @@ class FeedbuzzRefreshEndpoint(BaseEndpoint):
     async def post(self, request, *args, **kwargs):
         request, args, kwargs = await self.do_incoming(request, args, kwargs)
 
-        # TODO:
-        # - Add more exceptions
         payload = self.instance.auth.extract_payload(request, verify=False)
 
         try:
@@ -121,11 +119,13 @@ class FeedbuzzRefreshEndpoint(BaseEndpoint):
             "Perhaps you forgot to initialize with a retrieve_user handler?"
             raise exceptions.RefreshTokenNotImplemented(message=message)
 
+        identifier = request.json.get('identifier', '')
         user_id = await self.instance.auth._get_user_id(user)
         refresh_token = await sanic_utils.call(
             self.instance.auth.retrieve_refresh_token,
             request=request,
             user_id=user_id,
+            identifier=identifier
         )
         if isinstance(refresh_token, bytes):
             refresh_token = refresh_token.decode("utf-8")

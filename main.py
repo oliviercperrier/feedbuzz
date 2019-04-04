@@ -8,10 +8,11 @@ import json
 import os
 from db import serve_configs_db, serve_engine_to_db, dao_instance
 from configs import ConfigurationLoader
-from bootstrap import BaseApplication, FeedbuzzAuthentication, FeedbuzzAuthenticateEndpoint, FeedbuzzReponseClass
+from bootstrap import BaseApplication, FeedbuzzAuthentication, FeedbuzzAuthenticateEndpoint, FeedbuzzReponseClass, FeedbuzzRefreshEndpoint
 
 my_views = (
     ('/', FeedbuzzAuthenticateEndpoint),
+    ('/refresh', FeedbuzzRefreshEndpoint)
 )
 
 class FeedBuzzServer(BaseApplication):
@@ -21,6 +22,7 @@ class FeedBuzzServer(BaseApplication):
 
         Initialize(app, authenticate=authenticate,
         path_to_authenticate='/auth_legacy',
+        path_to_refresh='/refresh_legacy',
         retrieve_user=retrieve_user,
         refresh_token_enabled=True,
         retrieve_refresh_token=retrieve_refresh_token,

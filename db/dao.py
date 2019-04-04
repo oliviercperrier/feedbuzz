@@ -116,10 +116,10 @@ class ProductDAO(BaseDAO):
 
 class RefreshTokenDAO(BaseDAO):
 
-    def get_by_user_id(self, user_id):
+    def get_by_user_id_and_identifier(self, user_id, identifier):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id).first()
+        refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id, identifier=identifier).first()
         # dont close now
         return  refresh_token
 
