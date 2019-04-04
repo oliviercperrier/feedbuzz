@@ -1,5 +1,3 @@
-import { MdReport } from 'react-icons/md';
-
 var axios = require('axios');
 var TokenManager = require('./tokenManager');
 var Storage = require('../Utils/browserStorage');
@@ -15,23 +13,39 @@ if (TokenManager.getAccessToken()) {
 export const updateAPIHeader = function(token) {
 	if (token) {
 		API.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-	} else {
+	} else { 
 		delete axios.defaults.headers.common['Authorization'];
 	}
 };
 
 async function verifyTokenID() {
 	return API.get('/auth/verify').catch(async function(error) {
+		console.log('VERIFY (refresh token) : ' + TokenManager.getRefreshToken());
+		console.log('VERIFY (access token): ' + TokenManager.getAccessToken());
+		console.log(error.response);
 		if (error.response.data.exception === 'InvalidToken') {
 			const response = await API.post('/auth/refresh', {
 				refresh_token: TokenManager.getRefreshToken()
 			});
 
+			console.log('REFRESH (access token): ' + TokenManager.getAccessToken());
 			TokenManager.updateAccessToken(response.data.access_token);
 			updateAPIHeader(TokenManager.getAccessToken());
 		}
 	});
 }
+
+export const getProductRating = async function(product_id) {
+	await verifyTokenID();
+	const response = await API.get('/api/rating/product/' + product_id);
+	return response.data;
+};
+
+export const getUserRating = async function(user_id) {
+	await verifyTokenID();
+	const response = await API.get('/api/rating/user/' + user_id);
+	return response.data;
+};
 
 export const saveRating = async function(data) {
 	await verifyTokenID();

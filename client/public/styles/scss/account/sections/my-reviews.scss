@@ -1,0 +1,36 @@
+.my-reviews {
+	.my-reviews-listing-content {
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		list-style-type: none;
+		width: 100%;
+
+		.review-info-title {
+			font-weight: bold;
+			padding-top: 0.75rem !important;
+		}
+
+		.my-reviews-listing-item {
+			border-bottom: 1px solid $light-gray;
+
+			.product-img {
+				float: left;
+				width: 80px;
+				height: 80px;
+				margin-right: 1rem;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.review-info-comment {
+				text-align: justify;
+				font-size: 14px;
+				margin-left: 96px;
+				margin-bottom: 0.75rem;
+			}
+		}
+	}
+}

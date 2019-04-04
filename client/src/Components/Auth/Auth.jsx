@@ -34,7 +34,6 @@ class Auth extends Component {
 
 	async checkAuthentication() {
 		const authenticated = this.isAuthenticated();
-
 		if (authenticated !== this.state.authenticated) {
 			const usr_info = await getUser();
 			Storage.getStorage().setItem('usr_info', JSON.stringify(usr_info));
@@ -53,8 +52,9 @@ class Auth extends Component {
 		this.checkAuthentication();
 	}
 
+	/* TODO FIX CHECK */
 	isAuthenticated() {
-		return !!TokenManager.getAccessToken();
+		return !!TokenManager.getAccessToken() || !!TokenManager.getRefreshToken();
 	}
 
 	async login(email, password) {

@@ -3,7 +3,6 @@ import NotificationSystem from 'react-notification-system';
 
 import { Style } from '../../../Utils/notification';
 import { updateUser } from '../../../Utils/api';
-import Storage from '../../../Utils/browserStorage';
 
 class MyProfile extends Component {
 	constructor(props) {

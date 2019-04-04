@@ -6748,7 +6748,10 @@ label.panel-block {
 
 .my-account-container {
   margin-bottom: 2rem; }
+  .my-account-container .section-container {
+    padding-top: 0 !important; }
   .my-account-container .account-sidebar {
+    height: max-content;
     position: relative;
     margin: 2rem 2rem;
     box-shadow: 0 1px 0px rgba(0, 0, 0, 0.1), 0 0px 2px rgba(0, 0, 0, 0.2);
@@ -6853,6 +6856,30 @@ label.panel-block {
   @media screen and (max-width: 720px) {
     .my-profile .button[type=save] {
       width: 100%; } }
+
+.my-reviews .my-reviews-listing-content {
+  list-style-type: none;
+  width: 100%; }
+  .my-reviews .my-reviews-listing-content * {
+    margin: 0;
+    padding: 0; }
+  .my-reviews .my-reviews-listing-content .review-info-title {
+    font-weight: bold;
+    padding-top: 0.75rem !important; }
+  .my-reviews .my-reviews-listing-content .my-reviews-listing-item {
+    border-bottom: 1px solid #f7f7f7; }
+    .my-reviews .my-reviews-listing-content .my-reviews-listing-item .product-img {
+      float: left;
+      width: 80px;
+      height: 80px;
+      margin-right: 1rem;
+      background-size: contain;
+      background-repeat: no-repeat; }
+    .my-reviews .my-reviews-listing-content .my-reviews-listing-item .review-info-comment {
+      text-align: justify;
+      font-size: 14px;
+      margin-left: 96px;
+      margin-bottom: 0.75rem; }
 
 .my-settings .input {
   height: 40px; }
@@ -7316,7 +7343,8 @@ label.panel-block {
   position: relative;
   background-image: url(../img/main-banner.jpg);
   background-repeat: no-repeat;
-  background-position: left; }
+  background-position: left;
+  background-size: cover; }
   @media screen and (max-width: 720px) {
     .product-details-container .product-details-banner-container {
       margin: -0.75rem;
@@ -7349,6 +7377,44 @@ label.panel-block {
       @media screen and (max-width: 720px) {
         .product-details-container .product-details-banner-container .product-detail-header-info .product-name {
           font-size: 2rem; } }
+    .product-details-container .product-details-banner-container .product-detail-header-info .product-rating-starts {
+      transform: translateY(-50%);
+      text-align: center; }
+
+.product-details-container .tabs li.is-active .tab-item {
+  border-bottom-color: #20bd67;
+  color: #20bd67; }
+
+.product-details-container .tabs li .tab-item {
+  height: 3rem;
+  font-weight: bold;
+  font-size: 1.50rem;
+  padding: 1.5em 2em; }
+  @media screen and (max-width: 720px) {
+    .product-details-container .tabs li .tab-item {
+      font-size: 1rem; } }
+
+.product-details-container .product-details-content {
+  margin-bottom: 2rem; }
+  .product-details-container .product-details-content.container {
+    max-width: 600px; }
+  .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing {
+    list-style-type: none; }
+    .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid #f7f7f7; }
+      .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item .user-image {
+        float: left;
+        margin-right: 1rem; }
+      .product-details-container .product-details-content .product-detail-section-content .product-reviews-listing .product-reviews-listing-item .user-review-content {
+        margin-left: 66px; }
+
+.product-loading {
+  text-align: center;
+  width: 100%;
+  height: 100%; }
+  .product-loading .product-loader {
+    margin: auto; }
 
 .product-listing-container {
   margin-bottom: 2rem;
@@ -8106,19 +8172,23 @@ label.panel-block {
 body .overlay {
   background: rgba(0, 0, 0, 0.08) !important; }
 
-body #feedbuzz-master #feedbuzz-body {
-  top: 125px;
-  position: relative; }
-  @media screen and (max-width: 720px) {
-    body #feedbuzz-master #feedbuzz-body {
-      padding: 0.75rem;
-      top: 60px; } }
-
-body #feedbuzz-master #feedbuzz-header {
-  position: fixed;
-  z-index: 99;
-  width: 100%;
-  background: white; }
+body #feedbuzz-master {
+  height: 100vh;
+  display: flex;
+  flex-flow: column; }
+  body #feedbuzz-master #feedbuzz-body {
+    padding-top: 125px;
+    position: relative;
+    flex: 1; }
+    @media screen and (max-width: 720px) {
+      body #feedbuzz-master #feedbuzz-body {
+        padding: 0.75rem;
+        padding-top: 60px; } }
+  body #feedbuzz-master #feedbuzz-header {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    background: white; }
 
 body a {
   text-decoration: none;

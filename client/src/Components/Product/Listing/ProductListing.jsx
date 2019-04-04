@@ -136,7 +136,7 @@ class ProductListing extends Component {
 							<div className="product-info">
 								<div>
 									<h1 className="product-name">{product.name}</h1>
-									<span className="product-price">${product.price[0].price}</span>
+									<span className="product-price">${parseFloat(product.price[0].price).toFixed(2)}</span>
 								</div>
 								<div className="rating-info">
 									<StarRatings
@@ -193,7 +193,7 @@ class ProductListing extends Component {
 						<ReactLoading
 							className="product-loader"
 							type="bubbles"
-							color="#20bd67 "
+							color="#20bd67"
 							height={'90px'}
 							width={'90px'}
 						/>

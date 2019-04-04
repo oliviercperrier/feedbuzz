@@ -51,14 +51,14 @@ class HighestRatedProduct extends Component {
 				</div>
 				<div className="columns">
 					<div className="column product-image is-one-quarter">
-						<Link to={'/products/' + product.uri}>
+						<Link to={'#'}>
 							<img className="image" alt="product" src={product.img} />
 						</Link>
 					</div>
 					<div className="column">
 						<div className="columns">
 							<div className="column v-and-h-centered product-header">
-								<Link to={'/products/' + product.uri}>
+								<Link to={'#'}>
 									<h1 className="product-title">{product.name}</h1>
 								</Link>
 								<div className="product-rating">
