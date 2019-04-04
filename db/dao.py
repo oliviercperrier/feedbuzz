@@ -156,6 +156,21 @@ class RatingDAO(BaseDAO):
         res = self._session.commit()
         self._session.close()
 
+    def get_rating_by_user_and_product(self, prodcut_id, user_id):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        rating = self._session.query(Rating).filter_by(prodcut_id=prodcut_id).filter_by(user_id=user_id).first()
+        self._session.close()
+        return rating
+
+
+    def delete_rating(self, rating):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        self._session.delete(rating)
+        self._session.close()
+
+
 
 def dao_instance(instance_type):
     if instance_type in daos:

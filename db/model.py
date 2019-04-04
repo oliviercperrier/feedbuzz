@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -120,6 +120,7 @@ class Rating(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     comment = Column(String(2500), nullable=False)
     rating = Column(Integer, nullable=False, default=0)
+    is_edited = Column(Boolean, nullable=False,default=False )
     rating_step = relationship("RatingStep", lazy="joined", backref="ratings")
 
     def to_dict(self):
@@ -129,6 +130,7 @@ class Rating(Base):
             "user_id": self.user_id,
             "rating": self.rating,
             "rating_step": [step.to_dict() for step in self.rating_step],
+            "is_edited": self.is_edited,
             "comment": self.comment
         }
         
