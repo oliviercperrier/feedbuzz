@@ -115,7 +115,7 @@ async def put(request):
 	if profile_image is not None and profile_image is not '':
 		succeed = save_profile_image(profile_image, current_user.id)
 		if succeed:
-			image_url = app_configs.S3_BASE_URL + 'profile_image{}.jpeg'.format(current_user.id)
+			image_url = app_configs.S3_BASE_URL + 'profile_image{}{}.jpeg'.format(current_user.id, app_configs.ENV)
 
 	user.email = email
 	user.username = username
@@ -133,7 +133,7 @@ def save_profile_image(base46_string, user_id):
     	aws_secret_access_key=app_configs.S3_TOKEN
 	)
 
-	image_name = 'profile_image{}.jpeg'.format(user_id)
+	image_name = 'profile_image{}{}.jpeg'.format(user_id, app_configs.ENV)
 	try:
 		content = base64.b64decode(base46_string)   
 	except:
