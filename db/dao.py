@@ -112,15 +112,6 @@ class ProductDAO(BaseDAO):
         self.close()
         return search_results
 
-class ProductTypeDAO(BaseDAO):
-
-    def find_by_name(self, name):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        search_results = self._session.query(ProductType).filter(ProductType.name.ilike(query + "%")).all()
-        self.close()
-        return search_results
-
 
 class RefreshTokenDAO(BaseDAO):
 
@@ -164,13 +155,6 @@ class RatingDAO(BaseDAO):
             self._session.add(step)
         res = self._session.commit()
         self._session.close()
-
-    # def delete_comment(self, comment):
-    #     Session = sessionmaker(bind=self._engine)
-    #     self._session = Session()
-    #     self._session.delete(comment)
-    #     self._session.close()
-
 
 
 def dao_instance(instance_type):
