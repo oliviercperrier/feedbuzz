@@ -1,4 +1,4 @@
-from .model import User, Base, Product, RefreshToken, Rating
+from .model import User, Base, Product, RefreshToken, Rating, ProductType
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, raiseload, joinedload
@@ -98,11 +98,10 @@ class ProductDAO(BaseDAO):
         self.close()
         return product
 
-    def get_all(self):
+    def get_all(self, args):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        product_list = self._session.query(Product).all()
-        # product_list = self._session.query(Product).options(joinedload('type')).all()
+        product_list = self._session.query(Product).join(ProductType).filter(*args).all()
         self.close()
         return product_list
 
@@ -110,6 +109,15 @@ class ProductDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         search_results = self._session.query(Product).filter(Product.name.ilike(query + "%")).all()
+        self.close()
+        return search_results
+
+class ProductTypeDAO(BaseDAO):
+
+    def find_by_name(self, name):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        search_results = self._session.query(ProductType).filter(ProductType.name.ilike(query + "%")).all()
         self.close()
         return search_results
 
