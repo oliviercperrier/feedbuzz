@@ -8,7 +8,11 @@
 		"dev-server": "ENV=DEV python3 main.py",
 		"dev-client": "cd client && npm run start",
 		"insert-data": "DATABASE_URL='postgresql://postgres:feedbuzz@localhost:5430/feedbuzz' python3 db/insert_data.py",
-		"insert-data-prod": "DATABASE_URL='postgres://zzoevljcihkxhy:ecffea7d3b06730c7eb67e223ddcc7114418ffae40a1d41cee771f9df0f4be8a@ec2-54-83-196-179.compute-1.amazonaws.com:5432/d238pifg204e7a' python3 db/insert_data.py"
+		"insert-data-prod": "DATABASE_URL='postgres://zzoevljcihkxhy:ecffea7d3b06730c7eb67e223ddcc7114418ffae40a1d41cee771f9df0f4be8a@ec2-54-83-196-179.compute-1.amazonaws.com:5432/d238pifg204e7a' python3 db/insert_data.py",
+		"migration-script": "cd db && python feedbuzz_migration/manage.py script \"$NAME\" feedbuzz_migration",
+		"migration-test": "cd db && python feedbuzz_migration/manage.py test postgresql://postgres:feedbuzz@localhost:5430/feedbuzz feedbuzz_migration",
+		"migration-upgrade": "cd db && python feedbuzz_migration/manage.py upgrade postgresql://postgres:feedbuzz@localhost:5430/feedbuzz feedbuzz_migration",
+		"version-control-db": "cd db && python feedbuzz_migration/manage.py version_control postgresql://postgres:feedbuzz@localhost:5430/feedbuzz feedbuzz_migration"
 	},
 	"devDependencies": {
 		"concurrently": "3.1.0"
