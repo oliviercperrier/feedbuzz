@@ -1,7 +1,7 @@
 from sanic import Blueprint
 from sanic import response
 import json
-from db import ProductDAO, RatingDAO
+from db import ProductDAO, RatingDAO, Product, ProductType
 from sanic.log import logger
 from db import dao_instance
 
@@ -29,7 +29,13 @@ async def get_by_id(request, id):
 @product.route("/all")
 async def get_all_products(request):
     pageOffset = int(request.args.get("pageOffset"))
-    product_list: []= product_dao.get_all()
+    product_type = request.args.get("product_type")
+
+    args = []
+    if product_type:
+        args.append(ProductType.name == product_type)
+
+    product_list: []= product_dao.get_all(args)
     total = len(product_list)
     items_per_page = 20
     product_list = product_list[pageOffset * items_per_page:(pageOffset * items_per_page) + items_per_page]

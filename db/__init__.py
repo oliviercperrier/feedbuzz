@@ -1,4 +1,4 @@
-from .model import User, Base, RefreshToken, serve_configs_model, Rating, RatingStep
+from .model import User, Base, RefreshToken, serve_configs_model, Rating, RatingStep, Product, ProductType
 from .dao import UserDAO, ProductDAO, RefreshTokenDAO, serve_configs_dao, RatingDAO, dao_instance, serve_db_engine_to_dao
 from .feedbuzz_migration import serve_configs_to_db_migration, upgrade_database, serve_db_engine_to_migration, check_for_migration_setup
 
