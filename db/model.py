@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -20,15 +20,6 @@ class User(Base):
         return {"user_id": self.id, "username": self.username, "email": self.email}
 
 
-class ProductType(Base):
-    __tablename__ = "product_type"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(250), nullable=False, unique=True)
-
-    def to_dict(self):
-        return {"id": self.id, "name": self.name}
-
-
 class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -43,17 +34,30 @@ class Product(Base):
     cbd_max = Column(Float)
     prices = relationship("ProductPrice", lazy="joined", back_populates="product", order_by=lambda: ProductPrice.price)
 
+    # def to_dict(self):
+    #     return {
+    #         "id": self.id,
+    #         "name": self.name,
+    #         "type_id": self.type_id,
+    #         "url": self.url,
+    #         "image_url": self.image_url,
+    #         "thc_min": self.thc_min,
+    #         "thc_max": self.thc_max,
+    #         "cbd_min": self.cbd_min,
+    #         "cbd_max": self.cbd_max,
+    #         "avg": dao.CommentDAO.get_average_rating_by_product(self.id)
+    #     }
+
+
+class ProductType(Base):
+    __tablename__ = "product_type"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(250), nullable=False, unique=True)
+
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
-            # "type_id": self.type_id,
-            "url": self.url,
-            "image_url": self.image_url,
-            "thc_min": self.thc_min,
-            "thc_max": self.thc_max,
-            "cbd_min": self.cbd_min,
-            "cbd_max": self.cbd_max,
             "type": self.type.to_dict(),
             "price": [price.to_dict() for price in self.prices],
         }
@@ -83,6 +87,73 @@ class RefreshToken(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, nullable=False)
     token = Column(String(500), nullable=False)
+
+
+class RatingStep(Base):
+    __tablename__ = "rating_step"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    step_type = Column(String(100))
+    common = Column(ARRAY(String(50)))
+    added = Column(ARRAY(String(50)))
+    rating = Column(Integer)
+    rating_id = Column(Integer, ForeignKey("rating.id"))
+    rating_rel = relationship("Rating")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "step_type": self.step_type,
+            "common": self.common,
+            "added": self.added,
+            "rating": self.rating
+            }
+
+
+class Rating(Base):
+    __tablename__ = "rating"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    product_id = Column(Integer, ForeignKey("product.id"))
+    user_id = Column(Integer, ForeignKey("user.id"))
+    comment = Column(String(2500), nullable=False)
+    rating = Column(Integer, nullable=False, default=0)
+    rating_step = relationship("RatingStep", backref="ratings")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "rating": self.comment,
+            "rating": self.rating,
+            "rating_step": [step.to_dict() for step in self.rating_step],
+            "comment": self.comment
+        }
+
+class Comment(Base):
+    __tablename__ = "comment"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    rating_id = Column(Integer, ForeignKey("rating.id"))
+    comment = Column(String(2500), nullable=False)
+    parent_id = Column(Integer, Foreignkey("comment.id"))    
+
+    parent = relation("Comment", remote_side=[id])
+
+    def to_dict(self):
+        return{
+            "id": self.id,
+            "rating_id": self.rating_id,
+            "comment": self.comment,
+            "parent_id": self.parent_id,
+            "parent": self.parent
+        }
+
+class Vote(Base):
+    __tablename__ = "vote"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    comment_id = Column(Integer, ForeignKey("comment.id"), nullable=False)
+    value = Column(Integer)
+
+
+
 
 
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")

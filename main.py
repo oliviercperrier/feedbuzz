@@ -37,6 +37,10 @@ async def index(request, exception):
 
 app.blueprint(api)
 
+#Print all routes
+for handler, (rule, router) in app.router.routes_names.items():
+    print(rule)
+
 if __name__ == '__main__':
     app.run(
         access_log=True,
