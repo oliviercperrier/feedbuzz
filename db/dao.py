@@ -16,7 +16,7 @@ def serve_configs_dao(configs):
 	global app_configs
 	app_configs = configs
 
-def serve_db_engine(engine):
+def serve_db_engine_to_dao(engine):
     print("Serve db engine to dao")
     global db_engine
     db_engine = engine

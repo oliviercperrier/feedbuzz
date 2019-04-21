@@ -6,11 +6,15 @@ from sanic.log import logger
 from sanic_jwt import Initialize
 import json
 import os
-from db import serve_configs_db, serve_engine_to_db, dao_instance
+from db import serve_configs_db, serve_engine_to_db, dao_instance, upgrade_database, check_for_migration_setup
 from configs import ConfigurationLoader
 from bootstrap import BaseApplication
 
 class FeedBuzzServer(BaseApplication):
+
+    def _before_start(self):
+        check_for_migration_setup()
+        upgrade_database()
 
     def _on_start(self):
         app = Sanic(__name__)
@@ -58,7 +62,6 @@ class FeedBuzzServer(BaseApplication):
         ]
 
         return provide_funcs
-
 
 feebuzz_app = FeedBuzzServer()
 feebuzz_app.start()

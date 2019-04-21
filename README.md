@@ -87,3 +87,23 @@ LOG515 TPs
   - 2: Effects Step
   - 3: Flavors Step
   - 4: Final comment Step
+
+
+# Database migration 
+## Commands
+- Version controled the db : ```npm run version-control-db``` (Or just run the dev-serser)
+- Create a new migration script : ```NAME=Name_of_the_script npm run migration-script```
+- Test migration scripts : ```npm run migration-test```
+- Upgrade the db : ```npm run migration-upgrade``` (Or just run the dev-server. Your database should be upgrade with all the current migration scripts)
+
+## Steps when a db migration is needed
+1. Create a migration script with the appropriate command.
+2. A migration script ```.py``` will be create in ```/db/feedbuzz_migration/versions```
+3. Implement the ```upgrade``` function in the script (Downgrade must be implemented if you want to test with the migration-test command)
+4. Run the migration upgrade with the appropriate command or run the dev-server
+5. Changes should be applied in your local database
+
+## Important ! 
+Before you run the migration-upgrade command, you need to start at least one time the dev-server or to run the migration version-control-db command so that you database can be version controled
+
+For futher documentations please visit https://sqlalchemy-migrate.readthedocs.io/en/latest/

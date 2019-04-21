@@ -131,13 +131,14 @@ class Rating(Base):
             "rating_step": [step.to_dict() for step in self.rating_step],
             "comment": self.comment
         }
-
+        
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
 def serve_configs_model(configs):
     print("Serve configs model")
-    engine = create_engine(configs.DATABASE_URL)
-    res = Base.metadata.create_all(engine)
-    print(res)
+    # From now, we only use migration script to add tables
+    #engine = create_engine(configs.DATABASE_URL)
+    #res = Base.metadata.create_all(engine)
+    #print(res)
