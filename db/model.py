@@ -33,6 +33,7 @@ class User(Base):
 class Product(Base):
     __tablename__ = "product"
     id = Column(Integer, primary_key=True, autoincrement=True)
+    identifiant = Column(String(250), unique=True)
     name = Column(String(250), nullable=False, unique=True)
     type_id = Column(Integer, ForeignKey("product_type.id"))
     type = relationship("ProductType", lazy="joined", backref="products")

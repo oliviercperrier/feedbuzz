@@ -113,6 +113,27 @@ class ProductDAO(BaseDAO):
         self.close()
         return search_results
 
+    def find_by_identifiant(self, identifiant):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        search_results = self._session.query(Product).filter(Product.identifiant == identifiant).all()
+        self.close()
+        return search_results
+
+    def create_product(self, product: Product):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        self._session.add(product)
+        self._session.flush()
+        return True
+    # def find_product_qty_by_identifiant(self, identifiant):
+    #     Session = sessionmaker(bind=self._engine)
+    #     self._session = Session()
+    #     search_results = self._session.query(ProductPrice).filter(ProductPrice.identifiant == identifiant).all()
+    #     self.close()
+    #     return search_results
+
+
 
 class RefreshTokenDAO(BaseDAO):
 
