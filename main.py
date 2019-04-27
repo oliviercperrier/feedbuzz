@@ -25,12 +25,12 @@ class FeedBuzzServer(BaseApplication):
         retrieve_refresh_token=retrieve_refresh_token,
         store_refresh_token=store_refresh_token)
 
-        #if os.environ.get('ENV') == "PROD":
-        app.static('/', './client/build')
-        app.static('/static', './client/static')
+        if os.environ.get('ENV') == "PROD":
+            app.static('/', './client/build')
+            app.static('/static', './client/static')
 
         #When an endpoint not found, redirect to index.html and react takes the lead
-        @app.exception(NotFound)
+        @app.exception(NotFound) 
         async def index(request, exception):
             return await file('./client/build/index.html')
 
@@ -50,7 +50,7 @@ class FeedBuzzServer(BaseApplication):
 
     def _get_needs_providing_func(self):
         provide_funcs = {}
-
+        
         # This order is very important !!!!
         provide_funcs['configs_funcs'] = [
             serve_configs_db,
