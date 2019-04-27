@@ -120,8 +120,7 @@ class Rating(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     comment = Column(String(2500), nullable=False)
     rating = Column(Integer, nullable=False, default=0)
-    is_edited = Column(Boolean, nullable=False,default=False )
-    rating_step = relationship("RatingStep", lazy="joined", backref="ratings")
+    rating_step = relationship("RatingStep", backref="ratings")
 
     def to_dict(self):
         return {
@@ -130,7 +129,6 @@ class Rating(Base):
             "user_id": self.user_id,
             "rating": self.rating,
             "rating_step": [step.to_dict() for step in self.rating_step],
-            "is_edited": self.is_edited,
             "comment": self.comment
         }
         
@@ -141,6 +139,6 @@ class Rating(Base):
 def serve_configs_model(configs):
     print("Serve configs model")
     # From now, we only use migration script to add tables
-    #engine = create_engine(configs.DATABASE_URL)
-    #res = Base.metadata.create_all(engine)
-    #print(res)
+    engine = create_engine(configs.DATABASE_URL)
+    res = Base.metadata.create_all(engine)
+    print(res)

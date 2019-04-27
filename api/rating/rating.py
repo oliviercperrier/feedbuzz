@@ -63,7 +63,6 @@ async def create_rating(request):
     user_id = request["user"].id
     product = request.json.get("product_id")
     rating_steps = []
-    rating_already_exists: bool = False
     corresponding_rating = rating_dao.get_rating_by_user_and_product(product, user_id)
     if corresponding_rating is not None:
         rating_already_exists = True
@@ -82,7 +81,7 @@ async def create_rating(request):
     rating_steps.append(RatingStep(step_type="flavors", common=flavors_step.get("commonFlavors"), added=flavors_step.get("addedFlavors")))
 
     final_comment_step = request.json.get("4")
-    rating = Rating(user_id=user_id, comment=final_comment_step.get("comment"), rating=final_comment_step.get("rating"), product_id=product, is_edited=rating_already_exists)
+    rating = Rating(user_id=user_id, comment=final_comment_step.get("comment"), rating=final_comment_step.get("rating"), product_id=product)
 
     rating_dao.save(rating, rating_steps)
 

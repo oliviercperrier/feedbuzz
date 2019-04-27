@@ -3,7 +3,7 @@
   "name": "feedbuzz",
   "version": "0.1.0",
   "private": true,
-  "proxy":"http://localhost:8000",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "axios": "^0.18.0",
     "bulma": "^0.7.2",
