@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, ARRAY, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -120,7 +120,7 @@ class Rating(Base):
     user_id = Column(Integer, ForeignKey("user.id"))
     comment = Column(String(2500), nullable=False)
     rating = Column(Integer, nullable=False, default=0)
-    rating_step = relationship("RatingStep", lazy="joined", backref="ratings")
+    rating_step = relationship("RatingStep", backref="ratings")
 
     def to_dict(self):
         return {
@@ -139,6 +139,6 @@ class Rating(Base):
 def serve_configs_model(configs):
     print("Serve configs model")
     # From now, we only use migration script to add tables
-    #engine = create_engine(configs.DATABASE_URL)
-    #res = Base.metadata.create_all(engine)
-    #print(res)
+    engine = create_engine(configs.DATABASE_URL)
+    res = Base.metadata.create_all(engine)
+    print(res)

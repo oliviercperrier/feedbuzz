@@ -9,7 +9,7 @@ from sanic.log import logger
 from db import dao_instance
 
 rating = Blueprint("rating", url_prefix="/rating")
-rating_dao = None
+rating_dao: RatingDAO = None
 
 def serve_configs_rating(configs):
     print("Serve configs in rating")
@@ -63,6 +63,10 @@ async def create_rating(request):
     user_id = request["user"].id
     product = request.json.get("product_id")
     rating_steps = []
+    corresponding_rating = rating_dao.get_rating_by_user_and_product(product, user_id)
+    if corresponding_rating is not None:
+        rating_already_exists = True
+        rating_dao.delete_rating(corresponding_rating)
 
     high_step = request.json.get("0")
     rating_steps.append(RatingStep(step_type="high", rating=high_step.get("value")))
