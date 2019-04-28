@@ -1,8 +1,8 @@
-from .model import User, Base, Product, RefreshToken, Rating
+from .model import User, Base, Product, RefreshToken, Rating, ProductPrice
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, raiseload, joinedload
-from sqlalchemy import exc
+from sqlalchemy import exc, and_
 from sqlalchemy.sql import func
 from pprint import pprint
 import os
@@ -11,10 +11,12 @@ app_configs = None
 daos = {}
 db_engine = None
 
+
 def serve_configs_dao(configs):
-	print("Serve configs to dao")
-	global app_configs
-	app_configs = configs
+    print("Serve configs to dao")
+    global app_configs
+    app_configs = configs
+
 
 def serve_db_engine(engine):
     print("Serve db engine to dao")
@@ -23,7 +25,6 @@ def serve_db_engine(engine):
 
 
 class BaseDAO(ABC):
-
     def __init__(self, engine, configs):
         self._engine = engine
         self._session = None
@@ -32,7 +33,7 @@ class BaseDAO(ABC):
     def save(self, entity):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
-        
+
         try:
             self._session.add(entity)
             self._session.commit()
@@ -51,7 +52,6 @@ class BaseDAO(ABC):
 
 
 class UserDAO(BaseDAO):
-
     def get(self, id):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
@@ -67,7 +67,6 @@ class UserDAO(BaseDAO):
 
 
 class ProductDAO(BaseDAO):
-
     def to_dict(self, prod):
         rating_dao = dao_instance(RatingDAO)
         return {
@@ -81,7 +80,7 @@ class ProductDAO(BaseDAO):
             "cbd_min": prod.cbd_min,
             "cbd_max": prod.cbd_max,
             "price": [price.to_dict() for price in prod.prices],
-            "avg": rating_dao.get_average_rating_by_product(prod.id)
+            "avg": rating_dao.get_average_rating_by_product(prod.id),
         }
 
     def get(self, id):
@@ -126,6 +125,7 @@ class ProductDAO(BaseDAO):
         self._session.add(product)
         self._session.flush()
         return True
+
     # def find_product_qty_by_identifiant(self, identifiant):
     #     Session = sessionmaker(bind=self._engine)
     #     self._session = Session()
@@ -134,15 +134,27 @@ class ProductDAO(BaseDAO):
     #     return search_results
 
 
+class ProductPrice(BaseDAO):
+    def get_last_price_for_product(self, product_id, grams):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        search_results = (
+            self._session.query(ProductPrice)
+            .filter(and_ (ProductPrice.grams == grams), (ProductPrice.product_id == product_id))
+            .all()
+        )
+        self.close()
+        return search_results
+
 
 class RefreshTokenDAO(BaseDAO):
-
     def get_by_user_id(self, user_id):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         refresh_token = self._session.query(RefreshToken).filter_by(user_id=user_id).first()
         # dont close now
-        return  refresh_token
+        return refresh_token
+
 
 class RatingDAO(BaseDAO):
     def get_rating_by_product(self, product: int):
@@ -185,10 +197,9 @@ class RatingDAO(BaseDAO):
     #     self._session.close()
 
 
-
 def dao_instance(instance_type):
     if instance_type in daos:
         return daos[instance_type]
     else:
         daos[instance_type] = instance_type(db_engine, app_configs)
-        return daos[instance_type]   
+        return daos[instance_type]

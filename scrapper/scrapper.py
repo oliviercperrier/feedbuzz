@@ -1,18 +1,23 @@
 #!/usr/bin/python3
 # https://stackoverflow.com/questions/17380869/get-list-items-inside-div-tag-using-xpath
-import re
-from lxml import html
+
 import requests
+import time
+import re
+
 from pprint import pprint
+
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-# import logger
+
+from lxml import html
+import lxml.etree as et
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy import exc
-
 from sqlalchemy.orm import sessionmaker
+
 from db import dao
 from db import model
 from configs import ConfigurationLoader
@@ -21,6 +26,7 @@ import logging
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
+
 
 class Singleton(type):
     """Metaclass for singletons. Any instantiation of a Singleton class yields
@@ -83,6 +89,9 @@ class Scrapper:
     def close_browser(self):
         self.browser.quit()
 
+    def close_age_validator(self):
+        return None
+
     def get_product_path(self):
         products_path = []
         is_page_valid = True
@@ -123,26 +132,31 @@ class Scrapper:
 
         url = "{}{}".format(self._base_url, path, identifiant)
 
+        # Prepare the html data
+        self.browser.get(url)
+        self.browser.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;"
+        )
+        time.sleep(0.5)
+
         if len(search_results) == 0:
             self._get_product_data(url, identifiant)
 
-        # Check prices for each quantity
+            # Check prices for each quantity
             self._get_product_price()
-
 
         # Check if avalible quantity
 
     def _get_product_data(self, url, identifiant):
 
-        self.browser.get(url)
-        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
         content = self.browser.page_source
         tree = html.fromstring(content)
 
         # Section thc and cbd
-        cannab_data = tree.xpath('//div[@class="product-details"]//section[@id="product-infos"]//div[@data-templateid="ProductInfosCannab"]//ul[@class="list-unstyled"]')
+        cannab_data = tree.xpath(
+            '//div[@class="product-details"]//section[@id="product-infos"]//div[@data-templateid="ProductInfosCannab"]//ul[@class="list-unstyled"]'
+        )
         product = model.Product(identifiant=identifiant)
-
         cannab = cannab_data[0].text_content()
         cannab_attributes = re.findall(r"(\d+)", cannab)
         product.thc_min = cannab_attributes[0]
@@ -151,7 +165,7 @@ class Scrapper:
         product.cbd_max = cannab_attributes[3]
 
         # Section name
-        product.name = tree.xpath('//h1[@property="name"]')[0]
+        product.name = tree.xpath('//h1[@property="name"]')[0].text_content()
         product.url = url
         product.image_url = tree.xpath('//div[@class="product-details-media"]//img[@class="img-fluid"]/@src')[0]
         product.identifiant = identifiant
@@ -160,22 +174,35 @@ class Scrapper:
         product_spec = tree.xpath('//div[@class="product-specifications  js-spec"]//p[@class="item"]')
         type_id = 0
 
-        product_dao = DbManager().get_product_dao().create_product(product)
+        # product_dao = DbManager().get_product_dao().create_product(product)
         return None
 
     def _process_product_quantity(self, html_tree):
         return
 
     def _get_product_price(self):
-        # self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);var lenOfPage=document.body.scrollHeight;return lenOfPage;")
+
+        script = """
+            document.getElementById("ageModal").remove();
+            var lights = document.getElementsByClassName("modal-backdrop");
+            while (lights.length)
+            lights[0].classList.remove("modal-backdrop");
+        """
+        self.browser.execute_script(script)
+
         content = self.browser.page_source
         tree = html.fromstring(content)
+
+        # Get number of button which indicate the number of formats offert for this product
         qty_btns = tree.xpath('//div[@data-qa="product-variants"]//button')
-
-        for btn in qty_btns:
-            continue
-
-
+        for index, btn in enumerate(qty_btns):
+            button = self.browser.find_element_by_xpath(
+                '//div[@data-qa="product-variants"]//button[{}]'.format(index + 1)
+            )
+            button.click()
+            # Get the price for this quantity
+            price_element = tree.xpath('//div[@data-templateid="PriceDiscount"]//span[@property="price"]')
+            price = price_element.strip(" ").replace(",", ".")
 
         return None
 

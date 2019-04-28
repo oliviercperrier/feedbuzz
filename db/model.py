@@ -21,12 +21,12 @@ class User(Base):
 
     def to_dict(self):
         return {
-        "user_id": self.id,
-        "username": self.username,
-        "email": self.email,
-        "name": self.name,
-        "gender": self.gender,
-        "image_url": self.image_url
+            "user_id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "name": self.name,
+            "gender": self.gender,
+            "image_url": self.image_url,
         }
 
 
@@ -82,6 +82,7 @@ class ProductPrice(Base):
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
     grams = Column(Float, nullable=False)
+    # next_price = Column(Integer, ForeignKey("product_price.id"))
 
     def to_dict(self):
         return {
@@ -90,6 +91,7 @@ class ProductPrice(Base):
             "price": self.price,
             # "date": self.date.strftime("%Y-%m-%d %H:%M:%S"),
             "grams": self.grams,
+            # "next_price": self.next_price,
         }
 
 
@@ -111,7 +113,13 @@ class RatingStep(Base):
     rating_rel = relationship("Rating")
 
     def to_dict(self):
-        return {"id": self.id, "step_type": self.step_type, "common": self.common, "added": self.added, "rating": self.rating}
+        return {
+            "id": self.id,
+            "step_type": self.step_type,
+            "common": self.common,
+            "added": self.added,
+            "rating": self.rating,
+        }
 
 
 class Rating(Base):
@@ -130,8 +138,9 @@ class Rating(Base):
             "user_id": self.user_id,
             "rating": self.rating,
             "rating_step": [step.to_dict() for step in self.rating_step],
-            "comment": self.comment
+            "comment": self.comment,
         }
+
 
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
 
@@ -139,6 +148,10 @@ class Rating(Base):
 # statements in raw SQL.
 def serve_configs_model(configs):
     print("Serve configs model")
+    print("1")
     engine = create_engine(configs.DATABASE_URL)
+    print("ok")
+    print(engine)
     res = Base.metadata.create_all(engine)
+    print("ok2")
     print(res)
