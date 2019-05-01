@@ -50,7 +50,6 @@ class BaseDAO(ABC):
     def close(self):
         self._session.close()
 
-
 class UserDAO(BaseDAO):
     def get(self, id):
         Session = sessionmaker(bind=self._engine)
@@ -112,20 +111,15 @@ class ProductDAO(BaseDAO):
         self.close()
         return search_results
 
-    def find_by_identifiant(self, identifiant):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        search_results = self._session.query(Product).filter(Product.identifiant == identifiant).all()
+    def find_by_identifiant(self, session, identifiant):
+        search_results = session.query(Product).filter(Product.identifiant == identifiant).all()
         # self._session.close()
         return search_results
 
-    def create_product(self, product: Product):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        self._session.add(product)
-        self._session.flush()
-        res = self._session.commit()
-        self._session.close()
+    def create_product(self, session, product: Product):
+        session.add(product)
+        session.flush()
+        session.commit()
         return product
 
     # def find_product_qty_by_identifiant(self, identifiant):
@@ -137,11 +131,9 @@ class ProductDAO(BaseDAO):
 
 
 class ProductPriceDAO(BaseDAO):
-    def get_last_price_for_product(self, product_id, grams):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
+    def get_last_price_for_product(self, session, product_id, grams):
         search_results = (
-            self._session.query(ProductPrice)
+            session.query(ProductPrice)
             .filter(
                 and_(ProductPrice.grams == grams),
                 (ProductPrice.product_id == product_id),
@@ -152,13 +144,10 @@ class ProductPriceDAO(BaseDAO):
         # self.close()
         return search_results
 
-    def create_product_price(self, product_price):
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
-        self._session.add(product_price)
-        self._session.flush()
-        res = self._session.commit()
-        # self._session.close()
+    def create_product_price(self, session, product_price):
+        session.add(product_price)
+        session.flush()
+        session.commit()
         return product_price
 
     def update_next_price(self, product_price_id, next_price_id):

@@ -63,7 +63,7 @@ class Product(Base):
 class ProductType(Base):
     __tablename__ = "product_type"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(250), nullable=False, unique=True)
+    name = Column(String(250), nullable=False)
 
     def to_dict(self):
         return {

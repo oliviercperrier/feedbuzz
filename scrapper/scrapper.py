@@ -66,25 +66,24 @@ class DbManager(metaclass=Singleton):
         DbManager._engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
         DbManager._ProductDAO = dao.ProductDAO(DbManager._engine, self._get_config())
         DbManager._ProductPriceDAO = dao.ProductPriceDAO(DbManager._engine, self._get_config())
-
-        # DbManager._Session = sessionmaker(bind = self._engine)
+        DbManager._Session = sessionmaker(bind=self._engine)
 
     @classmethod
     def _get_config(cls):
         cls.configs = ConfigurationLoader().load_config()
         return cls.configs
 
-    # @classmethod
-    # def get_session(cls):
-    #     return cls._Session()
-
     @classmethod
-    def get_product_dao(cls):
+    def get_product_dao(cls) -> dao.ProductPriceDAO:
         return cls._ProductDAO
 
     @classmethod
-    def get_product_price_dao(cls):
+    def get_product_price_dao(cls) -> dao.ProductPriceDAO:
         return cls._ProductPriceDAO
+
+    @classmethod
+    def create_session(cls):
+        return cls._Session()
 
 
 class Scrapper:
@@ -104,17 +103,17 @@ class Scrapper:
         products_path = []
         is_page_valid = True
         compteur = 1
-        # while is_page_valid:
-        url = "{}fr-CA/Rechercher?keywords=*&sortDirection=asc&page={}".format(self._base_url, compteur)
-        page = requests.get(url)
-        tree = html.fromstring(page.content)
-        path = tree.xpath('//a[@class="product-tile-media image-background"]/@href')
-        # pprint(tree.xpath('//a[@class="product-tile-media image-background"]'))
-        if len(path) == 0:
-            is_page_valid = False
-        else:
-            products_path = products_path + path
-            compteur = compteur + 1
+        while is_page_valid:
+            url = "{}en-CA/Search?keywords=*&sortDirection=asc&page={}".format(self._base_url, compteur)
+            page = requests.get(url)
+            tree = html.fromstring(page.content)
+            path = tree.xpath('//a[@class="product-tile-media image-background"]/@href')
+            # pprint(tree.xpath('//a[@class="product-tile-media image-background"]'))
+            if len(path) == 0:
+                is_page_valid = False
+            else:
+                products_path = products_path + path
+                compteur = compteur + 1
 
         return products_path
 
@@ -128,19 +127,15 @@ class Scrapper:
 
         product_dao = DbManager().get_product_dao()
 
-        print("identifiant...")
-        pprint(identifiant)
-        search_results = product_dao.find_by_identifiant(identifiant)
-        # pprint("my search")
-        # pprint(search_results)
-        # pprint(len(search_results))
-        # search_results = session.query(model.Product).filter(model.Product.identifiant == identifiant).all()
+        session = DbManager().create_session()
+        search_results = product_dao.find_by_identifiant(session, identifiant)
 
         if len(search_results) > 1:
             print("exeption, Product multiple time in DB")
             return False
 
         url = "{}{}".format(self._base_url, path, identifiant)
+        pprint(url)
 
         # Prepare the html data
         self.browser.get(url)
@@ -149,20 +144,16 @@ class Scrapper:
         )
         time.sleep(0.5)
 
-        # pprint(search_results)
         if len(search_results) == 0:
-            product = self._get_product_data(url, identifiant)
+            product = self._get_product_data(session, url, identifiant)
         else:
             product = search_results[0]
-        #     print("cbd max")
-        #     pprint(product.cbd_max)
 
-            # Check prices for each quantity
-        self._get_product_price(product.id)
+        # Check prices for each quantity
+        self._get_product_price(session, product.id)
+        session.close()
 
-        # Check if avalible quantity
-
-    def _get_product_data(self, url, identifiant):
+    def _get_product_data(self, session, url, identifiant):
 
         content = self.browser.page_source
         tree = html.fromstring(content)
@@ -171,13 +162,38 @@ class Scrapper:
         cannab_data = tree.xpath(
             '//div[@class="product-details"]//section[@id="product-infos"]//div[@data-templateid="ProductInfosCannab"]//ul[@class="list-unstyled"]'
         )
+        pprint(cannab_data)
         product = model.Product(identifiant=identifiant)
-        cannab = cannab_data[0].text_content()
-        cannab_attributes = re.findall(r"(\d+)", cannab)
-        product.thc_min = cannab_attributes[0]
-        product.thc_max = cannab_attributes[1]
-        product.cbd_min = cannab_attributes[2]
-        product.cbd_max = cannab_attributes[3]
+        # cannab = cannab_data[0].text_content()
+        cannab = cannab_data[0].text_content().rstrip().lstrip().replace(",",".")
+        cannab.splitlines()
+
+        pprint(cannab)
+
+        cannab_attributes_type = re.findall(r"(.*)", cannab)
+        for attributes_type in cannab_attributes_type:
+            pprint(attributes_type)
+            if "THC" in attributes_type:
+                thc_data = attributes_type
+            elif "CBD" in attributes_type:
+                cbd_data = attributes_type
+
+        cannab_thc = re.findall(r"(\d+)", thc_data)
+        if len(cannab_thc) == 1:
+            product.thc_min = cannab_thc[0]
+            product.thc_max = cannab_thc[0]
+        else:
+            product.thc_min = cannab_thc[0]
+            product.thc_max = cannab_thc[1]
+
+        cannab_cbd = re.findall(r"(\d+)", cbd_data)
+        pprint(cannab_cbd)
+        if len(cannab_cbd) == 1:
+            product.cbd_min = cannab_cbd[0]
+            product.cbd_max = cannab_cbd[0]
+        else:
+            product.cbd_min = cannab_cbd[0]
+            product.cbd_max = cannab_cbd[1]
 
         # Section name
         product.name = tree.xpath('//h1[@property="name"]')[0].text_content()
@@ -189,13 +205,13 @@ class Scrapper:
         product_spec = tree.xpath('//div[@class="product-specifications  js-spec"]//p[@class="item"]')
         type_id = 0
 
-        product_dao = DbManager().get_product_dao().create_product(product)
-        return product_dao
+        product = DbManager().get_product_dao().create_product(session, product)
+        return product
 
     def _process_product_quantity(self, html_tree):
         return
 
-    def _get_product_price(self, product_id):
+    def _get_product_price(self, session, product_id):
 
         script = """
             document.getElementById("ageModal").remove();
@@ -203,7 +219,7 @@ class Scrapper:
             while (lights.length)
             lights[0].classList.remove("modal-backdrop");
         """
-        time.sleep(2)
+        # time.sleep(1.5)
         self.browser.execute_script(script)
 
 
@@ -213,42 +229,36 @@ class Scrapper:
         # Get number of button which indicate the number of formats offert for this product
         qty_btns = tree.xpath('//div[@data-qa="product-variants"]//button')
         for index, btn in enumerate(qty_btns):
-            # self.browser.execute_script(script)
-            # time.sleep(1)
-            # try:
-            #     time.sleep(2)
-            #     self.browser.execute_script(script)
-            #     time.sleep(3)
-            # except Exception as e:
-            #     print("Error removing age modal")
-            #     print(e)
 
             button = self.browser.find_element_by_xpath(
                 '//div[@data-qa="product-variants"]//button[{}]'.format(index + 1)
             )
-            button.click()
+            try: 
+                time.sleep(0.5)
+                button.click()
+            except Exception as e:
+                logging.exception("Error clicking on quantity button ... retrying")
+                try:
+                    time.sleep(1.5)
+                    button.click()
+                except Exception as e:
+                    logging.exception("Error clicking on quantity button ... quitting")
+                    return False
 
-            # self.browser.execute_script(script)
-            # time.sleep(1)
+
+
             content = self.browser.page_source
             tree = html.fromstring(content)
 
             # Get the quantity associate to this button
             product_quantity = qty_btns[index].text_content().rstrip().lstrip().split(" ")[0].replace(",", ".")
-            print("product_quantity")
-            pprint(product_quantity)
-            print("-----")
 
             # Get the price for this quantity
             price_element = tree.xpath('//div[@data-templateid="PriceDiscount"]//span[@property="price"]')
-            # pprint(price_element)
             current_price = price_element[0].text_content().split(" ", 1)[0].replace(",", ".")
-            print(current_price)
-            # pprint(current_price)
-            current_price = 33
 
             last_product_price = (
-                DbManager().get_product_price_dao().get_last_price_for_product(int(product_id), float(product_quantity))
+                DbManager().get_product_price_dao().get_last_price_for_product(session, int(product_id), float(product_quantity))
             )
 
             if len(last_product_price) == 0:
@@ -259,7 +269,7 @@ class Scrapper:
                     grams=float(product_quantity),
                 )
 
-                p_price_obj = DbManager().get_product_price_dao().create_product_price(p_price_obj)
+                p_price_obj = DbManager().get_product_price_dao().create_product_price(session, p_price_obj)
 
             elif len(last_product_price) == 1 and last_product_price[0].to_dict()["price"] != float(current_price):
                 p_price_obj = model.ProductPrice(
@@ -269,11 +279,9 @@ class Scrapper:
                     grams=float(product_quantity),
                 )
 
-                p_price_obj = DbManager().get_product_price_dao().create_product_price(p_price_obj)
-                print("price obj")
-                pprint(p_price_obj.to_dict())
+                p_price_obj = DbManager().get_product_price_dao().create_product_price(session, p_price_obj)
 
-                DbManager().get_product_price_dao().update_next_price(last_product_price[0].to_dict()["id"], p_price_obj.id)
+                DbManager().get_product_price_dao().update_next_price(last_product_price[0].id, p_price_obj.id)
 
             elif len(last_product_price) > 1:
                 # This is an error with the query and / or the data
@@ -288,7 +296,6 @@ if __name__ == "__main__":
         products_path = scrapper.get_product_path()
         for product_path in products_path:
             scrapper.process_product(product_path)
-            break
     except Exception as e:
         logging.exception("Something awful happened!")
         # print(e)
