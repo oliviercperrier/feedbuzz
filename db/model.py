@@ -82,7 +82,9 @@ class ProductPrice(Base):
     price = Column(Float, nullable=False)
     date = Column(DateTime, nullable=False)
     grams = Column(Float, nullable=False)
-    # next_price = Column(Integer, ForeignKey("product_price.id"))
+
+    next_price_id = Column(Integer, ForeignKey("product_price.id"))
+    next_price = relationship("ProductPrice", remote_side=[id])
 
     def to_dict(self):
         return {
@@ -91,7 +93,7 @@ class ProductPrice(Base):
             "price": self.price,
             # "date": self.date.strftime("%Y-%m-%d %H:%M:%S"),
             "grams": self.grams,
-            # "next_price": self.next_price,
+            "next_price": self.next_price,
         }
 
 
@@ -143,15 +145,12 @@ class Rating(Base):
 
 
 # engine = create_engine("postgresql://postgres:feedbuzz@localhost:5430/feedbuzz")
-
+ 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
 def serve_configs_model(configs):
     print("Serve configs model")
-    print("1")
     engine = create_engine(configs.DATABASE_URL)
-    print("ok")
     print(engine)
     res = Base.metadata.create_all(engine)
-    print("ok2")
     print(res)

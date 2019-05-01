@@ -116,7 +116,7 @@ class ProductDAO(BaseDAO):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         search_results = self._session.query(Product).filter(Product.identifiant == identifiant).all()
-        self.close()
+        # self._session.close()
         return search_results
 
     def create_product(self, product: Product):
@@ -124,7 +124,9 @@ class ProductDAO(BaseDAO):
         self._session = Session()
         self._session.add(product)
         self._session.flush()
-        return True
+        res = self._session.commit()
+        self._session.close()
+        return product
 
     # def find_product_qty_by_identifiant(self, identifiant):
     #     Session = sessionmaker(bind=self._engine)
@@ -134,17 +136,43 @@ class ProductDAO(BaseDAO):
     #     return search_results
 
 
-class ProductPrice(BaseDAO):
+class ProductPriceDAO(BaseDAO):
     def get_last_price_for_product(self, product_id, grams):
         Session = sessionmaker(bind=self._engine)
         self._session = Session()
         search_results = (
             self._session.query(ProductPrice)
-            .filter(and_ (ProductPrice.grams == grams), (ProductPrice.product_id == product_id))
+            .filter(
+                and_(ProductPrice.grams == grams),
+                (ProductPrice.product_id == product_id),
+                (ProductPrice.next_price == None),
+            )
             .all()
         )
-        self.close()
+        # self.close()
         return search_results
+
+    def create_product_price(self, product_price):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        self._session.add(product_price)
+        self._session.flush()
+        res = self._session.commit()
+        # self._session.close()
+        return product_price
+
+    def update_next_price(self, product_price_id, next_price_id):
+        Session = sessionmaker(bind=self._engine)
+        self._session = Session()
+        pprint(next_price_id)
+        pprint(product_price_id)
+
+        product_price_updated = self._session.query(ProductPrice).filter(ProductPrice.id == product_price_id)
+        pprint(product_price_updated[0])
+        product_price_updated[0].next_price_id = next_price_id
+        pprint(product_price_updated[0].next_price_id)
+        res = self._session.commit()
+        return product_price_updated
 
 
 class RefreshTokenDAO(BaseDAO):
